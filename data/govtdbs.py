@@ -15,6 +15,7 @@ import sys
 import csv
 import operator
 
+
 # USDA
 print('Read in USDA')
 raw_usda_nutdata = []
@@ -67,15 +68,6 @@ with open('tmp/cnf/NUTRIENT NAME.csv', 'r') as f:
     raw_cnf_nutrname = list(csv.reader(f))
 with open('tmp/cnf/FOOD GROUP.csv', 'r') as f:
     raw_cnf_fdgrp = list(csv.reader(f))
-
-cnf_usda_nutr_pairs = [[209, 810], [320, 814], [325, 876], [328, 339], [334, 835], [337, 836], [338, 837], [341, 811], [342, 812], [343, 813], [421, 862], [432, 806], [435, 815], [454, 863], [521, 828], [573, 875], [578, 874], [639, 866], [641, 816], [662, 817], [663, 818], [664, 852], [666, 819], [669, 853], [671, 820], [672, 823], [673, 821], [674, 824], [675, 825], [676, 840], [685, 832], [687, 826], [689, 827], [693, 829], [695, 859], [696, 830], [697, 833], [851, 831], [852, 861], [853, 854], [855, 854], [856, 841]]
-
-
-# OFDB (flat file)
-print('Read in OFDB')
-raw_ofdb_data = []
-with open('tmp/ofdb/en.openfoodfacts.org.products.csv', 'r') as f:
-    raw_ofdb_data = list(csv.reader(f))
 
 
 # Process nutr_def table
