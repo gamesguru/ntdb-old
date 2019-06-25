@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 #
 # Copyright (C) Nutra, LLC - All Rights Reserved
 # Unauthorized copying of this file, via any medium is strictly prohibited
@@ -62,9 +62,3 @@ rm usda/FOOTNOTE.csv
 rm usda/LANGDESC.csv
 rm usda/DERIV_CD.csv
 rm usda/SRC_CD.csv
-
-
-
-# Start python script
-# ./govtdbs.py
-# ./ofdb.py
