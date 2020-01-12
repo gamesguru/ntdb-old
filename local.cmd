@@ -7,7 +7,7 @@
 
 :; # -- BASH -- #
 :; sudo chown -R $LOGNAME:$LOGNAME /var/run/postgresql
-:; . ./dotenv.sh
+:; source .env
 :; pg_ctl initdb -D $PSQL_LOCAL_DB_DIR -l $PSQL_LOCAL_DB_DIR/postgreslogfile || true
 :; pg_ctl -D $PSQL_LOCAL_DB_DIR -l $PSQL_LOCAL_DB_DIR/postgreslogfile start || true
 :; psql postgresql://$LOGNAME@localhost:5432/nutra

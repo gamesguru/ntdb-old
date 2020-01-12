@@ -9,6 +9,8 @@
 *.tar.*
 
 # Database folder and logfile
+data_tmp/
+nutra/
 *.csv
 *.adj
 postgresdb/
