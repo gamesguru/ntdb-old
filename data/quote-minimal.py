@@ -1,17 +1,22 @@
 import csv
 
-rows = []
 
-with open('tmp/bfdb/Serving_Size.csv') as f:
+files = ['tmp/bfdb/Serving_Size.csv', 'tmp/usda/FD_GROUP.csv', 'tmp/usda/FOOD_DES.csv', 'tmp/usda/NUT_DATA.csv', 'tmp/usda/WEIGHT.csv']
 
-    # Read in
-    reader = csv.reader(f)
-    for row in reader:
-        rows.append(row)
+for file in files:
+    print(file)
 
-# Python automatically quotes minimal
-with open('tmp/bfdb/Serving_Size.csv', 'w+') as f:
+    rows = []
+    with open(file) as f:
 
-    # Write out
-    writer = csv.writer(f)
-    writer.writerows(rows)
+        # Read in
+        reader = csv.reader(f)
+        for row in reader:
+            rows.append(row)
+
+    # Python automatically quotes minimal
+    with open(file, 'w+') as f:
+
+        # Write out
+        writer = csv.writer(f)
+        writer.writerows(rows)
