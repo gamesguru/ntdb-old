@@ -4,4 +4,4 @@ CREATE SCHEMA inutra;
 SET search_path TO inutra;
 
 -- Create tables
-\i tmp/usda.sql
+\i csv/usda.sql

@@ -6,8 +6,8 @@ SET search_path TO inutra;
 ---------------------------
 
 -- usda
-\copy "FD_GROUP" FROM 'tmp/usda/FD_GROUP.csv' WITH csv HEADER;
-\copy "FOOD_DES" FROM 'tmp/usda/FOOD_DES.csv' WITH csv HEADER;
-\copy "NUT_DATA" FROM 'tmp/usda/NUT_DATA.csv' WITH csv HEADER;
-\copy "NUTR_DEF" FROM 'tmp/usda/NUTR_DEF.csv' WITH csv HEADER;
-\copy "WEIGHT" FROM 'tmp/usda/WEIGHT.csv' WITH csv HEADER;
+\copy "FD_GROUP" FROM 'csv/usda/FD_GROUP.csv' WITH csv HEADER;
+\copy "FOOD_DES" FROM 'csv/usda/FOOD_DES.csv' WITH csv HEADER;
+\copy "NUT_DATA" FROM 'csv/usda/NUT_DATA.csv' WITH csv HEADER;
+\copy "NUTR_DEF" FROM 'csv/usda/NUTR_DEF.csv' WITH csv HEADER;
+\copy "WEIGHT" FROM 'csv/usda/WEIGHT.csv' WITH csv HEADER;
