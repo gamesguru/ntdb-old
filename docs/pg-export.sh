@@ -1,16 +1,16 @@
 #!/bin/bash -e
 
-export db=nutra
+cd "$(dirname "$0")"
 
-cd docs
-mkdir -p $db
-cd $db
+DB=nutra
+
+mkdir -p $DB
+cd $DB
 
 # Generate docs, convert DOT --> EPS
-postgresql_autodoc -d $db
-dot -Tps $db.dot -o $db.eps
+postgresql_autodoc -d $DB
+dot -Tps $DB.dot -o $DB.eps
 
 # Convert to SVG and move up
-convert -flatten $db.eps $db.svg
-mv $db.svg ..
-
+convert -flatten $DB.eps $DB.svg
+mv $DB.svg ..

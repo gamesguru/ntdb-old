@@ -1,10 +1,11 @@
-nutra-db
---------
+**********
+ nutra-db
+**********
 
 Python, SQL and CSV files for setting up nutra-server database.
 
 Setting up local database
-=========================
+#########################
 
 1. Set env var: ``PSQL_LOCAL_DB_DIR``
 
@@ -20,3 +21,10 @@ Running local database (after init)
     cd sql
     ./local.cmd
 
+Tables (Relational Design)
+##########################
+
+See ``sql/tables.sql`` for details
+This is frequently updated, see ``docs/`` for more details.
+
+.. image:: docs/nutra.svg
