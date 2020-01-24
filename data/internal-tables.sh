@@ -16,7 +16,7 @@ cd ../cnf
 #
 # Open foods DB
 cd ../ofdb
-head -1000 en.openfoodfacts.org.products.csv >> en.openfoodfacts.org.products-trunc.csv
+head -10000 en.openfoodfacts.org.products.csv > en.openfoodfacts.org.products-trunc.csv
 csvsql --snifflimit 100 --dialect postgresql en.openfoodfacts.org.products-trunc.csv > ../ofdb.sql
 
 #
