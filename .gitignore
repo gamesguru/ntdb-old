@@ -12,11 +12,6 @@
 data_tmp/
 nutra/
 *.csv
-*.adj
-postgresdb/
-postgreslogfile
-*.accdb
-access2csv/
 tmp/
 
 ####################

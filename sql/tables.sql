@@ -38,12 +38,11 @@ CREATE TABLE users.users(
 );
 
 
+---------------------------
+-- DATA (USDA)
+---------------------------
 
---              --
---     DATA     --
---              --
-
--- Nutrient definitions --
+-- Nutrient definitions
 CREATE TABLE data.nutr_def(
     nutr_no INT PRIMARY KEY,
     rda float,
