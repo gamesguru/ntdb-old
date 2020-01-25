@@ -229,6 +229,7 @@ CREATE TABLE tags(
 CREATE TABLE favorite_foods(
   user_id INT NOT NULL,
   food_id BIGINT NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY(user_id, food_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE
@@ -246,6 +247,7 @@ CREATE TABLE logs(
   msre_id BIGINT,
   recipe_id BIGINT,
   food_id BIGINT,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (msre_id) REFERENCES serving_id(id) ON UPDATE CASCADE,
   FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE,
@@ -300,7 +302,7 @@ CREATE TABLE reports(
   report_type varchar(255) NOT NULL,
   report_message varchar(1024) NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  PRIMARY KEY(user_id, timestamp),
+  PRIMARY KEY(user_id, created_at),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 
