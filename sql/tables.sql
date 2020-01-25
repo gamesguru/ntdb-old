@@ -169,7 +169,8 @@ CREATE TABLE recipe_dat(
   -- (NULL || 0 => grams)
   amount float NOT NULL,
   PRIMARY KEY (recipe_id, food_id),
-  FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE
+  FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE,
+  FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE
 );
 -- Recipe Portions
 CREATE TABLE portion_id (
@@ -185,55 +186,7 @@ CREATE TABLE portions(
   FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE,
   FOREIGN KEY (portion_id) REFERENCES portion_id(id) ON UPDATE CASCADE
 );
-------------------------------
--- Custom Fields
-------------------------------
-CREATE TABLE field_des(
-  id BIGSERIAL PRIMARY KEY,
-  field_name VARCHAR(300) NOT NULL,
-  user_id INT,
-  shared BOOLEAN NOT NULL,
-  -- TODO: source_id ?
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
-);
-CREATE TABLE field_dat(
-  field_id BIGINT NOT NULL,
-  nutr_id INT NOT NULL,
-  nutr_val float NOT NULL,
-  PRIMARY KEY (field_id, nutr_id),
-  FOREIGN KEY (nutr_id) REFERENCES nutr_def(id) ON UPDATE CASCADE,
-  FOREIGN KEY (field_id) REFERENCES field_des(id) ON UPDATE CASCADE
-);
-CREATE TABLE field_pairs(
-  field_id BIGINT NOT NULL,
-  food_id BIGINT NOT NULL,
-  PRIMARY KEY (field_id, food_id),
-  FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE,
-  FOREIGN KEY (field_id) REFERENCES field_des(id) ON UPDATE CASCADE
-);
-CREATE TABLE field_user_votes(
-  field_id BIGINT NOT NULL,
-  food_id BIGINT NOT NULL,
-  user_id INT NOT NULL,
-  vote BOOLEAN,
-  -- NULL is 0, false is -1, and true is 1
-  PRIMARY KEY (field_id, food_id, user_id),
-  FOREIGN KEY (field_id) REFERENCES field_des(id) ON UPDATE CASCADE,
-  FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
-);
--- User verification (upvote vs. downvotes)
-CREATE TABLE food_dat_confirmation(
-  user_id INT NOT NULL,
-  food_id BIGINT NOT NULL,
-  nutr_no INT NOT NULL,
-  vote BOOL,
-  -- NULL is 0, false is -1, and true is 1
-  PRIMARY KEY (user_id, food_id, nutr_no),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
-  FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE,
-  FOREIGN KEY (nutr_no) REFERENCES nutr_def(id) ON UPDATE CASCADE
-);
+
 ------------------------------
 -- Favorite foods
 ------------------------------
@@ -244,6 +197,7 @@ CREATE TABLE favorite_foods(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE
 );
+
 ------------------------------
 -- Food logs
 ------------------------------
