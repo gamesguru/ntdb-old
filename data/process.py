@@ -18,6 +18,8 @@ files = [
 def main(args):
     """ Processes the USDA data to get ready for ntdb """
 
+    print("==> Process CSV")
+
     for fname in files:
         print(fname)
 
