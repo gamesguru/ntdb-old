@@ -2,6 +2,7 @@
 DROP SCHEMA nt CASCADE;
 CREATE SCHEMA nt;
 SET search_path TO nt;
+
 ------------------------
 -- Main users table
 ------------------------
@@ -94,7 +95,7 @@ CREATE TABLE tag_id(
   UNIQUE(tag_desc)
 );
 -- TODO: Tag pairing data
-CREATE TABLE tag_data(
+CREATE TABLE tags(
   food_id BIGINT NOT NULL,
   tag_id BIGINT NOT NULL,
   -- votes, approved?
@@ -103,14 +104,14 @@ CREATE TABLE tag_data(
   FOREIGN KEY (tag_id) REFERENCES tag_id (id) ON UPDATE CASCADE
 );
 ------------------------------
--- Servings --
+-- Servings
 ------------------------------
 CREATE TABLE serving_id(
   id BIGSERIAL PRIMARY KEY,
   msre_desc VARCHAR(200) NOT NULL,
   UNIQUE(msre_desc)
 );
-CREATE TABLE serving(
+CREATE TABLE servings(
   food_id BIGINT NOT NULL,
   msre_id BIGINT NOT NULL,
   grams float NOT NULL,
