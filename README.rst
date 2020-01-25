@@ -2,6 +2,9 @@
  nutra-db
 **********
 
+.. image:: https://api.travis-ci.com/gamesguru/ntdb.svg?branch=master
+    :target: https://travis-ci.com/gamesguru/ntdb
+
 Python, SQL and CSV files for setting up nutra-server database.
 
 Setting up local database

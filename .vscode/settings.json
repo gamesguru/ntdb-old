@@ -1,0 +1,31 @@
+{
+    "python.testing.pytestEnabled": true,
+    "files.exclude": {
+        "**/__pycache__/**": true,
+        "**/.pytest_cache/**": true,
+        "**/__init__.py": true,
+        "**/db/**": true,
+        "**/.vscode/**": true,
+        ".gitmodules": true,
+        "Procfile": true,
+        ".pairs": true,
+        ".env": true,
+        ".cfignore": true,
+        ".gitignore": true,
+        "runtime.txt": true,
+        "requirements.txt": true,
+        "manifest.yml": true
+    },
+    "search.exclude": {
+        "**/__pycache__/**": true,
+        "**/.pytest_cache/**": true,
+        "**/__init__.py": true,
+        "**/db/**": true
+    },
+    "files.watcherExclude": {
+        "**/__pycache__/**": true,
+        "**/.pytest_cache/**": true,
+        "**/__init__.py": true,
+        "**/db/**": true
+    }
+}
