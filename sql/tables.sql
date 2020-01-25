@@ -43,11 +43,11 @@ CREATE TABLE nutr_def(
   units VARCHAR(10),
   tagname VARCHAR(10) NOT NULL,
   nutr_desc VARCHAR(80) NOT NULL,
-  user_id BIGINT,
-  shared BOOLEAN NOT NULL,
+  -- user_id BIGINT,
+  -- shared BOOLEAN NOT NULL,
   -- weighting?
-  UNIQUE (tagname),
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+  UNIQUE (tagname)
+  -- FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 -- Food groups
 CREATE TABLE fdgrp(

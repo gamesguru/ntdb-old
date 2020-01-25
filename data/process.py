@@ -22,13 +22,13 @@ import sys
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
-files = [
-    "csv/usda/FD_GROUP.csv",
-    "csv/usda/FOOD_DES.csv",
-    "csv/usda/NUT_DATA.csv",
-    "csv/usda/NUTR_DEF.csv",
-    "csv/usda/WEIGHT.csv",
-]
+output_files = {
+    "csv/usda/FD_GROUP.csv": "csv/usda/fdgrp.csv",
+    "csv/usda/FOOD_DES.csv": "csv/usda/food_des.csv",
+    "csv/usda/NUT_DATA.csv": "csv/usda/nut_data.csv",
+    "csv/usda/NUTR_DEF.csv": "csv/usda/nutr_def.csv",
+    # "csv/usda/WEIGHT.csv",
+}
 
 
 def main(args):
@@ -36,7 +36,7 @@ def main(args):
 
     print("==> Process CSV")
 
-    for fname in files:
+    for fname in output_files:
         print(fname)
 
         # Open the CSV file
@@ -59,7 +59,7 @@ def process(rows, fname):
     rows = [process_row(r, fname) for r in rows]
 
     # Write out new file
-    with open(fname, "w+") as file:
+    with open(output_files[fname], "w+") as file:
         writer = csv.writer(file)
         writer.writerows(rows)
 
@@ -71,12 +71,20 @@ def process_row(row, fname):
     bname = fname.split("/")[-1]
 
     # Process row based on FILE_TYPE
-    if bname == "FOOD_DES.csv":
+    if bname == "NUTR_DEF.csv":
+        pass
+    elif bname == "FOOD_DES.csv":
         row = row[:10]
         del row[6]
+    elif bname == "NUT_DATA.csv":
+        row = row[:3]
+    elif bname == "WEIGHT.csv":
+        pass
 
     return row
 
+
+nutrients = {}
 
 #
 # Make script executable
