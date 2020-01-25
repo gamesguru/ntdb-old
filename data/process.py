@@ -22,6 +22,8 @@ import sys
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
+#
+# Input --> Output (dict)
 output_files = {
     "csv/usda/FD_GROUP.csv": "csv/usda/fdgrp.csv",
     "csv/usda/FOOD_DES.csv": "csv/usda/food_des.csv",
@@ -29,6 +31,15 @@ output_files = {
     "csv/usda/NUTR_DEF.csv": "csv/usda/nutr_def.csv",
     # "csv/usda/WEIGHT.csv",
 }
+
+#
+# Recommanded daily allowances
+rdas = {"Nutr_no": ("rda", "tagname")}
+
+with open("csv/usda/RDA.csv") as file:
+    reader = csv.reader(file)
+    for row in reader:
+        rdas[row[0]] = row[1], row[3]
 
 
 def main(args):
@@ -72,7 +83,10 @@ def process_row(row, fname):
 
     # Process row based on FILE_TYPE
     if bname == "NUTR_DEF.csv":
+        rda, tagname = rdas[row[0]]
         row = row[:4]
+        row[2] = tagname
+        row.insert(1, rda)
     elif bname == "FOOD_DES.csv":
         row = row[:10]
         del row[6]
