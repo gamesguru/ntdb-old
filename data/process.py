@@ -25,10 +25,10 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 #
 # Input --> Output (dict)
 output_files = {
-    "csv/usda/FD_GROUP.csv": "csv/usda/fdgrp.csv",
-    "csv/usda/FOOD_DES.csv": "csv/usda/food_des.csv",
-    "csv/usda/NUT_DATA.csv": "csv/usda/nut_data.csv",
-    "csv/usda/NUTR_DEF.csv": "csv/usda/nutr_def.csv",
+    "csv/usda/FD_GROUP.csv": "csv/nt/fdgrp.csv",
+    "csv/usda/FOOD_DES.csv": "csv/nt/food_des.csv",
+    "csv/usda/NUT_DATA.csv": "csv/nt/nut_data.csv",
+    "csv/usda/NUTR_DEF.csv": "csv/nt/nutr_def.csv",
     "csv/usda/WEIGHT.csv": None,
 }
 
@@ -60,7 +60,7 @@ def main(args):
                 rows.append(row)
 
         # Process and write out
-        if fname == "csv/usda/WEIGHT.csv":
+        if fname == "csv/nt/WEIGHT.csv":
             process_weight(rows, fname)
         else:
             process(rows, fname)
@@ -142,10 +142,10 @@ def process_weight(rows, fname):
             servings_set.add(prim_key)
 
     # Write serving_id and servings tables
-    with open("csv/usda/serving_id.csv", "w+") as file:
+    with open("csv/nt/serving_id.csv", "w+") as file:
         writer = csv.writer(file)
         writer.writerows(serving_id)
-    with open("csv/usda/servings.csv", "w+") as file:
+    with open("csv/nt/servings.csv", "w+") as file:
         writer = csv.writer(file)
         writer.writerows(servings)
 
