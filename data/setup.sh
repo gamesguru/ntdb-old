@@ -48,14 +48,18 @@ mv ../tmp/usda .
 #
 # Clean up
 rm -rf ../tmp
+cd usda
 
+rm DATSRCLN.csv
+rm LANGUAL.csv
+rm DATA_SRC.csv
+rm FOOTNOTE.csv
+rm LANGDESC.csv
+rm DERIV_CD.csv
+rm SRC_CD.csv
 
-rm usda/DATSRCLN.csv
-rm usda/LANGUAL.csv
-rm usda/DATA_SRC.csv
-rm usda/FOOTNOTE.csv
-rm usda/LANGDESC.csv
-rm usda/DERIV_CD.csv
-rm usda/SRC_CD.csv
-
-
+# Use standard table naming conventions
+mv FD_GROUP.csv fdgrp.csv
+mv FOOD_DES.csv food_des.csv
+mv NUT_DATA.csv nut_data.csv
+mv NUTR_DEF.csv nutr_def.csv

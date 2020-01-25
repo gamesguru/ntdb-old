@@ -4,7 +4,7 @@ DB=nutra
 SCHEMA=nt
 
 cd "$(dirname "$0")"
-cd ../data
+cd ../data/csv/usda
 
 # # Import primary tables
 # declare -a ptables=("tenants" "solvers" "simulators" "req_srcs" "scens")
