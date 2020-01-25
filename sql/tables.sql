@@ -70,8 +70,7 @@ CREATE TABLE food_des(
   sci_name VARCHAR(200),
   -- user_id INT,
   -- shared BOOLEAN DEFAULT TRUE,
-  UNIQUE(gtin_UPC),
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
+  -- UNIQUE(gtin_UPC),
   FOREIGN KEY (fdgrp_id) REFERENCES fdgrp (id) ON UPDATE CASCADE
 );
 -- Food-Nutrient data

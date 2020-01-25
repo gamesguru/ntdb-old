@@ -19,7 +19,7 @@ import os
 import sys
 
 # change to script's dir
-os.chdir(os.path.dirname(__file__))
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 files = [
@@ -49,21 +49,33 @@ def main(args):
                 rows.append(row)
 
         # Process and write out
-        process(fname, rows)
+        process(rows, fname)
 
 
-def process(fname, rows):
+def process(rows, fname):
     """ Processes files on a case-by-base basis """
 
-    # Get "base name" and handle each separately
-    bname = fname.split("/")[-1]
-    if bname == "FOOD_DES.csv":
-        pass
+    # Process the rows
+    rows = [process_row(r, fname) for r in rows]
 
     # Write out new file
     with open(fname, "w+") as file:
         writer = csv.writer(file)
         writer.writerows(rows)
+
+
+def process_row(row, fname):
+    """ Processes a single row """
+
+    # Get "base name" and handle each separately
+    bname = fname.split("/")[-1]
+
+    # Process row based on FILE_TYPE
+    if bname == "FOOD_DES.csv":
+        row = row[:10]
+        del row[6]
+
+    return row
 
 
 #
