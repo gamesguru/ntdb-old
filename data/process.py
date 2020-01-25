@@ -29,7 +29,7 @@ output_files = {
     "csv/usda/FOOD_DES.csv": "csv/usda/food_des.csv",
     "csv/usda/NUT_DATA.csv": "csv/usda/nut_data.csv",
     "csv/usda/NUTR_DEF.csv": "csv/usda/nutr_def.csv",
-    # "csv/usda/WEIGHT.csv",
+    "csv/usda/WEIGHT.csv": None,
 }
 
 #
@@ -60,7 +60,10 @@ def main(args):
                 rows.append(row)
 
         # Process and write out
-        process(rows, fname)
+        if fname == "csv/usda/WEIGHT.csv":
+            process_weight(rows, fname)
+        else:
+            process(rows, fname)
 
 
 def process(rows, fname):
@@ -96,6 +99,55 @@ def process_row(row, fname):
         pass
 
     return row
+
+
+def process_weight(rows, fname):
+
+    # Unique qualifiers
+    msre_ids = {}
+    servings_set = set()
+
+    # CSV rows
+    serving_id = [["id", "msre_desc"]]
+    servings = [["food_id", "msre_id", "grams"]]
+
+    id = 1
+    for i, row in enumerate(rows):
+        if i == 0:
+            continue
+
+        # Process row
+        food_id = int(row[0])
+        amount = float(row[2])
+        if amount <= 0:
+            continue
+        msre_desc = row[3]
+        grams = float(row[4])
+        grams /= amount
+
+        # Get key if used previously
+        if not msre_desc in msre_ids:
+            serving_id.append([id, msre_desc])
+            msre_ids[msre_desc] = id
+            id += 1
+        msre_id = msre_ids[msre_desc]
+
+        # Handles some weird duplicates, e.g.
+        # ERROR:  duplicate key value violates unique constraint "servings_pkey"
+        # DETAIL:  Key (food_id, msre_id)=(1036, 3) already exists.
+        # CONTEXT:  COPY servings, line 128
+        prim_key = (food_id, msre_id)
+        if not prim_key in servings_set:
+            servings.append([food_id, msre_id, grams])
+            servings_set.add(prim_key)
+
+    # Write serving_id and servings tables
+    with open("csv/usda/serving_id.csv", "w+") as file:
+        writer = csv.writer(file)
+        writer.writerows(serving_id)
+    with open("csv/usda/servings.csv", "w+") as file:
+        writer = csv.writer(file)
+        writer.writerows(servings)
 
 
 #
