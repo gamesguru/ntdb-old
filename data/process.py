@@ -36,7 +36,7 @@ output_files = {
 # Recommanded daily allowances
 rdas = {"Nutr_no": ("rda", "tagname")}
 
-with open("csv/usda/RDA.csv") as file:
+with open("csv/RDA.csv") as file:
     reader = csv.reader(file)
     for row in reader:
         rdas[row[0]] = row[1], row[3]

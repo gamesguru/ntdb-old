@@ -34,6 +34,7 @@ CREATE TABLE users(
   UNIQUE(email),
   UNIQUE(unverified_email)
 );
+
 ---------------------------
 -- DATA (USDA)
 ---------------------------
@@ -119,6 +120,7 @@ CREATE TABLE servings(
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE,
   FOREIGN KEY (msre_id) REFERENCES serving_id(id) ON UPDATE CASCADE
 );
+
 ------------------------------
 --++++++++++++++++++++++++++++
 -- USERS
