@@ -4,7 +4,7 @@ DB=nutra
 SCHEMA=nt
 
 cd "$(dirname "$0")"
-cd ../data/csv/usda
+cd ../data/csv/nt
 
 # ------------------------------
 # Import primary tables

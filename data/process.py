@@ -20,6 +20,7 @@ import sys
 
 # change to script's dir
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+os.makedirs('csv/nt', 0o755, True)
 
 
 #
@@ -60,7 +61,7 @@ def main(args):
                 rows.append(row)
 
         # Process and write out
-        if fname == "csv/nt/WEIGHT.csv":
+        if fname == "csv/usda/WEIGHT.csv":
             process_weight(rows, fname)
         else:
             process(rows, fname)
