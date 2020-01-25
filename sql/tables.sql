@@ -238,7 +238,7 @@ CREATE TABLE favorite_foods(
 ------------------------------
 -- Food logs
 ------------------------------
-CREATE TABLE logs(
+CREATE TABLE food_logs(
   id BIGSERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   eat_on_date DATE NOT NULL,
