@@ -105,18 +105,12 @@ CREATE TABLE tag_data(
 ------------------------------
 -- Servings --
 ------------------------------
-CREATE TABLE serving_id(
+CREATE TABLE servings(
   id BIGSERIAL PRIMARY KEY,
-  msre_desc VARCHAR(200) NOT NULL,
-  UNIQUE(msre_desc)
-);
-CREATE TABLE serving(
   food_id BIGINT NOT NULL,
-  msre_id BIGINT NOT NULL,
+  msre_desc VARCHAR(200) NOT NULL,
   grams float NOT NULL,
-  PRIMARY KEY(food_id, msre_id),
-  FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE,
-  FOREIGN KEY (msre_id) REFERENCES serving_id(id) ON UPDATE CASCADE
+  FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE
 );
 ------------------------------
 --++++++++++++++++++++++++++++
