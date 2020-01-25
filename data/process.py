@@ -72,7 +72,7 @@ def process_row(row, fname):
 
     # Process row based on FILE_TYPE
     if bname == "NUTR_DEF.csv":
-        pass
+        row = row[:4]
     elif bname == "FOOD_DES.csv":
         row = row[:10]
         del row[6]
@@ -83,8 +83,6 @@ def process_row(row, fname):
 
     return row
 
-
-nutrients = {}
 
 #
 # Make script executable
