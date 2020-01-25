@@ -263,6 +263,7 @@ CREATE TABLE exercises(
   cals_per_rep float,
   cals_per_min float,
   -- TODO: data_src_id ?
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 CREATE TABLE exercise_logs(
@@ -273,6 +274,7 @@ CREATE TABLE exercise_logs(
   reps INT,
   weight INT,
   duration_min INT,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON UPDATE CASCADE
 );
@@ -284,6 +286,7 @@ CREATE TABLE trainer_users(
   trainer_id INT NOT NULL,
   user_id INT NOT NULL,
   approved BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(trainer_id, user_id),
   FOREIGN KEY (trainer_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
@@ -293,22 +296,26 @@ CREATE TABLE trainer_users(
 ------------------------------
 CREATE TABLE reports(
   user_id INT NOT NULL,
-  timestamp TIMESTAMP DEFAULT NOW() NOT NULL,
+  -- timestamp TIMESTAMP DEFAULT NOW() NOT NULL,
   report_type varchar(255) NOT NULL,
   report_message varchar(1024) NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY(user_id, timestamp),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
+
 
 ------------------------------
 --++++++++++++++++++++++++++++
 -- SHOP
 --++++++++++++++++++++++++++++
+
 -- Product orders
 CREATE TABLE orders(
   id VARCHAR(300) PRIMARY KEY,
   user_id INT NOT NULL,
   tracking_num VARCHAR(200),
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 -- Product reviews
@@ -318,7 +325,8 @@ CREATE TABLE reviews(
   stripe_product_id VARCHAR(255) NOT NULL,
   rating SMALLINT NOT NULL,
   review_text VARCHAR(2000) NOT NULL,
-  timestamp TIMESTAMP DEFAULT NOW() NOT NULL,
+  -- timestamp TIMESTAMP DEFAULT NOW() NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(user_id, stripe_product_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
@@ -326,30 +334,37 @@ CREATE TABLE reviews(
 CREATE TABLE views(
   user_id INT NOT NULL,
   stripe_product_id VARCHAR(255) NOT NULL,
-  date DATE DEFAULT NOW() NOT NULL,
+  -- date DATE DEFAULT NOW() NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (user_id, stripe_product_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
--- Products in cart --
+-- Cart
 CREATE TABLE cart(
   id BIGSERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   stripe_product_id VARCHAR(255) NOT NULL,
   quanity SMALLINT NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(user_id, stripe_product_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
+
 
 ------------------------------
 --++++++++++++++++++++++++++++
 -- IN PROGRESS
 --++++++++++++++++++++++++++++
+
+------------------------------
 -- Biometrics
+------------------------------
 CREATE TABLE biometrics(
   id BIGSERIAL PRIMARY KEY,
   user_id INT,
   biometric_name VARCHAR(200) NOT NULL,
   units VARCHAR(400) NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 CREATE TABLE biometric_logs(
@@ -359,12 +374,16 @@ CREATE TABLE biometric_logs(
   timestamp TIMESTAMP NOT NULL,
   bio_val float NOT NULL,
   unit VARCHAR(40) NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (biometric_id) REFERENCES biometrics(id) ON UPDATE CASCADE
 );
 
+------------------------------
 -- Scratchpad
+------------------------------
 CREATE TABLE scratchpad(
   user_id INT NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
