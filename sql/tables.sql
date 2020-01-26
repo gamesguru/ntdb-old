@@ -149,14 +149,14 @@ CREATE TABLE servings(
 ------------------------------
 -- Custom RDAs
 ------------------------------
-CREATE TABLE user_rda(
+CREATE TABLE rda(
+  nutr_id INT NOT NULL,
   user_id INT NOT NULL,
-  nutr_no INT NOT NULL,
   rda float NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  PRIMARY KEY (user_id, nutr_no),
-  FOREIGN KEY (nutr_no) REFERENCES nutr_def(id) ON UPDATE CASCADE,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+  PRIMARY KEY (user_id, nutr_id),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  FOREIGN KEY (nutr_id) REFERENCES nutr_def(id) ON UPDATE CASCADE
 );
 
 ------------------------------

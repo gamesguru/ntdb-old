@@ -1,4 +1,23 @@
--- use default search_path for this project
+-- nutra-db, a database for nutratracker clients
+-- Copyright (C) 2020  Nutra, LLC. [Shane & Kyle] <nutratracker@gmail.com>
+
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+
+-- You should have received a copy of the GNU General Public License
+-- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
+------------------------
+-- SET search_path
+------------------------
 SET
   search_path TO nt;
 --
@@ -153,3 +172,24 @@ WHERE
   )
 ORDER BY
   arr_data.ordering $$ LANGUAGE SQL;
+--
+--
+--
+-- #3.a
+-- Get user RDAs
+--
+CREATE
+OR REPLACE FUNCTION get_user_rdas(user_id_in int) RETURNS TABLE(
+  nutr_id INT, rda float, units VARCHAR,
+  tagname VARCHAR, nutr_desc VARCHAR
+) AS $$
+SELECT
+  rda.id,
+  COALESCE(urda.rda, rda.rda) as rda,
+  rda.units,
+  rda.tagname,
+  rda.nutr_desc
+FROM
+  nutr_def rda
+  LEFT JOIN rda urda ON rda.id = urda.nutr_id
+  AND urda.user_id = user_id_in $$ LANGUAGE SQL;
