@@ -9,7 +9,7 @@ cd ../data/csv/nt
 # ------------------------------
 # Import primary tables
 # ------------------------------
-declare -a ptables=("nutr_def")
+declare -a ptables=("users" "nutr_def")
 for table in "${ptables[@]}"
 do
   echo $table
