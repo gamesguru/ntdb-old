@@ -27,16 +27,16 @@ os.makedirs("csv/nt", 0o755, True)
 # Input --> Output (dict)
 output_files = {
     "csv/usda/FD_GROUP.csv": "csv/nt/fdgrp.csv",
-    "csv/usda/FOOD_DES.csv": "csv/nt/food_des.csv",
-    "csv/usda/NUT_DATA.csv": "csv/nt/nut_data.csv",
+    # "csv/usda/FOOD_DES.csv": "csv/nt/food_des.csv",
+    # "csv/usda/NUT_DATA.csv": "csv/nt/nut_data.csv",
     "csv/usda/NUTR_DEF.csv": "csv/nt/nutr_def.csv",
-    "csv/usda/WEIGHT.csv": None,
+    # "csv/usda/WEIGHT.csv": None,
 }
 
 special_interests_dirs = [
-    "csv/usda/flav",
     "csv/usda/isoflav",
     "csv/usda/proanth",
+    "csv/usda/flav",
 ]
 
 #
@@ -76,8 +76,7 @@ def main(args):
 
     #
     # Process Special Interests (flav, isoflav, proanth)
-    for fname in special_interests_dirs:
-        print(fname)
+    process_special_interests_dirs()
 
 
 def process(rows, fname):
@@ -162,6 +161,49 @@ def process_weight(rows, fname):
     with open("csv/nt/servings.csv", "w+") as file:
         writer = csv.writer(file)
         writer.writerows(servings)
+
+
+def process_special_interests_dirs():
+    """ Processes flav, isoflav, and proanth "special interests" databases """
+
+    #
+    # Read in existing data
+    nut_data_rows = []
+    nutr_def_rows = []
+    with open("csv/nt/nut_data.csv") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            nut_data_rows.append(row)
+
+    with open("csv/nt/nutr_def.csv") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            nutr_def_rows.append(row)
+
+    #
+    # Add to it
+    for dir in special_interests_dirs:
+
+        # nut_data_si_rows = []
+        # nutr_def_si_rows = []
+
+        with open(f"{dir}/NUTR_DEF.csv") as file:
+            reader = csv.reader(file)
+            for row in reader:
+                rda, tagname = rdas[row[0]]
+                row = row[:4]
+                row[2] = tagname
+                row.insert(1, rda)
+
+        # with open(f"{dir}/NUT_DATA.csv") as file:
+        #     reader = csv.reader(file)
+        #     for row in reader:
+        #         nutr_def_si_rows.append(row)
+
+        # # Get "base name" and handle each separately
+        # bname = fname.split("/")[-1]
+        # print(bname)
+        print(dir)
 
 
 #
