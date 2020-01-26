@@ -73,15 +73,18 @@ rm FOOD_DES.csv
 rm Food_Des_CR.csv
 rm Nut_Val_CR.csv
 rm SRCLink.csv
+mv FLAV_DAT.csv NUT_DAT.csv
 
 cd ../isoflav
 rm DATA_SRC.csv
 rm DATSRCLN.csv
 rm FOOD_DES.csv
 rm SYBN_DTL.csv
+mv ISFL_DAT.csv NUT_DAT.csv
 
 cd ../proanth
 rm DATA_SRC.csv
 rm DATSRCLN.csv
 rm FD_GROUP.csv
 rm FOOD_DES.csv
+mv PA_DAT.csv NUT_DAT.csv

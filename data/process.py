@@ -20,7 +20,7 @@ import sys
 
 # change to script's dir
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-os.makedirs('csv/nt', 0o755, True)
+os.makedirs("csv/nt", 0o755, True)
 
 
 #
@@ -32,6 +32,12 @@ output_files = {
     "csv/usda/NUTR_DEF.csv": "csv/nt/nutr_def.csv",
     "csv/usda/WEIGHT.csv": None,
 }
+
+special_interests_dirs = [
+    "csv/usda/flav",
+    "csv/usda/isoflav",
+    "csv/usda/proanth",
+]
 
 #
 # Recommanded daily allowances
@@ -48,6 +54,8 @@ def main(args):
 
     print("==> Process CSV")
 
+    #
+    # Process main USDA csv files
     for fname in output_files:
         print(fname)
 
@@ -65,6 +73,11 @@ def main(args):
             process_weight(rows, fname)
         else:
             process(rows, fname)
+
+    #
+    # Process Special Interests (flav, isoflav, proanth)
+    for fname in special_interests_dirs:
+        print(fname)
 
 
 def process(rows, fname):
