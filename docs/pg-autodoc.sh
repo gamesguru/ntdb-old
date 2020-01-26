@@ -9,8 +9,12 @@ cd $DB
 
 # Generate docs, convert DOT --> EPS
 postgresql_autodoc -d $DB
-dot -Tps $DB.dot -o $DB.eps
 
-# Convert to SVG and move up
+# svg
+dot -Tps $DB.dot -o $DB.eps
 convert -flatten $DB.eps $DB.svg
+# png
+convert -flatten $DB.dot $DB.png
+
+# Move up
 mv $DB.svg ..
