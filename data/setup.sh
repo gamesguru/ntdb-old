@@ -28,6 +28,9 @@ cd tmp
 # Download and unzip
 curl -O "https://www.ars.usda.gov/ARSUserFiles/80400525/Data/SR-Legacy/SR-Leg_DB.zip"
 unzip SR-Leg_DB.zip SR_Legacy.accdb
+curl -L "https://api.bitbucket.org/2.0/repositories/dasheenster/nutra-utils/downloads/Flav_R03-3.accdb" -o Flav_R03-3.accdb
+curl -L "https://api.bitbucket.org/2.0/repositories/dasheenster/nutra-utils/downloads/Isoflav_R2-1.accdb" -o Isoflav_R2-1.accdb
+curl -L "https://api.bitbucket.org/2.0/repositories/dasheenster/nutra-utils/downloads/PA02.accdb" -o PA02.accdb
 
 #
 # Run access2csv
@@ -36,6 +39,9 @@ git clone git@github.com:AccelerationNet/access2csv.git
 cd access2csv
 mvn clean install -Dmaven.test.skip=true
 ./access2csv --input ../SR_Legacy.accdb --output ../usda --with-header
+./access2csv --input ../Flav_R03-3.accdb --output ../usda/flav --with-header
+./access2csv --input ../Isoflav_R2-1.accdb --output ../usda/isoflav --with-header
+./access2csv --input ../PA02.accdb --output ../usda/proanth --with-header
 cd ..
 
 #
@@ -57,3 +63,25 @@ rm FOOTNOTE.csv
 rm LANGDESC.csv
 rm DERIV_CD.csv
 rm SRC_CD.csv
+
+cd flav
+rm DATA_SRC.csv
+rm DATSRCLN.csv
+rm FD_GROUP.csv
+rm FLAV_IND.csv
+rm FOOD_DES.csv
+rm Food_Des_CR.csv
+rm Nut_Val_CR.csv
+rm SRCLink.csv
+
+cd ../isoflav
+rm DATA_SRC.csv
+rm DATSRCLN.csv
+rm FOOD_DES.csv
+rm SYBN_DTL.csv
+
+cd ../proanth
+rm DATA_SRC.csv
+rm DATSRCLN.csv
+rm FD_GROUP.csv
+rm FOOD_DES.csv
