@@ -29,9 +29,9 @@ WHERE
 -- Get all nutrients by food_id
 --
 CREATE
-OR REPLACE FUNCTION get_nutrients_by_food_ids(food_id_in int[]) RETURNS TABLE(
-  food_id bigint, fdgrp_id int, long_desc varchar,
-  manufacturer varchar, nutrients json
+OR REPLACE FUNCTION get_nutrients_by_food_ids(food_id_in INT[]) RETURNS TABLE(
+  food_id BIGINT, fdgrp_id INT, long_desc VARCHAR,
+  manufacturer VARCHAR, nutrients JSON
 ) AS $$
 SELECT
   des.id,
@@ -44,7 +44,7 @@ SELECT
       nutr_desc, 'tagname', tagname, 'nutr_val',
       nutr_val, 'units', units
     )
-  ) as nutrients
+  ) AS nutrients
 FROM
   food_des des
   LEFT JOIN nut_data val ON val.food_id = des.id
@@ -61,9 +61,9 @@ GROUP BY
 -- Return 100 foods highest in a given nutr_id
 --
 CREATE
-OR REPLACE FUNCTION sort_foods_by_nutrient_id(nutr_id_in int) RETURNS TABLE(
-  nutr_id int, units varchar, tagname varchar,
-  nutr_desc varchar, foods json
+OR REPLACE FUNCTION sort_foods_by_nutrient_id(nutr_id_in INT) RETURNS TABLE(
+  nutr_id INT, units VARCHAR, tagname VARCHAR,
+  nutr_desc VARCHAR, foods JSON
 ) AS $$
 SELECT
   def.id,
@@ -76,8 +76,8 @@ SELECT
       'nutr_val', val.nutr_val
     )
     ORDER BY
-      val.nutr_val desc
-  ) as foods
+      val.nutr_val DESC
+  ) AS foods
 FROM
   (
     SELECT
@@ -89,7 +89,7 @@ FROM
     WHERE
       val.nutr_id = nutr_id_in
     ORDER BY
-      val.nutr_val desc FETCH FIRST 100 ROWS ONLY
+      val.nutr_val DESC FETCH FIRST 100 ROWS ONLY
   ) val
   LEFT JOIN nutr_def def ON def.id = val.nutr_id
   LEFT JOIN food_des des ON val.food_id = des.id
@@ -105,8 +105,8 @@ GROUP BY
 -- Get servings for food
 --
 CREATE
-OR REPLACE FUNCTION get_food_servings(food_id_in bigint) RETURNS TABLE(
-  msre_id bigint, msre_desc varchar,
+OR REPLACE FUNCTION get_food_servings(food_id_in BIGINT) RETURNS TABLE(
+  msre_id BIGINT, msre_desc VARCHAR,
   grams float
 ) AS $$
 SELECT
@@ -125,9 +125,11 @@ WHERE
 -- Get food[] analysis
 --
 CREATE
-OR REPLACE FUNCTION get_foods_by_food_id(food_id_in int[], fdgrp_id_in int[]) RETURNS TABLE(
-  food_id bigint, fdgrp_desc varchar,
-  long_desc varchar, manufacturer varchar
+OR REPLACE FUNCTION get_foods_by_food_id(
+  food_id_in INT[], fdgrp_id_in INT[]
+) RETURNS TABLE(
+  food_id BIGINT, fdgrp_desc VARCHAR,
+  long_desc VARCHAR, manufacturer VARCHAR
 ) AS $$
 SELECT
   des.id,
@@ -141,7 +143,7 @@ FROM
     SELECT
       *
     FROM
-      unnest(food_id_in) with ordinality
+      unnest(food_id_in) WITH ORDINALITY
   ) arr_data (id, ordering) ON arr_data.id = des.id
 WHERE
   des.id = any(food_id_in)
