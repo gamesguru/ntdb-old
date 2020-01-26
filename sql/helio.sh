@@ -1,11 +1,7 @@
 #!/bin/bash
-# A script to connect to remote HelioHost postgreSQL server
-# Set env vars:   PSQL_HOST, PSQL_USERNAME, PSQL_PASSWORD, PSQL_DB
 
-# Read in env vars
+cd "$(dirname "$0")"
 source .env
 
-# TODO - fix this
-
 # Connect to DB
-psql postgresql://$PSQL_USERNAME:$PSQL_PASSWORD@$PSQL_HOST:5432/$PSQL_DB
+psql postgresql://$PSQL_HELIO_USER:$PSQL_HELIO_PASSWORD@$PSQL_HELIO_HOST:5432/$PSQL_HELIO_DB_NAME
