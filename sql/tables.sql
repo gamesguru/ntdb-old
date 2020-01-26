@@ -30,7 +30,7 @@ SET search_path TO nt;
 
 CREATE TABLE users(
   id SERIAL PRIMARY KEY,
-  username VARCHAR(8) NOT NULL,
+  username VARCHAR(18) NOT NULL,
   passwd VARCHAR(300) NOT NULL,
   unverified_email VARCHAR(140),
   email VARCHAR(140),
