@@ -3,9 +3,10 @@
 DB=nutra_dev
 SCHEMA=nt
 
-source .env
 
 cd "$(dirname "$0")"
+source .env
+
 cd ../data/csv/nt
 
 # Export each table
