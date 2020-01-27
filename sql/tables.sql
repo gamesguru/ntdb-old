@@ -388,11 +388,3 @@ CREATE TABLE scratchpad(
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
-
-
-------------------------------
---++++++++++++++++++++++++++++
--- Stored Procedures
---++++++++++++++++++++++++++++
-
-\i functions.sql

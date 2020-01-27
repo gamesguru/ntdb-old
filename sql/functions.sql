@@ -215,7 +215,7 @@ WHERE
     food_group_ids = ''
     OR fdgrp.id = ANY(
       cast(
-        string_to_array(food_group_ids, ',') as INT[]
+        string_to_array(food_group_ids, ',') AS INT[]
       )
     )
   )
