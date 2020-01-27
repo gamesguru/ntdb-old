@@ -175,6 +175,95 @@ ORDER BY
 --
 --
 --
+-- #2.e
+-- Search food names --> {food_id, long_desc}
+--
+CREATE
+OR REPLACE FUNCTION search_foods_by_name(
+  ts_search_expression VARCHAR, like_search_expression VARCHAR,
+  food_group_ids VARCHAR
+) RETURNS TABLE(
+  food_id BIGINT, fdgrp_desc VARCHAR,
+  long_desc VARCHAR, score REAL
+) AS $$
+SELECT
+  id,
+  fdgrp_desc,
+  long_desc,
+  ts_rank_cd(
+    textsearch_desc,
+    to_tsquery(ts_search_expression)
+  ) score
+FROM
+  (
+    SELECT
+      id,
+      fdgrp_id,
+      long_desc,
+      textsearch_desc
+    FROM
+      food_des
+    WHERE
+      long_desc ILIKE ANY(
+        string_to_array(like_search_expression, ',')
+      )
+  ) like_results
+  LEFT JOIN fdgrp ON fdgrp.id = like_results.fdgrp_id
+WHERE
+  textsearch_desc @@ to_tsquery(ts_search_expression)
+  AND (
+    food_group_ids = ''
+    OR fdgrp.id = ANY(
+      cast(
+        string_to_array(food_group_ids, ',') as INT[]
+      )
+    )
+  )
+ORDER BY
+  score DESC;
+$$ LANGUAGE SQL;
+--
+--
+--
+-- #2.f
+-- Search food names --> [ALL NUTRIENTS]
+--
+CREATE
+OR REPLACE FUNCTION search_foods_by_name_with_nutrients(search_expression varchar) RETURNS TABLE(
+  food_id bigint, fdgrp_id int, long_desc varchar,
+  nutrients json, score real
+) AS $$
+SELECT
+  id,
+  fdgrp_id,
+  long_desc,
+  json_agg(
+    json_build_object(
+      'nutr_no', val.nutr_no, 'nutr_desc',
+      nutr_desc, 'tagname', tagname, 'nutr_val',
+      nutr_val, 'units', units
+    )
+  ) as nutrients,
+  ts_rank_cd(
+    textsearch_desc,
+    to_tsquery(search_expression)
+  ) score
+FROM
+  food_des des
+  LEFT JOIN nut_data val ON val.food_id = des.id
+  LEFT JOIN nutr_def def ON def.id = val.nutr_id
+WHERE
+  textsearch_desc @@ to_tsquery(search_expression)
+GROUP BY
+  des.id,
+  long_desc,
+  score
+ORDER BY
+  score DESC;
+$$ LANGUAGE SQL;
+--
+--
+--
 -- #3.a
 -- Get user RDAs
 --
