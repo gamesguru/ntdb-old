@@ -180,43 +180,26 @@ ORDER BY
 --
 CREATE
 OR REPLACE FUNCTION search_foods_by_name(
-  ts_search_expression VARCHAR, like_search_expression VARCHAR,
-  food_group_ids VARCHAR
+  ts_search_expression VARCHAR, like_search_expression VARCHAR
 ) RETURNS TABLE(
-  fdgrp_desc VARCHAR,
+  food_id BIGINT, fdgrp_desc VARCHAR,
   long_desc VARCHAR, score REAL
 ) AS $$
 SELECT
-  fdgrp_desc,
+  fdes.id,
+  fgrp.fdgrp_desc AS fdgrp_desc,
   long_desc,
   ts_rank_cd(
     textsearch_desc,
     to_tsquery(ts_search_expression)
   ) score
 FROM
-  (
-    SELECT
-      fdgrp_id,
-      long_desc,
-      textsearch_desc
-    FROM
-      food_des
-    WHERE
-      long_desc ILIKE ANY(
-        string_to_array(like_search_expression, ',')
-      )
-  ) like_results
-  LEFT JOIN fdgrp ON fdgrp.id = like_results.fdgrp_id
+  food_des AS fdes
+INNER JOIN
+  -- food_des AS fdes
+  fdgrp AS fgrp ON fgrp.id = fdes.fdgrp_id
 WHERE
   textsearch_desc @@ to_tsquery(ts_search_expression)
-  AND (
-    food_group_ids = ''
-    OR fdgrp.id = ANY(
-      cast(
-        string_to_array(food_group_ids, ',') AS INT[]
-      )
-    )
-  )
 ORDER BY
   score DESC;
 $$ LANGUAGE SQL;
