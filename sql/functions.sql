@@ -56,7 +56,7 @@ CREATE
 OR REPLACE FUNCTION get_products_ratings() RETURNS TABLE(
   id VARCHAR, name VARCHAR, price_min SMALLINT,
   price_max SMALLINT, shippable BOOLEAN,
-  avg_rating DECIMAL
+  avg_rating REAL
 ) AS $$
 SELECT
   prod.id,
@@ -64,13 +64,12 @@ SELECT
   price_min,
   price_max,
   shippable,
-  avg(rv.rating)
+  avg(rv.rating)::REAL
 FROM
   products prod
   INNER JOIN reviews AS rv ON rv.product_id = prod.id
 GROUP BY
   prod.id $$ LANGUAGE SQL;
-
 --
 --
 --++++++++++++++++++++++++++++
