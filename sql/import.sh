@@ -32,3 +32,15 @@ for filename in *.csv; do
     fi
   fi
 done
+
+
+# ------------------------------
+# Set serial maxes
+# ------------------------------
+# TODO: add remaining indexed "itables"
+declare -a itables=("users")
+for table in "${itables[@]}"
+do
+  echo $table
+  psql -c "SELECT pg_catalog.setval(pg_get_serial_sequence('$table', 'id'), (SELECT MAX(id) FROM $table))" postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:5432/$PSQL_DB_NAME
+done
