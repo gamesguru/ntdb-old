@@ -300,23 +300,19 @@ SELECT
 FROM
   (
     SELECT
-      fav.user_id,
       fav.food_id,
       desf.long_desc as long_desc,
       false as is_custom
     FROM
       favorite_foods fav
-      LEFT JOIN food_des desf ON desf.food_id = fav.food_id
+      LEFT JOIN food_des desf ON desf.id = fav.food_id
     WHERE
       fav.user_id = user_id_in
     UNION ALL
     SELECT
-      user_id,
-      food_id,
+      id,
       long_desc,
       true as is_custom
     FROM
       food_des des
-    WHERE
-      user_id = user_id_in
   ) all_favs $$ LANGUAGE SQL;
