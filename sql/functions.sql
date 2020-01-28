@@ -32,7 +32,7 @@ SET
 -- Get product reviews (with username)
 --
 CREATE
-OR REPLACE FUNCTION get_product_reviews(product_id VARCHAR) RETURNS TABLE(
+OR REPLACE FUNCTION get_product_reviews(product_id_in VARCHAR) RETURNS TABLE(
   username VARCHAR, rating SMALLINT,
   review_text VARCHAR, created_at INT
 ) AS $$
@@ -45,7 +45,7 @@ FROM
   reviews AS rv
   INNER JOIN users AS u ON rv.user_id = u.id
 WHERE
-  rv.product_id = product_id $$ LANGUAGE SQL;
+  rv.product_id = product_id_in $$ LANGUAGE SQL;
 --
 --
 --
