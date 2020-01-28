@@ -22,14 +22,11 @@ for filename in *.csv; do
   # https://stackoverflow.com/questions/12590490/splitting-filename-delimited-by-period
   table="${filename%%.*}"
 
-  # Skip capital letters, they are original DB files
-  if [[ $table =~ [a-z] ]]; then
-    # Skip covered tables
-    # https://stackoverflow.com/questions/3685970/check-if-a-bash-array-contains-a-value
-    if [[ ! " ${ptables[@]} " =~ " ${table} " ]]; then
-      echo $table
-      cat "$filename" | psql -c "\copy $PSQL_SCHEMA_NAME.$table FROM $table.csv WITH csv HEADER" postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:5432/$PSQL_DB_NAME
-    fi
+  # Skip covered tables
+  # https://stackoverflow.com/questions/3685970/check-if-a-bash-array-contains-a-value
+  if [[ ! " ${ptables[@]} " =~ " ${table} " ]]; then
+    echo $table
+    cat "$filename" | psql -c "\copy $PSQL_SCHEMA_NAME.$table FROM $table.csv WITH csv HEADER" postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:5432/$PSQL_DB_NAME
   fi
 done
 
