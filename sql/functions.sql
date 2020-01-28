@@ -56,18 +56,22 @@ CREATE
 OR REPLACE FUNCTION get_products_ratings() RETURNS TABLE(
   id VARCHAR, name VARCHAR, price_min SMALLINT,
   price_max SMALLINT, shippable BOOLEAN,
-  avg_rating REAL
+  avg_rating REAL, inventory_stocks JSONB
 ) AS $$
 SELECT
-  prod.id,
-  name,
+  DISTINCT prod.id,
+  prod.name,
   price_min,
   price_max,
   shippable,
-  avg(rv.rating)::REAL
+  avg(rv.rating):: REAL,
+  jsonb_agg(
+    json_build_object(sk.id, sk.inventory_stock)
+  )
 FROM
   products prod
   INNER JOIN reviews AS rv ON rv.product_id = prod.id
+  INNER JOIN skus AS sk ON sk.product_id = prod.id
 GROUP BY
   prod.id $$ LANGUAGE SQL;
 --
