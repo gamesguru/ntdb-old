@@ -337,12 +337,20 @@ CREATE TABLE skus(
 
 -- Product orders
 CREATE TABLE orders(
-  id VARCHAR(300) PRIMARY KEY,
+  id INT PRIMARY KEY,
   user_id INT NOT NULL,
   tracking_num VARCHAR(200),
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
+CREATE TABLE order_items(
+  order_id INT NOT NULL,
+  product_id VARCHAR(100) NOT NULL,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON UPDATE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
+);
+
+
 -- Product reviews
 CREATE TABLE reviews(
   id BIGSERIAL PRIMARY KEY,
