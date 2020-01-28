@@ -52,23 +52,23 @@ WHERE
 -- 1.b
 -- Get products with avg_ratings
 --
-CREATE
-OR REPLACE FUNCTION get_products_ratings() RETURNS TABLE(
-  id VARCHAR,
-  name VARCHAR,
-  price_min SMALLINT,
-  price_max SMALLINT,
-  shippable BOOLEAN -- avg_rating REAL
-  ) AS $$
-SELECT
-  id,
-  name,
-  price_min,
-  price_max,
-  shippable
-FROM
-  products $$ LANGUAGE SQL;
-
+-- CREATE
+-- OR REPLACE FUNCTION get_products_ratings() RETURNS TABLE(
+--   id VARCHAR,
+--   name VARCHAR,
+--   price_min SMALLINT,
+--   price_max SMALLINT,
+--   shippable BOOLEAN,
+--   avg_rating REAL
+--   ) AS $$
+-- SELECT
+--   id,
+--   name,
+--   price_min,
+--   price_max,
+--   shippable
+-- FROM
+--   products $$ LANGUAGE SQL;
 --
 --
 --++++++++++++++++++++++++++++
