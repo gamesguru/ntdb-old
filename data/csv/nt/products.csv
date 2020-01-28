@@ -1,0 +1,6 @@
+id,name,iamge,price_min,price_max,shippable,created_at
+prod_GSjaZvuDArNUQ0,Basic Mouth Rinse,https://files.stripe.com/links/fl_live_AiqRNzCFoBhHpD87SEv4wXIa,900,900,True,1580182757
+prod_GSjQHpuy4eUBgh,Skin Lotion Plus,https://files.stripe.com/links/fl_live_Cft1DAOsKfBzIRrQSAlwVEQg,1800,1800,True,1580182757
+prod_FMykocKGla0rEZ,Focus Formula,https://files.stripe.com/links/fl_live_b9bdCenXu9SuZKDoX0otg9Ek,900,4000,True,1580182757
+prod_F9tAjgt53kC2DO,T-Boost,https://files.stripe.com/links/fl_live_Go2wsq4iPVlXUmq3F3QW46sV,800,2500,True,1580182757
+prod_F9t9QWJWt8Abz0,Relaxation Formula,https://files.stripe.com/links/fl_live_jbhTxh8J5QCiG9ESNhjKnLrP,800,2500,True,1580182757

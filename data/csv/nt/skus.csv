@@ -1,0 +1,9 @@
+id,product_id,name,iamge,price,inventory_stock,created_at
+sku_GSjaLKuqEXiHpK,prod_GSjaZvuDArNUQ0,Basic Mouth Rinse,https://files.stripe.com/links/fl_live_AiqRNzCFoBhHpD87SEv4wXIa,900,14,1580182757
+sku_GSjQP3PKz4Urem,prod_GSjQHpuy4eUBgh,Skin Lotion Plus,https://files.stripe.com/links/fl_live_Cft1DAOsKfBzIRrQSAlwVEQg,1800,9,1580182757
+sku_FMylWwUHRwDItd,prod_FMykocKGla0rEZ,Focus Formula (10 oz),https://files.stripe.com/links/fl_live_b9bdCenXu9SuZKDoX0otg9Ek,4000,3,1580182757
+sku_FMykwJ0tYNSTqc,prod_FMykocKGla0rEZ,Focus Formula (2 oz),https://files.stripe.com/links/fl_live_sL7DWBoUKXPYIxBS4JGFqkBN,900,5,1580182757
+sku_F9tAlXLOaLPRoE,prod_F9tAjgt53kC2DO,T-Boost (2.5 oz),https://files.stripe.com/links/fl_live_Go2wsq4iPVlXUmq3F3QW46sV,800,6,1580182757
+sku_F9tAHkEnZM8J6f,prod_F9tAjgt53kC2DO,T-Boost (10 oz),https://files.stripe.com/links/fl_live_AAw8J6ZjhN8nll9aJLeDCyKV,2500,3,1580182757
+sku_F9tA9Ez2UgIyRj,prod_F9t9QWJWt8Abz0,Relaxation Formula (2.5 oz),https://files.stripe.com/links/fl_live_jbhTxh8J5QCiG9ESNhjKnLrP,800,9,1580182757
+sku_F9t9xdkFMxINat,prod_F9t9QWJWt8Abz0,Relaxation Formula (10 oz),https://files.stripe.com/links/fl_live_ONKa5ZKpaUh9h1AvQwEkmjgi,2500,10,1580182757
