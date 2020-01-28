@@ -76,6 +76,37 @@ GROUP BY
   prod.id $$ LANGUAGE SQL;
 --
 --
+--
+-- 1.c
+-- Get user's trainers
+--
+CREATE
+OR REPLACE FUNCTION get_user_trainers(user_id_in INT) RETURNS TABLE(trainer_id int, username varchar) AS $$
+SELECT
+  tusr.trainer_id,
+  usr.username
+FROM
+  trainer_users tusr
+  LEFT JOIN users usr ON usr.id = tusr.trainer_id
+WHERE
+  tusr.user_id = user_id_in $$ LANGUAGE SQL;
+--
+--
+--
+-- 1.d
+-- Get trainer's users
+--
+CREATE
+OR REPLACE FUNCTION get_trainer_users(trainer_id_in INT) RETURNS TABLE(user_id int, username varchar) AS $$
+SELECT
+  usr.id,
+  usr.username
+FROM users usr
+LEFT JOIN trainer_users tusr ON tusr.user_id = usr.id
+WHERE
+  tusr.trainer_id = trainer_id_in $$ LANGUAGE SQL;
+--
+--
 --++++++++++++++++++++++++++++
 --++++++++++++++++++++++++++++
 -- #2   Public DATA
