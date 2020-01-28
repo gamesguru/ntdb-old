@@ -1,4 +1,4 @@
-id,product_id,name,iamge,price,inventory_stock,created_at
+id,product_id,name,image,price,inventory_stock,created_at
 sku_GSjaLKuqEXiHpK,prod_GSjaZvuDArNUQ0,Basic Mouth Rinse,https://files.stripe.com/links/fl_live_AiqRNzCFoBhHpD87SEv4wXIa,900,14,1580182757
 sku_GSjQP3PKz4Urem,prod_GSjQHpuy4eUBgh,Skin Lotion Plus,https://files.stripe.com/links/fl_live_Cft1DAOsKfBzIRrQSAlwVEQg,1800,9,1580182757
 sku_FMylWwUHRwDItd,prod_FMykocKGla0rEZ,Focus Formula (10 oz),https://files.stripe.com/links/fl_live_b9bdCenXu9SuZKDoX0otg9Ek,4000,3,1580182757
