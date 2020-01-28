@@ -161,7 +161,7 @@ GROUP BY
 CREATE
 OR REPLACE FUNCTION get_food_servings(food_id_in INT) RETURNS TABLE(
   msre_id INT, msre_desc VARCHAR,
-  grams float
+  grams REAL
 ) AS $$
 SELECT
   serv.msre_id,
@@ -290,7 +290,7 @@ $$ LANGUAGE SQL;
 --
 CREATE
 OR REPLACE FUNCTION get_user_rdas(user_id_in int) RETURNS TABLE(
-  nutr_id INT, rda float, units VARCHAR,
+  nutr_id INT, rda REAL, units VARCHAR,
   tagname VARCHAR, nutr_desc VARCHAR
 ) AS $$
 SELECT

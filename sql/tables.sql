@@ -69,7 +69,7 @@ CREATE TABLE users(
 ---------------------------
 CREATE TABLE nutr_def(
   id INT PRIMARY KEY,
-  rda float,
+  rda REAL,
   units VARCHAR(10),
   tagname VARCHAR(10) NOT NULL,
   nutr_desc VARCHAR(80) NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE food_des(
 CREATE TABLE nut_data(
   food_id INT NOT NULL,
   nutr_id INT NOT NULL,
-  nutr_val float,
+  nutr_val REAL,
   -- TODO: data_src_id as composite key?
   PRIMARY KEY (food_id, nutr_id),
   FOREIGN KEY (food_id) REFERENCES food_des (id) ON UPDATE CASCADE,
@@ -134,7 +134,7 @@ CREATE TABLE serving_id(
 CREATE TABLE servings(
   food_id INT NOT NULL,
   msre_id INT NOT NULL,
-  grams float NOT NULL,
+  grams REAL NOT NULL,
   PRIMARY KEY(food_id, msre_id),
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE,
   FOREIGN KEY (msre_id) REFERENCES serving_id(id) ON UPDATE CASCADE
@@ -152,7 +152,7 @@ CREATE TABLE servings(
 CREATE TABLE rda(
   nutr_id INT NOT NULL,
   user_id INT NOT NULL,
-  rda float NOT NULL,
+  rda REAL NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (user_id, nutr_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
@@ -176,7 +176,7 @@ CREATE TABLE recipe_dat(
   food_id INT NOT NULL,
   -- msre_id == (NULL || 0) ==> grams
   msre_id INT,
-  amount float NOT NULL,
+  amount REAL NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (recipe_id, food_id),
   FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE,
@@ -192,7 +192,7 @@ CREATE TABLE portion_id (
 CREATE TABLE portions(
   recipe_id INT NOT NULL,
   portion_id INT NOT NULL,
-  percentage float NOT NULL,
+  percentage REAL NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY(recipe_id, portion_id),
   FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE,
@@ -243,7 +243,7 @@ CREATE TABLE food_logs(
   user_id INT NOT NULL,
   eat_on_date DATE NOT NULL,
   meal_name VARCHAR(20) NOT NULL,
-  amount float NOT NULL,
+  amount REAL NOT NULL,
   msre_id INT,
   recipe_id INT,
   food_id INT,
@@ -262,8 +262,8 @@ CREATE TABLE exercises(
   exercise_name VARCHAR(300) NOT NULL,
   user_id INT,
   shared BOOLEAN NOT NULL DEFAULT TRUE,
-  cals_per_rep float,
-  cals_per_min float,
+  cals_per_rep REAL,
+  cals_per_min REAL,
   -- TODO: data_src_id ?
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
@@ -408,7 +408,7 @@ CREATE TABLE biometric_logs(
   user_id INT NOT NULL,
   biometric_id INT NOT NULL,
   timestamp TIMESTAMP NOT NULL,
-  bio_val float NOT NULL,
+  bio_val REAL NOT NULL,
   unit VARCHAR(40) NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
