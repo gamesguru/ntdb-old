@@ -107,6 +107,21 @@ WHERE
   tusr.trainer_id = trainer_id_in $$ LANGUAGE SQL;
 --
 --
+--
+-- 1.e
+-- Place order
+--
+CREATE
+OR REPLACE FUNCTION post_order(trainer_id_in INT) RETURNS TABLE(user_id int, username varchar) AS $$
+SELECT
+  usr.id,
+  usr.username
+FROM users usr
+LEFT JOIN trainer_users tusr ON tusr.user_id = usr.id
+WHERE
+  tusr.trainer_id = trainer_id_in $$ LANGUAGE SQL;
+--
+--
 --++++++++++++++++++++++++++++
 --++++++++++++++++++++++++++++
 -- #2   Public DATA

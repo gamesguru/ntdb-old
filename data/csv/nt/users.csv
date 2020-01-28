@@ -1,3 +1,3 @@
 id,username,passwd,unverified_email,email,email_token_activate,email_token_pw_reset,accept_eula,stripe_id,certified_beta_tester,certified_beta_trainer_tester,passed_onboarding_tutorial,gender,name,dob,height,height_units,weight,weight_units,activity_level,weight_goal,bmr_equation,bodyfat_method
-1,gamesguru,$2b$12$twZlKe8fDcnKpaoM3Eb2Uu659Je18B6fi2p8fRIspGNis6vOWxIty,nutratracker@gmail.com,,,,f,cus_GcEaIN27mvM9Ol,f,f,f,,,,,,,,,,,
 2,kthprog,$2b$12$C2HKwF0nl4Y88UGSidAk1unT1oxDwiHzljtP/QgYWiJx01Jko0nBu,loanwolf200@gmail.com,,,,f,cus_Gd2S5bxRwfpJSq,f,f,f,,,,,,,,,,,
+1,gamesguru,$2b$12$twZlKe8fDcnKpaoM3Eb2Uu659Je18B6fi2p8fRIspGNis6vOWxIty,,nutratracker@gmail.com,,,f,cus_GcEaIN27mvM9Ol,f,f,f,,,,,,,,,,,
