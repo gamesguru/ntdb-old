@@ -84,7 +84,7 @@ WHERE
 --
 CREATE
 OR REPLACE FUNCTION get_nutrients_by_food_ids(food_id_in INT[]) RETURNS TABLE(
-  food_id BIGINT, fdgrp_id INT, long_desc VARCHAR,
+  food_id INT, fdgrp_id INT, long_desc VARCHAR,
   manufacturer VARCHAR, nutrients JSON
 ) AS $$
 SELECT
@@ -159,8 +159,8 @@ GROUP BY
 -- Get servings for food
 --
 CREATE
-OR REPLACE FUNCTION get_food_servings(food_id_in BIGINT) RETURNS TABLE(
-  msre_id BIGINT, msre_desc VARCHAR,
+OR REPLACE FUNCTION get_food_servings(food_id_in INT) RETURNS TABLE(
+  msre_id INT, msre_desc VARCHAR,
   grams float
 ) AS $$
 SELECT
@@ -182,7 +182,7 @@ CREATE
 OR REPLACE FUNCTION get_foods_by_food_id(
   food_id_in INT[], fdgrp_id_in INT[]
 ) RETURNS TABLE(
-  food_id BIGINT, fdgrp_desc VARCHAR,
+  food_id INT, fdgrp_desc VARCHAR,
   long_desc VARCHAR, manufacturer VARCHAR
 ) AS $$
 SELECT
@@ -217,7 +217,7 @@ CREATE
 OR REPLACE FUNCTION search_foods_by_name(
   ts_search_expression VARCHAR, like_search_expression VARCHAR
 ) RETURNS TABLE(
-  food_id BIGINT, fdgrp_desc VARCHAR,
+  food_id INT, fdgrp_desc VARCHAR,
   long_desc VARCHAR, score REAL
 ) AS $$
 SELECT
@@ -244,7 +244,7 @@ $$ LANGUAGE SQL;
 --
 CREATE
 OR REPLACE FUNCTION search_foods_by_name_with_nutrients(search_expression varchar) RETURNS TABLE(
-  food_id BIGINT, fdgrp_id INT, long_desc VARCHAR,
+  food_id INT, fdgrp_id INT, long_desc VARCHAR,
   nutrients JSON, score REAL
 ) AS $$
 SELECT
@@ -310,7 +310,7 @@ FROM
 -- Get user favorite foods
 --
 CREATE
-OR REPLACE FUNCTION get_user_favorite_foods(user_id_in INT) RETURNS TABLE(food_id BIGINT, long_desc VARCHAR) AS $$
+OR REPLACE FUNCTION get_user_favorite_foods(user_id_in INT) RETURNS TABLE(food_id INT, long_desc VARCHAR) AS $$
 SELECT
   food_id,
   fdes.long_desc

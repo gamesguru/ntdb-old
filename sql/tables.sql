@@ -93,7 +93,7 @@ CREATE TABLE fdgrp(
 -- Food names
 ---------------------------
 CREATE TABLE food_des(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   fdgrp_id INT NOT NULL,
   long_desc VARCHAR(400) NOT NULL,
   shrt_desc VARCHAR(200) NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE food_des(
 -- Food-Nutrient data
 ---------------------------
 CREATE TABLE nut_data(
-  food_id BIGINT NOT NULL,
+  food_id INT NOT NULL,
   nutr_id INT NOT NULL,
   nutr_val float,
   -- TODO: data_src_id as composite key?
@@ -127,13 +127,13 @@ CREATE TABLE nut_data(
 -- Servings
 ------------------------------
 CREATE TABLE serving_id(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   msre_desc VARCHAR(200) NOT NULL,
   UNIQUE(msre_desc)
 );
 CREATE TABLE servings(
-  food_id BIGINT NOT NULL,
-  msre_id BIGINT NOT NULL,
+  food_id INT NOT NULL,
+  msre_id INT NOT NULL,
   grams float NOT NULL,
   PRIMARY KEY(food_id, msre_id),
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE,
@@ -163,7 +163,7 @@ CREATE TABLE rda(
 -- Custom recipes
 ------------------------------
 CREATE TABLE recipe_des(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   recipe_name VARCHAR(300) NOT NULL,
   user_id INT NOT NULL,
   -- publicly shared ?
@@ -172,10 +172,10 @@ CREATE TABLE recipe_des(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 CREATE TABLE recipe_dat(
-  recipe_id BIGINT NOT NULL,
-  food_id BIGINT NOT NULL,
+  recipe_id INT NOT NULL,
+  food_id INT NOT NULL,
   -- msre_id == (NULL || 0) ==> grams
-  msre_id BIGINT,
+  msre_id INT,
   amount float NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (recipe_id, food_id),
@@ -184,14 +184,14 @@ CREATE TABLE recipe_dat(
 );
 -- Recipe Portions
 CREATE TABLE portion_id (
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   portion_desc VARCHAR(200) NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(portion_desc)
 );
 CREATE TABLE portions(
-  recipe_id BIGINT NOT NULL,
-  portion_id BIGINT NOT NULL,
+  recipe_id INT NOT NULL,
+  portion_id INT NOT NULL,
   percentage float NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY(recipe_id, portion_id),
@@ -204,7 +204,7 @@ CREATE TABLE portions(
 ------------------------------
 -- TODO: Tag pairing data
 CREATE TABLE tag_id(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   tag_desc VARCHAR(200) NOT NULL,
   shared BOOLEAN DEFAULT TRUE NOT NULL,
   approved BOOLEAN DEFAULT FALSE NOT NULL,
@@ -212,8 +212,8 @@ CREATE TABLE tag_id(
   UNIQUE(tag_desc)
 );
 CREATE TABLE tags(
-  food_id BIGINT NOT NULL,
-  tag_id BIGINT NOT NULL,
+  food_id INT NOT NULL,
+  tag_id INT NOT NULL,
   user_id INT NOT NULL,
   -- votes, approved?
   created_at INT DEFAULT extract(epoch FROM NOW()),
@@ -228,7 +228,7 @@ CREATE TABLE tags(
 ------------------------------
 CREATE TABLE favorite_foods(
   user_id INT NOT NULL,
-  food_id BIGINT NOT NULL,
+  food_id INT NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY(user_id, food_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
@@ -239,14 +239,14 @@ CREATE TABLE favorite_foods(
 -- Food logs
 ------------------------------
 CREATE TABLE food_logs(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   eat_on_date DATE NOT NULL,
   meal_name VARCHAR(20) NOT NULL,
   amount float NOT NULL,
-  msre_id BIGINT,
-  recipe_id BIGINT,
-  food_id BIGINT,
+  msre_id INT,
+  recipe_id INT,
+  food_id INT,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (msre_id) REFERENCES serving_id(id) ON UPDATE CASCADE,
@@ -258,7 +258,7 @@ CREATE TABLE food_logs(
 -- Exercises
 ------------------------------
 CREATE TABLE exercises(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   exercise_name VARCHAR(300) NOT NULL,
   user_id INT,
   shared BOOLEAN NOT NULL DEFAULT TRUE,
@@ -269,9 +269,9 @@ CREATE TABLE exercises(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 CREATE TABLE exercise_logs(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  exercise_id BIGINT NOT NULL,
+  exercise_id INT NOT NULL,
   date DATE NOT NULL,
   reps INT,
   weight INT,
@@ -354,7 +354,7 @@ CREATE TABLE order_items(
 
 -- Product reviews
 CREATE TABLE reviews(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   product_id VARCHAR(255) NOT NULL,
   rating SMALLINT NOT NULL,
@@ -377,7 +377,7 @@ CREATE TABLE views(
 );
 -- Cart
 CREATE TABLE cart(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   product_id VARCHAR(255) NOT NULL,
   quanity SMALLINT NOT NULL,
@@ -396,7 +396,7 @@ CREATE TABLE cart(
 -- Biometrics
 ------------------------------
 CREATE TABLE biometrics(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT,
   biometric_name VARCHAR(200) NOT NULL,
   units VARCHAR(400) NOT NULL,
@@ -404,9 +404,9 @@ CREATE TABLE biometrics(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 CREATE TABLE biometric_logs(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  biometric_id BIGINT NOT NULL,
+  biometric_id INT NOT NULL,
   timestamp TIMESTAMP NOT NULL,
   bio_val float NOT NULL,
   unit VARCHAR(40) NOT NULL,
