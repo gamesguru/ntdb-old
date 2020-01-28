@@ -346,6 +346,8 @@ CREATE TABLE orders(
 CREATE TABLE order_items(
   order_id INT NOT NULL,
   product_id VARCHAR(100) NOT NULL,
+  quanity SMALLINT NOT NULL,
+  UNIQUE(order_id, product_id),
   FOREIGN KEY (order_id) REFERENCES orders(id) ON UPDATE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
 );
