@@ -45,7 +45,7 @@ FROM
   reviews AS rv
   INNER JOIN users AS u ON rv.user_id = u.id
 WHERE
-  rv.stripe_product_id = product_id $$ LANGUAGE SQL;
+  rv.product_id = product_id $$ LANGUAGE SQL;
 --
 --
 --++++++++++++++++++++++++++++
