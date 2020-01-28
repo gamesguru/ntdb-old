@@ -289,30 +289,14 @@ FROM
 -- Get user favorite foods
 --
 CREATE
-OR REPLACE FUNCTION get_favorite_foods_for_user(user_id_in int) RETURNS TABLE(
-  food_id bigint, long_desc varchar,
-  is_custom boolean
+OR REPLACE FUNCTION get_user_favorite_foods(user_id_in INT) RETURNS TABLE(
+  food_id BIGINT, long_desc VARCHAR
 ) AS $$
 SELECT
-  DISTINCT food_id,
-  long_desc,
-  is_custom
+  food_id,
+  fdes.long_desc
 FROM
-  (
-    SELECT
-      fav.food_id,
-      desf.long_desc as long_desc,
-      false as is_custom
-    FROM
-      favorite_foods fav
-      LEFT JOIN food_des desf ON desf.id = fav.food_id
-    WHERE
-      fav.user_id = user_id_in
-    UNION ALL
-    SELECT
-      id,
-      long_desc,
-      true as is_custom
-    FROM
-      food_des des
-  ) all_favs $$ LANGUAGE SQL;
+  favorite_foods ff
+  INNER JOIN food_des fdes ON fdes.id = ff.food_id
+WHERE
+  ff.user_id = user_id_in $$ LANGUAGE SQL;
