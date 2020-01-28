@@ -318,7 +318,6 @@ CREATE TABLE reports(
 CREATE TABLE products(
   id VARCHAR(255) PRIMARY KEY,
   name VARCHAR(300) NOT NULL,
-  image VARCHAR(500) NOT NULL,
   price_min SMALLINT NOT NULL,
   price_max SMALLINT NOT NULL,
   shippable BOOLEAN NOT NULL,
@@ -329,7 +328,6 @@ CREATE TABLE skus(
   id VARCHAR(255) PRIMARY KEY,
   product_id VARCHAR(255) NOT NULL,
   name VARCHAR(300) NOT NULL,
-  image VARCHAR(500) NOT NULL,
   price SMALLINT NOT NULL,
   inventory_stock SMALLINT NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
