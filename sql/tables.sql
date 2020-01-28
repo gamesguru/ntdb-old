@@ -312,6 +312,29 @@ CREATE TABLE reports(
 -- SHOP
 --++++++++++++++++++++++++++++
 
+-- Products
+CREATE TABLE products(
+  id VARCHAR(100) PRIMARY KEY,
+  name VARCHAR(300) NOT NULL,
+  image VARCHAR(500) NOT NULL,
+  price_min SMALLINT NOT NULL,
+  price_max SMALLINT NOT NULL,
+  shippable BOOLEAN NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW())
+);
+-- SKUs
+CREATE TABLE skus(
+  id VARCHAR(100) PRIMARY KEY,
+  product_id VARCHAR(100) NOT NULL,
+  name VARCHAR(300) NOT NULL,
+  image VARCHAR(500) NOT NULL,
+  price SMALLINT NOT NULL,
+  shippable BOOLEAN NOT NULL,
+  inventory_stock SMALLINT NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
+);
+
 -- Product orders
 CREATE TABLE orders(
   id VARCHAR(300) PRIMARY KEY,
