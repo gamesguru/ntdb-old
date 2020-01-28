@@ -1,33 +1,33 @@
 -- nutra-db, a database for nutratracker clients
 -- Copyright (C) 2020  Nutra, LLC. [Shane & Kyle] <nutratracker@gmail.com>
-
+--
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
 -- the Free Software Foundation, either version 3 of the License, or
 -- (at your option) any later version.
-
+---
 -- This program is distributed in the hope that it will be useful,
 -- but WITHOUT ANY WARRANTY; without even the implied warranty of
 -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 -- GNU General Public License for more details.
-
+--
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
+--
+--
 ------------------------
 -- init schemas
 ------------------------
 DROP SCHEMA nt CASCADE;
 CREATE SCHEMA nt;
 SET search_path TO nt;
-
-
+--
+--
 --++++++++++++++++++++++++++++
 --++++++++++++++++++++++++++++
 -- Main users table
 --++++++++++++++++++++++++++++
-
+--
 CREATE TABLE users(
   id SERIAL PRIMARY KEY,
   username VARCHAR(18) NOT NULL,
@@ -57,13 +57,13 @@ CREATE TABLE users(
   UNIQUE(email),
   UNIQUE(unverified_email)
 );
-
-
+--
+--
 --++++++++++++++++++++++++++++
 --++++++++++++++++++++++++++++
 -- USDA SR Database
 --++++++++++++++++++++++++++++
-
+--
 ---------------------------
 -- Nutrient definitions
 ---------------------------
@@ -79,7 +79,7 @@ CREATE TABLE nutr_def(
   UNIQUE (tagname)
   -- FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
-
+--
 ---------------------------
 -- Food groups
 ---------------------------
@@ -88,7 +88,7 @@ CREATE TABLE fdgrp(
   fdgrp_desc VARCHAR(200),
   UNIQUE(fdgrp_desc)
 );
-
+--
 ---------------------------
 -- Food names
 ---------------------------
@@ -109,7 +109,7 @@ CREATE TABLE food_des(
   -- UNIQUE(gtin_UPC),
   FOREIGN KEY (fdgrp_id) REFERENCES fdgrp (id) ON UPDATE CASCADE
 );
-
+--
 ---------------------------
 -- Food-Nutrient data
 ---------------------------
@@ -122,7 +122,7 @@ CREATE TABLE nut_data(
   FOREIGN KEY (food_id) REFERENCES food_des (id) ON UPDATE CASCADE,
   FOREIGN KEY (nutr_id) REFERENCES nutr_def (id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Servings
 ------------------------------
@@ -139,13 +139,13 @@ CREATE TABLE servings(
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE,
   FOREIGN KEY (msre_id) REFERENCES serving_id(id) ON UPDATE CASCADE
 );
-
-
+--
+--
 --++++++++++++++++++++++++++++
 --++++++++++++++++++++++++++++
 -- Users Database
 --++++++++++++++++++++++++++++
-
+--
 ------------------------------
 -- Custom RDAs
 ------------------------------
@@ -158,7 +158,7 @@ CREATE TABLE rda(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (nutr_id) REFERENCES nutr_def(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Custom recipes
 ------------------------------
@@ -198,7 +198,7 @@ CREATE TABLE portions(
   FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE,
   FOREIGN KEY (portion_id) REFERENCES portion_id(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 --  Custom Food Tags
 ------------------------------
@@ -222,7 +222,7 @@ CREATE TABLE tags(
   FOREIGN KEY (tag_id) REFERENCES tag_id (id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Favorite foods
 ------------------------------
@@ -234,7 +234,7 @@ CREATE TABLE favorite_foods(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Food logs
 ------------------------------
@@ -253,7 +253,7 @@ CREATE TABLE food_logs(
   FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE,
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Exercises
 ------------------------------
@@ -280,7 +280,7 @@ CREATE TABLE exercise_logs(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Trainer Roles
 ------------------------------
@@ -305,14 +305,16 @@ CREATE TABLE reports(
   PRIMARY KEY(user_id, created_at),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
-
-
+--
+--
 ------------------------------
 --++++++++++++++++++++++++++++
 -- SHOP
 --++++++++++++++++++++++++++++
-
+--
+------------------------------
 -- Products
+------------------------------
 CREATE TABLE products(
   id VARCHAR(255) PRIMARY KEY,
   name VARCHAR(300) NOT NULL,
@@ -333,8 +335,20 @@ CREATE TABLE skus(
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
 );
-
--- Product orders
+-- Reviews
+CREATE TABLE reviews(
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  product_id VARCHAR(255) NOT NULL,
+  rating SMALLINT NOT NULL,
+  review_text VARCHAR(2000) NOT NULL,
+  -- timestamp TIMESTAMP DEFAULT NOW() NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  UNIQUE(user_id, product_id),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+);
+-- Orders
 CREATE TABLE orders(
   id INT PRIMARY KEY,
   user_id INT NOT NULL,
@@ -350,22 +364,7 @@ CREATE TABLE order_items(
   FOREIGN KEY (order_id) REFERENCES orders(id) ON UPDATE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
 );
-
-
--- Product reviews
-CREATE TABLE reviews(
-  id SERIAL PRIMARY KEY,
-  user_id INT NOT NULL,
-  product_id VARCHAR(255) NOT NULL,
-  rating SMALLINT NOT NULL,
-  review_text VARCHAR(2000) NOT NULL,
-  -- timestamp TIMESTAMP DEFAULT NOW() NOT NULL,
-  created_at INT DEFAULT extract(epoch FROM NOW()),
-  UNIQUE(user_id, product_id),
-  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
-);
--- Product views
+-- Views (products)
 CREATE TABLE views(
   user_id INT NOT NULL,
   product_id VARCHAR(255) NOT NULL,
@@ -375,7 +374,9 @@ CREATE TABLE views(
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
+------------------------------
 -- Cart
+------------------------------
 CREATE TABLE cart(
   id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
@@ -386,12 +387,12 @@ CREATE TABLE cart(
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 --++++++++++++++++++++++++++++
 -- IN PROGRESS
 --++++++++++++++++++++++++++++
-
+--
 ------------------------------
 -- Biometrics
 ------------------------------
@@ -414,7 +415,7 @@ CREATE TABLE biometric_logs(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (biometric_id) REFERENCES biometrics(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Scratchpad
 ------------------------------
