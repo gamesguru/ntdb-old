@@ -314,7 +314,7 @@ CREATE TABLE reports(
 
 -- Products
 CREATE TABLE products(
-  id VARCHAR(100) PRIMARY KEY,
+  id VARCHAR(255) PRIMARY KEY,
   name VARCHAR(300) NOT NULL,
   image VARCHAR(500) NOT NULL,
   price_min SMALLINT NOT NULL,
@@ -324,7 +324,7 @@ CREATE TABLE products(
 );
 -- SKUs
 CREATE TABLE skus(
-  id VARCHAR(100) PRIMARY KEY,
+  id VARCHAR(255) PRIMARY KEY,
   product_id VARCHAR(100) NOT NULL,
   name VARCHAR(300) NOT NULL,
   image VARCHAR(500) NOT NULL,
@@ -347,31 +347,34 @@ CREATE TABLE orders(
 CREATE TABLE reviews(
   id BIGSERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  stripe_product_id VARCHAR(255) NOT NULL,
+  product_id VARCHAR(255) NOT NULL,
   rating SMALLINT NOT NULL,
   review_text VARCHAR(2000) NOT NULL,
   -- timestamp TIMESTAMP DEFAULT NOW() NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  UNIQUE(user_id, stripe_product_id),
+  UNIQUE(user_id, product_id),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 -- Product views
 CREATE TABLE views(
   user_id INT NOT NULL,
-  stripe_product_id VARCHAR(255) NOT NULL,
+  product_id VARCHAR(255) NOT NULL,
   -- date DATE DEFAULT NOW() NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  PRIMARY KEY (user_id, stripe_product_id),
+  PRIMARY KEY (user_id, product_id),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 -- Cart
 CREATE TABLE cart(
   id BIGSERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  stripe_product_id VARCHAR(255) NOT NULL,
+  product_id VARCHAR(255) NOT NULL,
   quanity SMALLINT NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  UNIQUE(user_id, stripe_product_id),
+  UNIQUE(user_id, product_id),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 
