@@ -35,7 +35,7 @@ done
 # Set serial maxes
 # ------------------------------
 # TODO: add remaining indexed "itables"
-declare -a itables=("users")
+declare -a itables=("users" "food_des" "serving_id" "recipe_des" "portion_id" "tag_id" "food_logs" "exercises" "exercise_logs" "reviews" "cart" "biometrics" "biometric_logs")
 for table in "${itables[@]}"
 do
   echo $table
