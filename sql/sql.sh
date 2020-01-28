@@ -3,6 +3,7 @@
 cd "$(dirname "$0")"
 source .env
 
+
 # Init db (not required every time)
 sudo chown -R $LOGNAME:$LOGNAME /var/run/postgresql
 pg_ctl initdb -D $PSQL_LOCAL_DB_DIR -l $PSQL_LOCAL_DB_DIR/postgreslogfile || true
