@@ -32,30 +32,48 @@ CREATE TABLE users(
   id SERIAL PRIMARY KEY,
   username VARCHAR(18) NOT NULL,
   passwd VARCHAR(300) NOT NULL,
-  unverified_email VARCHAR(140),
-  email VARCHAR(140),
-  email_token_activate VARCHAR(200),
-  email_token_pw_reset VARCHAR(200),
-  -- Need to discuss necessity of below fields
-  accept_eula BOOLEAN NOT NULL DEFAULT FALSE,
   stripe_id VARCHAR(200) NOT NULL,
   certified_beta_tester BOOLEAN DEFAULT FALSE,
   certified_beta_trainer_tester BOOLEAN DEFAULT FALSE,
+  accept_eula BOOLEAN NOT NULL DEFAULT FALSE,
   passed_onboarding_tutorial BOOLEAN DEFAULT FALSE,
   gender VARCHAR(20),
-  name VARCHAR(90),
+  name_first VARCHAR(90),
+  name_last VARCHAR(90),
   dob DATE,
   height SMALLINT,
   height_units VARCHAR(2),
   weight SMALLINT,
-  weight_units VARCHAR(3),
+  weight_units VARCHAR(2),
   activity_level SMALLINT,
   weight_goal SMALLINT,
   bmr_equation SMALLINT,
   bodyfat_method SMALLINT,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(username),
+  UNIQUE(passwd),
+  UNIQUE(stripe_id)
+);
+--
+CREATE TABLE emails(
+  email VARCHAR(140) NOT NULL,
+  user_id INT NOT NULL,
+  activated BOOLEAN DEFAULT FALSE,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(email),
-  UNIQUE(unverified_email)
+  UNIQUE(user_id),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+);
+--
+CREATE TABLE tokens(
+  token VARCHAR(200) NOT NULL,
+  user_id INT NOT NULL,
+  -- email_token_activate
+  -- email_token_pw_reset
+  type VARCHAR(30) NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  UNIQUE(token),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 --
 --

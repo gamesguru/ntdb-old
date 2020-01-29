@@ -80,15 +80,15 @@ GROUP BY
 -- 1.e
 -- Place order
 --
-CREATE
-OR REPLACE FUNCTION post_order(trainer_id_in INT) RETURNS TABLE(user_id int, username varchar) AS $$
-SELECT
-  usr.id,
-  usr.username
-FROM users usr
-LEFT JOIN trainer_users tusr ON tusr.user_id = usr.id
-WHERE
-  tusr.trainer_id = trainer_id_in $$ LANGUAGE SQL;
+-- CREATE
+-- OR REPLACE FUNCTION post_order(trainer_id_in INT) RETURNS TABLE(user_id int, username varchar) AS $$
+-- SELECT
+--   usr.id,
+--   usr.username
+-- FROM users usr
+-- LEFT JOIN trainer_users tusr ON tusr.user_id = usr.id
+-- WHERE
+--   tusr.trainer_id = trainer_id_in $$ LANGUAGE SQL;
 --
 --
 --++++++++++++++++++++++++++++
@@ -233,68 +233,68 @@ ORDER BY
 -- 2.e
 -- Search food names --> {food_id, long_desc}
 --
-CREATE
-OR REPLACE FUNCTION search_foods_by_name(
-  ts_search_expression VARCHAR, like_search_expression VARCHAR
-) RETURNS TABLE(
-  food_id INT, fdgrp_desc VARCHAR,
-  long_desc VARCHAR, score REAL
-) AS $$
-SELECT
-  fdes.id,
-  fgrp.fdgrp_desc AS fdgrp_desc,
-  long_desc,
-  ts_rank_cd(
-    textsearch_desc,
-    to_tsquery(ts_search_expression)
-  ) score
-FROM
-  food_des AS fdes
-  INNER JOIN fdgrp AS fgrp ON fgrp.id = fdes.fdgrp_id
-WHERE
-  textsearch_desc @@ to_tsquery(ts_search_expression)
-ORDER BY
-  score DESC;
-$$ LANGUAGE SQL;
+-- CREATE
+-- OR REPLACE FUNCTION search_foods_by_name(
+--   ts_search_expression VARCHAR, like_search_expression VARCHAR
+-- ) RETURNS TABLE(
+--   food_id INT, fdgrp_desc VARCHAR,
+--   long_desc VARCHAR, score REAL
+-- ) AS $$
+-- SELECT
+--   fdes.id,
+--   fgrp.fdgrp_desc AS fdgrp_desc,
+--   long_desc,
+--   ts_rank_cd(
+--     textsearch_desc,
+--     to_tsquery(ts_search_expression)
+--   ) score
+-- FROM
+--   food_des AS fdes
+--   INNER JOIN fdgrp AS fgrp ON fgrp.id = fdes.fdgrp_id
+-- WHERE
+--   textsearch_desc @@ to_tsquery(ts_search_expression)
+-- ORDER BY
+--   score DESC;
+-- $$ LANGUAGE SQL;
 --
 --
 --
 -- 2.f
 -- Search food names --> [ALL NUTRIENTS]
 --
-CREATE
-OR REPLACE FUNCTION search_foods_by_name_with_nutrients(search_expression varchar) RETURNS TABLE(
-  food_id INT, fdgrp_id INT, long_desc VARCHAR,
-  nutrients JSON, score REAL
-) AS $$
-SELECT
-  des.id,
-  fdgrp_id,
-  long_desc,
-  json_agg(
-    json_build_object(
-      'nutr_id', val.nutr_id, 'nutr_desc',
-      nutr_desc, 'tagname', tagname, 'nutr_val',
-      nutr_val, 'units', units
-    )
-  ) as nutrients,
-  ts_rank_cd(
-    textsearch_desc,
-    to_tsquery(search_expression)
-  ) score
-FROM
-  food_des des
-  LEFT JOIN nut_data val ON val.food_id = des.id
-  LEFT JOIN nutr_def def ON def.id = val.nutr_id
-WHERE
-  textsearch_desc @@ to_tsquery(search_expression)
-GROUP BY
-  des.id,
-  long_desc,
-  score
-ORDER BY
-  score DESC;
-$$ LANGUAGE SQL;
+-- CREATE
+-- OR REPLACE FUNCTION search_foods_by_name_with_nutrients(search_expression varchar) RETURNS TABLE(
+--   food_id INT, fdgrp_id INT, long_desc VARCHAR,
+--   nutrients JSON, score REAL
+-- ) AS $$
+-- SELECT
+--   des.id,
+--   fdgrp_id,
+--   long_desc,
+--   json_agg(
+--     json_build_object(
+--       'nutr_id', val.nutr_id, 'nutr_desc',
+--       nutr_desc, 'tagname', tagname, 'nutr_val',
+--       nutr_val, 'units', units
+--     )
+--   ) as nutrients,
+--   ts_rank_cd(
+--     textsearch_desc,
+--     to_tsquery(search_expression)
+--   ) score
+-- FROM
+--   food_des des
+--   LEFT JOIN nut_data val ON val.food_id = des.id
+--   LEFT JOIN nutr_def def ON def.id = val.nutr_id
+-- WHERE
+--   textsearch_desc @@ to_tsquery(search_expression)
+-- GROUP BY
+--   des.id,
+--   long_desc,
+--   score
+-- ORDER BY
+--   score DESC;
+-- $$ LANGUAGE SQL;
 --
 --
 --++++++++++++++++++++++++++++
