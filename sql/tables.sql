@@ -135,7 +135,6 @@ CREATE TABLE nutr_def(
   -- shared BOOLEAN NOT NULL,
   -- weighting?
   UNIQUE (tagname)
-  -- FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 --
 ---------------------------

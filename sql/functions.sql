@@ -180,8 +180,7 @@ GROUP BY
 --
 CREATE
 OR REPLACE FUNCTION get_food_servings(food_id_in INT) RETURNS TABLE(
-  msre_id INT, msre_desc VARCHAR,
-  grams REAL
+  msre_id INT, msre_desc VARCHAR, grams REAL
 ) AS $$
 SELECT
   serv.msre_id,
@@ -202,8 +201,8 @@ CREATE
 OR REPLACE FUNCTION get_foods_by_food_id(
   food_id_in INT[], fdgrp_id_in INT[]
 ) RETURNS TABLE(
-  food_id INT, fdgrp_desc VARCHAR,
-  long_desc VARCHAR, manufacturer VARCHAR
+  food_id INT, fdgrp_desc VARCHAR, long_desc VARCHAR,
+  manufacturer VARCHAR
 ) AS $$
 SELECT
   des.id,
@@ -366,8 +365,9 @@ OR REPLACE FUNCTION get_trainer_users(trainer_id_in INT) RETURNS TABLE(user_id i
 SELECT
   usr.id,
   usr.username
-FROM users usr
-LEFT JOIN trainer_users tusr ON tusr.user_id = usr.id
+FROM
+  users usr
+  LEFT JOIN trainer_users tusr ON tusr.user_id = usr.id
 WHERE
   tusr.trainer_id = trainer_id_in $$ LANGUAGE SQL;
 --
