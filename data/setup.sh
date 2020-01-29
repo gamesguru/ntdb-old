@@ -70,9 +70,6 @@ rm DATSRCLN.csv
 rm FD_GROUP.csv
 rm FLAV_IND.csv
 rm FOOD_DES.csv
-rm Food_Des_CR.csv
-rm Nut_Val_CR.csv
-rm SRCLink.csv
 mv FLAV_DAT.csv NUT_DATA.csv
 
 cd ../isoflav
