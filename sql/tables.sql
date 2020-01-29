@@ -89,6 +89,13 @@ CREATE TABLE countries(
   "intermediate-region-code" DECIMAL,
   UNIQUE(alpha3)
 );
+CREATE TABLE states(
+  abbrev VARCHAR(3) PRIMARY KEY,
+  country_code VARCHAR(3) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  type VARCHAR(40),
+  FOREIGN KEY (country_code) REFERENCES countries (alpha3)
+);
 CREATE TABLE addresses(
   id SERIAL PRIMARY KEY,
   name_first VARCHAR(90) NOT NULL,
