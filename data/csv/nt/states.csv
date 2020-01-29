@@ -58,11 +58,11 @@ MP,USA,Northern Mariana Islands,territory
 PW,USA,Palau,territory
 PR,USA,Puerto Rico,territory
 VI,USA,Virgin Islands,territory
-AE,USA,Armed Forces Africa,military
-AA,USA,Armed Forces Americas,military
-AE,USA,Armed Forces Canada,military
+AAF,USA,Armed Forces Africa,military
+AAM,USA,Armed Forces Americas,military
+AC,USA,Armed Forces Canada,military
 AE,USA,Armed Forces Europe,military
-AE,USA,Armed Forces Middle East,military
+AME,USA,Armed Forces Middle East,military
 AP,USA,Armed Forces Pacific,military
 AB,CAN,Alberta,
 BC,CAN,British Columbia,
