@@ -334,12 +334,15 @@ WHERE
 --
 CREATE
 OR REPLACE FUNCTION get_user_tokens(user_id_in INT) RETURNS TABLE(
-  user_id INT, token VARCHAR, token_type VARCHAR
+  user_id INT, username VARCHAR, token VARCHAR,
+  token_type VARCHAR, created_at INT
 ) AS $$
 SELECT
   usr.id,
+  usr.username,
   tkn.token,
-  tkn.type
+  tkn.type,
+  tkn.created_at
 FROM
   users usr
   INNER JOIN tokens tkn ON tkn.user_id = usr.id
