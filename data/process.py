@@ -23,8 +23,9 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 os.makedirs("csv/nt", 0o755, True)
 
 
-#
-# Input --> Output (dict)
+# --------------------
+# io dict
+# --------------------
 output_files = {
     "csv/usda/FD_GROUP.csv": "csv/nt/fdgrp.csv",
     # "csv/usda/FOOD_DES.csv": "csv/nt/food_des.csv",
@@ -39,23 +40,30 @@ special_interests_dirs = [
     "csv/usda/flav",
 ]
 
-#
-# Recommanded daily allowances
+# --------------------
+# RDAs
+# --------------------
 rdas = {"Nutr_no": ("rda", "tagname")}
-
 with open("csv/RDA.csv") as file:
     reader = csv.reader(file)
     for row in reader:
         rdas[row[0]] = row[1], row[3]
 
 
+"""
+# --------------------
+# main method
+# --------------------
+"""
+
+
 def main(args):
     """ Processes the USDA data to get ready for ntdb """
 
+    # -----------------
+    # Process USDA csv
+    # -----------------
     print("==> Process CSV")
-
-    #
-    # Process main USDA csv files
     for fname in output_files:
         print(fname)
 
@@ -74,8 +82,9 @@ def main(args):
         else:
             process(rows, fname)
 
-    #
-    # Process Special Interests (flav, isoflav, proanth)
+    # -----------------------------------------------------
+    # Special Interests DBs (flav, isoflav, proanth)
+    # -----------------------------------------------------
     process_special_interests_dirs()
 
 
@@ -112,6 +121,11 @@ def process_row(row, fname):
         pass
 
     return row
+
+
+# -----------------
+# Weight
+# -----------------
 
 
 def process_weight(rows, fname):
@@ -163,11 +177,17 @@ def process_weight(rows, fname):
         writer.writerows(servings)
 
 
+# -----------------
+# Special interests
+# -----------------
+
+
 def process_special_interests_dirs():
     """ Processes flav, isoflav, and proanth "special interests" databases """
 
-    #
-    # Read in existing data
+    # --------------------
+    # Read existing data
+    # --------------------
     nut_data_rows = []
     nutr_def_rows = []
     with open("csv/nt/nut_data.csv") as file:
@@ -180,8 +200,9 @@ def process_special_interests_dirs():
         for row in reader:
             nutr_def_rows.append(row)
 
-    #
+    # --------------------
     # Add to it
+    # --------------------
     for dir in special_interests_dirs:
 
         # nut_data_si_rows = []

@@ -24,16 +24,20 @@ cd "$(dirname "$0")"
 mkdir -p tmp
 cd tmp
 
-#
+
+# -----------------
 # Download and unzip
+# -----------------
 curl -O "https://www.ars.usda.gov/ARSUserFiles/80400525/Data/SR-Legacy/SR-Leg_DB.zip"
 unzip SR-Leg_DB.zip SR_Legacy.accdb
 curl -L "https://www.ars.usda.gov/ARSUserFiles/80400525/Data/Flav/Flav_R03-2.accdb" -o Flav_R03-3.accdb
 curl -L "https://www.ars.usda.gov/ARSUserFiles/80400525/Data/isoflav/Isoflav_R2-1.accdb" -o Isoflav_R2-1.accdb
 curl -L "https://www.ars.usda.gov/ARSUserFiles/80400525/Data/PA/PA02.accdb" -o PA02.accdb
 
-#
+
+# -----------------
 # Run access2csv
+# -----------------
 git clone git@github.com:AccelerationNet/access2csv.git
 
 cd access2csv
@@ -44,15 +48,19 @@ mvn clean install -Dmaven.test.skip=true
 ./access2csv --input ../PA02.accdb --output ../usda/proanth --with-header
 cd ..
 
-#
+
+# -----------------
 # Move to permanent home
+# -----------------
 mkdir -p ../csv
 cd ../csv
 rm -rf usda
 mv ../tmp/usda .
 
-#
+
+# -----------------
 # Clean up
+# -----------------
 rm -rf ../tmp
 cd usda
 
