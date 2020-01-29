@@ -60,7 +60,7 @@ CREATE TABLE emails(
   user_id INT NOT NULL,
   activated BOOLEAN DEFAULT FALSE,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  UNIQUE(user_id),
+  UNIQUE(user_id, activated),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 --
