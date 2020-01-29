@@ -30,8 +30,8 @@ SET search_path TO nt;
 --
 CREATE TABLE users(
   id SERIAL PRIMARY KEY,
-  username VARCHAR(18) NOT NULL,
-  passwd VARCHAR(300) NOT NULL,
+  username VARCHAR(18),
+  passwd VARCHAR(300),
   stripe_id VARCHAR(200) NOT NULL,
   certified_beta_tester BOOLEAN DEFAULT FALSE,
   certified_beta_trainer_tester BOOLEAN DEFAULT FALSE,
@@ -74,6 +74,28 @@ CREATE TABLE tokens(
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(token),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+);
+CREATE TABLE countries(
+  name VARCHAR NOT NULL,
+  alpha2 VARCHAR,
+  alpha3 VARCHAR NOT NULL,
+  "country-code" DECIMAL NOT NULL,
+  "iso_3166-2" VARCHAR NOT NULL,
+  region VARCHAR,
+  "sub-region" VARCHAR,
+  "intermediate-region" VARCHAR,
+  "region-code" DECIMAL,
+  "sub-region-code" DECIMAL,
+  "intermediate-region-code" DECIMAL,
+  UNIQUE(alpha3)
+);
+CREATE TABLE addresses(
+  id SERIAL PRIMARY KEY,
+  name_first VARCHAR(90) NOT NULL,
+  name_last VARCHAR(90) NOT NULL,
+  company_name VARCHAR(255),
+  country_code VARCHAR(3),
+  FOREIGN KEY (country_code) REFERENCES countries (alpha3)
 );
 --
 --
