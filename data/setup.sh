@@ -28,9 +28,9 @@ cd tmp
 # Download and unzip
 curl -O "https://www.ars.usda.gov/ARSUserFiles/80400525/Data/SR-Legacy/SR-Leg_DB.zip"
 unzip SR-Leg_DB.zip SR_Legacy.accdb
-curl -L "https://api.bitbucket.org/2.0/repositories/dasheenster/nutra-utils/downloads/Flav_R03-3.accdb" -o Flav_R03-3.accdb
-curl -L "https://api.bitbucket.org/2.0/repositories/dasheenster/nutra-utils/downloads/Isoflav_R2-1.accdb" -o Isoflav_R2-1.accdb
-curl -L "https://api.bitbucket.org/2.0/repositories/dasheenster/nutra-utils/downloads/PA02.accdb" -o PA02.accdb
+curl -L "https://www.ars.usda.gov/ARSUserFiles/80400525/Data/Flav/Flav_R03-2.accdb" -o Flav_R03-3.accdb
+curl -L "https://www.ars.usda.gov/ARSUserFiles/80400525/Data/isoflav/Isoflav_R2-1.accdb" -o Isoflav_R2-1.accdb
+curl -L "https://www.ars.usda.gov/ARSUserFiles/80400525/Data/PA/PA02.accdb" -o PA02.accdb
 
 #
 # Run access2csv
