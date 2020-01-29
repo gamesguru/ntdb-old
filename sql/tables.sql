@@ -25,18 +25,25 @@ SET search_path TO nt;
 --
 --++++++++++++++++++++++++++++
 --++++++++++++++++++++++++++++
--- Main users table
+-- Main users tables
 --++++++++++++++++++++++++++++
 --
 CREATE TABLE users(
   id SERIAL PRIMARY KEY,
+  accept_eula BOOLEAN NOT NULL DEFAULT FALSE,
+  passed_onboarding_tutorial BOOLEAN DEFAULT FALSE,
+  certified_beta_tester BOOLEAN DEFAULT FALSE,
+  certified_beta_trainer_tester BOOLEAN DEFAULT FALSE,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  UNIQUE(username),
+  UNIQUE(stripe_id)
+);
+-- Sensitive information
+CREATE TABLE user_extras(
+  id INT NOT NULL,
   username VARCHAR(18),
   passwd VARCHAR(300),
   stripe_id VARCHAR(200) NOT NULL,
-  certified_beta_tester BOOLEAN DEFAULT FALSE,
-  certified_beta_trainer_tester BOOLEAN DEFAULT FALSE,
-  accept_eula BOOLEAN NOT NULL DEFAULT FALSE,
-  passed_onboarding_tutorial BOOLEAN DEFAULT FALSE,
   gender VARCHAR(20),
   name_first VARCHAR(90),
   name_last VARCHAR(90),
@@ -49,12 +56,8 @@ CREATE TABLE users(
   weight_goal SMALLINT,
   bmr_equation SMALLINT,
   bodyfat_method SMALLINT,
-  created_at INT DEFAULT extract(epoch FROM NOW()),
-  UNIQUE(username),
-  UNIQUE(passwd),
-  UNIQUE(stripe_id)
+  FOREIGN KEY (id) REFERENCES users (id) ON UPDATE CASCADE
 );
---
 CREATE TABLE emails(
   email VARCHAR(140) PRIMARY KEY,
   user_id INT NOT NULL,
@@ -63,7 +66,6 @@ CREATE TABLE emails(
   UNIQUE(user_id, activated),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
---
 CREATE TABLE tokens(
   user_id INT NOT NULL,
   token VARCHAR(200) NOT NULL,
@@ -75,6 +77,9 @@ CREATE TABLE tokens(
   UNIQUE(user_id, type),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
+---------------------------
+-- Places and addresses
+---------------------------
 CREATE TABLE countries(
   name VARCHAR NOT NULL,
   alpha2 VARCHAR,
