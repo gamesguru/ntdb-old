@@ -317,14 +317,11 @@ CREATE TABLE food_logs(
 ------------------------------
 CREATE TABLE exercises(
   id SERIAL PRIMARY KEY,
-  exercise_name VARCHAR(300) NOT NULL,
-  user_id INT,
-  shared BOOLEAN NOT NULL DEFAULT TRUE,
+  name VARCHAR(300) NOT NULL,
   cals_per_rep REAL,
   cals_per_min REAL,
   -- TODO: data_src_id ?
-  created_at INT DEFAULT extract(epoch FROM NOW()),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+  created_at INT DEFAULT extract(epoch FROM NOW())
 );
 CREATE TABLE exercise_logs(
   id SERIAL PRIMARY KEY,
@@ -465,11 +462,9 @@ CREATE TABLE cart(
 ------------------------------
 CREATE TABLE biometrics(
   id SERIAL PRIMARY KEY,
-  user_id INT,
-  biometric_name VARCHAR(200) NOT NULL,
+  name VARCHAR(200) NOT NULL,
   units VARCHAR(400) NOT NULL,
-  created_at INT DEFAULT extract(epoch FROM NOW()),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+  created_at INT DEFAULT extract(epoch FROM NOW())
 );
 CREATE TABLE biometric_logs(
   id SERIAL PRIMARY KEY,

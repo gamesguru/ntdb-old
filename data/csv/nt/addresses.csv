@@ -1,1 +1,1 @@
-id,name_first,name_last,country_code,state,zip,phone,email
+id,user_id,company_name,street_address,apartment_unit,country_code,state,zip,name_first,name_last,phone,email

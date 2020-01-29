@@ -1,1 +1,21 @@
-id,user_id,biometric_name,units,created_at
+id,name,units,created_at
+1,Weight,"kg,lbs",1580336088
+2,Height,"cm,in",1580336088
+3,Pulse,bpm,1580336088
+4,Systolic Blood Pressure,mmHg,1580336088
+5,Diastolic Blood Pressure,mmHg,1580336088
+6,Blood Glucose,"mmol/L,mg/dL",1580336088
+7,Body Temperature,"C,F",1580336088
+8,Body Fat,%,1580336088
+9,Waist Size,"cm,in",1580336088
+10,Total Cholesterol,"mmol/L,mg/dL",1580336088
+11,LDL Cholesterol,"mmol/L,mg/dL",1580336088
+12,HDL Cholesterol,"mmol/L,mg/dL",1580336088
+13,Triglycerides,"mmol/L,mg/dL",1580336088
+14,Ketones (Blood),"mmol/L,mg/dL",1580336088
+15,Ketones (Urine),"mmol/L,mg/dL",1580336088
+16,Ketones (Breath),"mmol/L,mg/dL,ppm",1580336088
+17,Sleep,"min,hr",1580336088
+18,25-Hydroxy Vitamin D,"ng/mL,nmol/L",1580336088
+19,Ferritin,"ng/mL,pmol/L",1580336088
+20,Pulsewave Velocity,PWV,1580336088
