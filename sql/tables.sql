@@ -72,6 +72,7 @@ CREATE TABLE tokens(
   type VARCHAR(30) NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(token),
+  UNIQUE(user_id, type),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 CREATE TABLE countries(
