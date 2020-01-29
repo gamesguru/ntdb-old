@@ -93,8 +93,11 @@ CREATE TABLE addresses(
   id SERIAL PRIMARY KEY,
   name_first VARCHAR(90) NOT NULL,
   name_last VARCHAR(90) NOT NULL,
-  company_name VARCHAR(255),
-  country_code VARCHAR(3),
+  country_code VARCHAR(3) NOT NULL,
+  state VARCHAR(30) NOT NULL,
+  zip VARCHAR(20) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  email VARCHAR(20) NOT NULL,
   FOREIGN KEY (country_code) REFERENCES countries (alpha3)
 );
 --
@@ -388,16 +391,27 @@ CREATE TABLE reviews(
 );
 -- Orders
 CREATE TABLE orders(
-  id INT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
+  -- TODO: FKs?
+  shipping VARCHAR(100) NOT NULL,
+  shipping_price REAL NOT NULL,
+  payment_method VARCHAR(50) NOT NULL,
+  -- TODO: don't require inputting to DB
+  address_bill INT NOT NULL,
+  address_ship INT NOT NULL,
+  status VARCHAR(20) NOT NULL,
   tracking_num VARCHAR(200),
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  FOREIGN KEY (address_bill) REFERENCES addresses(id) ON UPDATE CASCADE,
+  FOREIGN KEY (address_ship) REFERENCES addresses(id) ON UPDATE CASCADE
 );
 CREATE TABLE order_items(
   order_id INT NOT NULL,
   product_id VARCHAR(255) NOT NULL,
   quanity SMALLINT NOT NULL,
+  price REAL NOT NULL,
   UNIQUE(order_id, product_id),
   FOREIGN KEY (order_id) REFERENCES orders(id) ON UPDATE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
