@@ -43,11 +43,11 @@ special_interests_dirs = [
 # --------------------
 # RDAs
 # --------------------
-rdas = {"Nutr_no": ("rda", "tagname")}
+rdas = {"nutr_no": ("rda", "tagname")}
 with open("csv/RDA.csv") as file:
     reader = csv.reader(file)
     for row in reader:
-        rdas[row[0]] = row[1], row[3]
+        rdas[row[0].lower()] = row[1], row[3]
 
 
 """
@@ -96,7 +96,7 @@ def process(rows, fname):
 
     # Write out new file
     with open(output_files[fname], "w+") as file:
-        writer = csv.writer(file)
+        writer = csv.writer(file, lineterminator='\n')
         writer.writerows(rows)
 
 
@@ -108,7 +108,7 @@ def process_row(row, fname):
 
     # Process row based on FILE_TYPE
     if bname == "NUTR_DEF.csv":
-        rda, tagname = rdas[row[0]]
+        rda, tagname = rdas[row[0].lower()]
         row = row[:4]
         row[2] = tagname
         row.insert(1, rda)
@@ -170,10 +170,10 @@ def process_weight(rows, fname):
 
     # Write serving_id and servings tables
     with open("csv/nt/serving_id.csv", "w+") as file:
-        writer = csv.writer(file)
+        writer = csv.writer(file, lineterminator='\n')
         writer.writerows(serving_id)
     with open("csv/nt/servings.csv", "w+") as file:
-        writer = csv.writer(file)
+        writer = csv.writer(file, lineterminator='\n')
         writer.writerows(servings)
 
 
@@ -211,7 +211,7 @@ def process_special_interests_dirs():
         with open(f"{dir}/NUTR_DEF.csv") as file:
             reader = csv.reader(file)
             for row in reader:
-                rda, tagname = rdas[row[0]]
+                rda, tagname = rdas[row[0].lower()]
                 row = row[:4]
                 row[2] = tagname
                 row.insert(1, rda)
