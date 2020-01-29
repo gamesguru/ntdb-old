@@ -370,3 +370,46 @@ FROM users usr
 LEFT JOIN trainer_users tusr ON tusr.user_id = usr.id
 WHERE
   tusr.trainer_id = trainer_id_in $$ LANGUAGE SQL;
+--
+--
+--
+-- 3.d
+-- Get user details
+--
+CREATE
+OR REPLACE FUNCTION get_user_details(user_id_in INT) RETURNS TABLE(
+  user_id INT, username VARCHAR, email VARCHAR,
+  email_activated BOOLEAN, accept_eula BOOLEAN,
+  stripe_id VARCHAR
+) AS $$
+SELECT
+  usr.id,
+  usr.username,
+  eml.email,
+  eml.activated,
+  usr.accept_eula,
+  usr.stripe_id
+FROM
+  users usr
+  INNER JOIN emails eml ON eml.user_id = usr.id
+WHERE
+  usr.id = user_id_in $$ LANGUAGE SQL;
+--
+--
+--
+-- 3.e
+-- Get user tokens
+--
+CREATE
+OR REPLACE FUNCTION get_user_tokens(user_id_in INT) RETURNS TABLE(
+  user_id INT, token VARCHAR, token_type VARCHAR
+) AS $$
+SELECT
+  usr.id,
+  tkn.token,
+  tkn.type
+FROM
+  users usr
+  INNER JOIN tokens tkn ON tkn.user_id = usr.id
+WHERE
+  usr.id = user_id_in $$ LANGUAGE SQL;
