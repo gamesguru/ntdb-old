@@ -56,12 +56,11 @@ CREATE TABLE users(
 );
 --
 CREATE TABLE emails(
+  email VARCHAR(140) PRIMARY KEY,
   user_id INT NOT NULL,
-  email VARCHAR(140) NOT NULL,
   activated BOOLEAN DEFAULT FALSE,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(user_id),
-  UNIQUE(email),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 --
@@ -78,7 +77,7 @@ CREATE TABLE tokens(
 CREATE TABLE countries(
   name VARCHAR NOT NULL,
   alpha2 VARCHAR,
-  alpha3 VARCHAR NOT NULL,
+  alpha3 VARCHAR PRIMARY KEY,
   "country-code" DECIMAL NOT NULL,
   "iso_3166-2" VARCHAR NOT NULL,
   region VARCHAR,
@@ -87,7 +86,7 @@ CREATE TABLE countries(
   "region-code" DECIMAL,
   "sub-region-code" DECIMAL,
   "intermediate-region-code" DECIMAL,
-  UNIQUE(alpha3)
+  UNIQUE(name)
 );
 CREATE TABLE states(
   abbrev VARCHAR(3) PRIMARY KEY,
