@@ -8,6 +8,10 @@
 *.zip
 *.tar.*
 
+# Our files
+.env*
+*.swp
+
 # Database folder and logfile
 data_tmp/
 nutra/

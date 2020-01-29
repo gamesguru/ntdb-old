@@ -1,0 +1,9 @@
+id,product_id,name,price,inventory_stock,created_at
+sku_GSjaLKuqEXiHpK,prod_GSjaZvuDArNUQ0,Basic Mouth Rinse,900,14,1580182757
+sku_GSjQP3PKz4Urem,prod_GSjQHpuy4eUBgh,Skin Lotion Plus,1800,9,1580182757
+sku_FMylWwUHRwDItd,prod_FMykocKGla0rEZ,Focus Formula (10 oz),4000,3,1580182757
+sku_FMykwJ0tYNSTqc,prod_FMykocKGla0rEZ,Focus Formula (2 oz),900,5,1580182757
+sku_F9tAlXLOaLPRoE,prod_F9tAjgt53kC2DO,T-Boost (2.5 oz),800,6,1580182757
+sku_F9tAHkEnZM8J6f,prod_F9tAjgt53kC2DO,T-Boost (10 oz),2500,3,1580182757
+sku_F9tA9Ez2UgIyRj,prod_F9t9QWJWt8Abz0,Relaxation Formula (2.5 oz),800,9,1580182757
+sku_F9t9xdkFMxINat,prod_F9t9QWJWt8Abz0,Relaxation Formula (10 oz),2500,10,1580182757

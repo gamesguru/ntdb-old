@@ -1,1 +1,1 @@
-id,user_id,stripe_product_id,quanity,created_at
+id,user_id,product_id,quanity,created_at

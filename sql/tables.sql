@@ -1,75 +1,125 @@
 -- nutra-db, a database for nutratracker clients
 -- Copyright (C) 2020  Nutra, LLC. [Shane & Kyle] <nutratracker@gmail.com>
-
+--
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
 -- the Free Software Foundation, either version 3 of the License, or
 -- (at your option) any later version.
-
+---
 -- This program is distributed in the hope that it will be useful,
 -- but WITHOUT ANY WARRANTY; without even the implied warranty of
 -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 -- GNU General Public License for more details.
-
+--
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
+--
+--
 ------------------------
 -- init schemas
 ------------------------
 DROP SCHEMA nt CASCADE;
 CREATE SCHEMA nt;
 SET search_path TO nt;
-
-
+--
+--
 --++++++++++++++++++++++++++++
 --++++++++++++++++++++++++++++
 -- Main users table
 --++++++++++++++++++++++++++++
-
+--
 CREATE TABLE users(
   id SERIAL PRIMARY KEY,
-  username VARCHAR(18) NOT NULL,
-  passwd VARCHAR(300) NOT NULL,
-  unverified_email VARCHAR(140),
-  email VARCHAR(140),
-  email_token_activate VARCHAR(200),
-  email_token_pw_reset VARCHAR(200),
-  -- Need to discuss necessity of below fields
-  accept_eula BOOLEAN NOT NULL DEFAULT FALSE,
+  username VARCHAR(18),
+  passwd VARCHAR(300),
   stripe_id VARCHAR(200) NOT NULL,
   certified_beta_tester BOOLEAN DEFAULT FALSE,
   certified_beta_trainer_tester BOOLEAN DEFAULT FALSE,
+  accept_eula BOOLEAN NOT NULL DEFAULT FALSE,
   passed_onboarding_tutorial BOOLEAN DEFAULT FALSE,
   gender VARCHAR(20),
-  name VARCHAR(90),
+  name_first VARCHAR(90),
+  name_last VARCHAR(90),
   dob DATE,
   height SMALLINT,
   height_units VARCHAR(2),
   weight SMALLINT,
-  weight_units VARCHAR(3),
+  weight_units VARCHAR(2),
   activity_level SMALLINT,
   weight_goal SMALLINT,
   bmr_equation SMALLINT,
   bodyfat_method SMALLINT,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(username),
-  UNIQUE(email),
-  UNIQUE(unverified_email)
+  UNIQUE(passwd),
+  UNIQUE(stripe_id)
 );
-
-
+--
+CREATE TABLE emails(
+  user_id INT NOT NULL,
+  email VARCHAR(140) NOT NULL,
+  activated BOOLEAN DEFAULT FALSE,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  UNIQUE(user_id),
+  UNIQUE(email),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+);
+--
+CREATE TABLE tokens(
+  user_id INT NOT NULL,
+  token VARCHAR(200) NOT NULL,
+  -- email_token_activate
+  -- email_token_pw_reset
+  type VARCHAR(30) NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  UNIQUE(token),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+);
+CREATE TABLE countries(
+  name VARCHAR NOT NULL,
+  alpha2 VARCHAR,
+  alpha3 VARCHAR NOT NULL,
+  "country-code" DECIMAL NOT NULL,
+  "iso_3166-2" VARCHAR NOT NULL,
+  region VARCHAR,
+  "sub-region" VARCHAR,
+  "intermediate-region" VARCHAR,
+  "region-code" DECIMAL,
+  "sub-region-code" DECIMAL,
+  "intermediate-region-code" DECIMAL,
+  UNIQUE(alpha3)
+);
+CREATE TABLE states(
+  abbrev VARCHAR(3) PRIMARY KEY,
+  country_code VARCHAR(3) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  type VARCHAR(40),
+  FOREIGN KEY (country_code) REFERENCES countries (alpha3)
+);
+CREATE TABLE addresses(
+  id SERIAL PRIMARY KEY,
+  name_first VARCHAR(90) NOT NULL,
+  name_last VARCHAR(90) NOT NULL,
+  country_code VARCHAR(3) NOT NULL,
+  state VARCHAR(30) NOT NULL,
+  zip VARCHAR(20) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  email VARCHAR(20) NOT NULL,
+  FOREIGN KEY (country_code) REFERENCES countries (alpha3)
+);
+--
+--
 --++++++++++++++++++++++++++++
 --++++++++++++++++++++++++++++
 -- USDA SR Database
 --++++++++++++++++++++++++++++
-
+--
 ---------------------------
 -- Nutrient definitions
 ---------------------------
 CREATE TABLE nutr_def(
   id INT PRIMARY KEY,
-  rda float,
+  rda REAL,
   units VARCHAR(10),
   tagname VARCHAR(10) NOT NULL,
   nutr_desc VARCHAR(80) NOT NULL,
@@ -79,7 +129,7 @@ CREATE TABLE nutr_def(
   UNIQUE (tagname)
   -- FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
-
+--
 ---------------------------
 -- Food groups
 ---------------------------
@@ -88,12 +138,12 @@ CREATE TABLE fdgrp(
   fdgrp_desc VARCHAR(200),
   UNIQUE(fdgrp_desc)
 );
-
+--
 ---------------------------
 -- Food names
 ---------------------------
 CREATE TABLE food_des(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   fdgrp_id INT NOT NULL,
   long_desc VARCHAR(400) NOT NULL,
   shrt_desc VARCHAR(200) NOT NULL,
@@ -109,61 +159,61 @@ CREATE TABLE food_des(
   -- UNIQUE(gtin_UPC),
   FOREIGN KEY (fdgrp_id) REFERENCES fdgrp (id) ON UPDATE CASCADE
 );
-
+--
 ---------------------------
 -- Food-Nutrient data
 ---------------------------
 CREATE TABLE nut_data(
-  food_id BIGINT NOT NULL,
+  food_id INT NOT NULL,
   nutr_id INT NOT NULL,
-  nutr_val float,
+  nutr_val REAL,
   -- TODO: data_src_id as composite key?
   PRIMARY KEY (food_id, nutr_id),
   FOREIGN KEY (food_id) REFERENCES food_des (id) ON UPDATE CASCADE,
   FOREIGN KEY (nutr_id) REFERENCES nutr_def (id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Servings
 ------------------------------
 CREATE TABLE serving_id(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   msre_desc VARCHAR(200) NOT NULL,
   UNIQUE(msre_desc)
 );
 CREATE TABLE servings(
-  food_id BIGINT NOT NULL,
-  msre_id BIGINT NOT NULL,
-  grams float NOT NULL,
+  food_id INT NOT NULL,
+  msre_id INT NOT NULL,
+  grams REAL NOT NULL,
   PRIMARY KEY(food_id, msre_id),
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE,
   FOREIGN KEY (msre_id) REFERENCES serving_id(id) ON UPDATE CASCADE
 );
-
-
+--
+--
 --++++++++++++++++++++++++++++
 --++++++++++++++++++++++++++++
 -- Users Database
 --++++++++++++++++++++++++++++
-
+--
 ------------------------------
 -- Custom RDAs
 ------------------------------
 CREATE TABLE rda(
   nutr_id INT NOT NULL,
   user_id INT NOT NULL,
-  rda float NOT NULL,
+  rda REAL NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (user_id, nutr_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (nutr_id) REFERENCES nutr_def(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Custom recipes
 ------------------------------
 CREATE TABLE recipe_des(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   recipe_name VARCHAR(300) NOT NULL,
   user_id INT NOT NULL,
   -- publicly shared ?
@@ -172,11 +222,11 @@ CREATE TABLE recipe_des(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 CREATE TABLE recipe_dat(
-  recipe_id BIGINT NOT NULL,
-  food_id BIGINT NOT NULL,
+  recipe_id INT NOT NULL,
+  food_id INT NOT NULL,
   -- msre_id == (NULL || 0) ==> grams
-  msre_id BIGINT,
-  amount float NOT NULL,
+  msre_id INT,
+  amount REAL NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (recipe_id, food_id),
   FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE,
@@ -184,27 +234,27 @@ CREATE TABLE recipe_dat(
 );
 -- Recipe Portions
 CREATE TABLE portion_id (
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   portion_desc VARCHAR(200) NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(portion_desc)
 );
 CREATE TABLE portions(
-  recipe_id BIGINT NOT NULL,
-  portion_id BIGINT NOT NULL,
-  percentage float NOT NULL,
+  recipe_id INT NOT NULL,
+  portion_id INT NOT NULL,
+  percentage REAL NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY(recipe_id, portion_id),
   FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE,
   FOREIGN KEY (portion_id) REFERENCES portion_id(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 --  Custom Food Tags
 ------------------------------
 -- TODO: Tag pairing data
 CREATE TABLE tag_id(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   tag_desc VARCHAR(200) NOT NULL,
   shared BOOLEAN DEFAULT TRUE NOT NULL,
   approved BOOLEAN DEFAULT FALSE NOT NULL,
@@ -212,8 +262,8 @@ CREATE TABLE tag_id(
   UNIQUE(tag_desc)
 );
 CREATE TABLE tags(
-  food_id BIGINT NOT NULL,
-  tag_id BIGINT NOT NULL,
+  food_id INT NOT NULL,
+  tag_id INT NOT NULL,
   user_id INT NOT NULL,
   -- votes, approved?
   created_at INT DEFAULT extract(epoch FROM NOW()),
@@ -222,56 +272,56 @@ CREATE TABLE tags(
   FOREIGN KEY (tag_id) REFERENCES tag_id (id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Favorite foods
 ------------------------------
 CREATE TABLE favorite_foods(
   user_id INT NOT NULL,
-  food_id BIGINT NOT NULL,
+  food_id INT NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY(user_id, food_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Food logs
 ------------------------------
 CREATE TABLE food_logs(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   eat_on_date DATE NOT NULL,
   meal_name VARCHAR(20) NOT NULL,
-  amount float NOT NULL,
-  msre_id BIGINT,
-  recipe_id BIGINT,
-  food_id BIGINT,
+  amount REAL NOT NULL,
+  msre_id INT,
+  recipe_id INT,
+  food_id INT,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (msre_id) REFERENCES serving_id(id) ON UPDATE CASCADE,
   FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE,
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Exercises
 ------------------------------
 CREATE TABLE exercises(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   exercise_name VARCHAR(300) NOT NULL,
   user_id INT,
   shared BOOLEAN NOT NULL DEFAULT TRUE,
-  cals_per_rep float,
-  cals_per_min float,
+  cals_per_rep REAL,
+  cals_per_min REAL,
   -- TODO: data_src_id ?
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 CREATE TABLE exercise_logs(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  exercise_id BIGINT NOT NULL,
+  exercise_id INT NOT NULL,
   date DATE NOT NULL,
   reps INT,
   weight INT,
@@ -280,7 +330,7 @@ CREATE TABLE exercise_logs(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Trainer Roles
 ------------------------------
@@ -305,63 +355,108 @@ CREATE TABLE reports(
   PRIMARY KEY(user_id, created_at),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
-
-
+--
+--
 ------------------------------
 --++++++++++++++++++++++++++++
 -- SHOP
 --++++++++++++++++++++++++++++
-
--- Product orders
-CREATE TABLE orders(
-  id VARCHAR(300) PRIMARY KEY,
-  user_id INT NOT NULL,
-  tracking_num VARCHAR(200),
-  created_at INT DEFAULT extract(epoch FROM NOW()),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+--
+------------------------------
+-- Products
+------------------------------
+CREATE TABLE products(
+  id VARCHAR(255) PRIMARY KEY,
+  name VARCHAR(300) NOT NULL,
+  price_min SMALLINT NOT NULL,
+  price_max SMALLINT NOT NULL,
+  shippable BOOLEAN NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW())
 );
--- Product reviews
+-- SKUs
+CREATE TABLE skus(
+  id VARCHAR(255) PRIMARY KEY,
+  product_id VARCHAR(255) NOT NULL,
+  name VARCHAR(300) NOT NULL,
+  price SMALLINT NOT NULL,
+  inventory_stock SMALLINT NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
+);
+-- Reviews
 CREATE TABLE reviews(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  stripe_product_id VARCHAR(255) NOT NULL,
+  product_id VARCHAR(255) NOT NULL,
   rating SMALLINT NOT NULL,
   review_text VARCHAR(2000) NOT NULL,
   -- timestamp TIMESTAMP DEFAULT NOW() NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  UNIQUE(user_id, stripe_product_id),
+  UNIQUE(user_id, product_id),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
--- Product views
+-- Orders
+CREATE TABLE orders(
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  -- TODO: FKs?
+  shipping VARCHAR(100) NOT NULL,
+  shipping_price REAL NOT NULL,
+  payment_method VARCHAR(50) NOT NULL,
+  -- TODO: don't require inputting to DB
+  address_bill INT NOT NULL,
+  address_ship INT NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  tracking_num VARCHAR(200),
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  FOREIGN KEY (address_bill) REFERENCES addresses(id) ON UPDATE CASCADE,
+  FOREIGN KEY (address_ship) REFERENCES addresses(id) ON UPDATE CASCADE
+);
+CREATE TABLE order_items(
+  order_id INT NOT NULL,
+  product_id VARCHAR(255) NOT NULL,
+  quanity SMALLINT NOT NULL,
+  price REAL NOT NULL,
+  UNIQUE(order_id, product_id),
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON UPDATE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
+);
+-- Views (products)
 CREATE TABLE views(
   user_id INT NOT NULL,
-  stripe_product_id VARCHAR(255) NOT NULL,
+  product_id VARCHAR(255) NOT NULL,
   -- date DATE DEFAULT NOW() NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  PRIMARY KEY (user_id, stripe_product_id),
+  PRIMARY KEY (user_id, product_id),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
+------------------------------
 -- Cart
+------------------------------
 CREATE TABLE cart(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  stripe_product_id VARCHAR(255) NOT NULL,
+  product_id VARCHAR(255) NOT NULL,
   quanity SMALLINT NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  UNIQUE(user_id, stripe_product_id),
+  UNIQUE(user_id, product_id),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 --++++++++++++++++++++++++++++
 -- IN PROGRESS
 --++++++++++++++++++++++++++++
-
+--
 ------------------------------
 -- Biometrics
 ------------------------------
 CREATE TABLE biometrics(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT,
   biometric_name VARCHAR(200) NOT NULL,
   units VARCHAR(400) NOT NULL,
@@ -369,17 +464,17 @@ CREATE TABLE biometrics(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 CREATE TABLE biometric_logs(
-  id BIGSERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  biometric_id BIGINT NOT NULL,
+  biometric_id INT NOT NULL,
   timestamp TIMESTAMP NOT NULL,
-  bio_val float NOT NULL,
+  bio_val REAL NOT NULL,
   unit VARCHAR(40) NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (biometric_id) REFERENCES biometrics(id) ON UPDATE CASCADE
 );
-
+--
 ------------------------------
 -- Scratchpad
 ------------------------------
@@ -388,11 +483,3 @@ CREATE TABLE scratchpad(
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
-
-
-------------------------------
---++++++++++++++++++++++++++++
--- Stored Procedures
---++++++++++++++++++++++++++++
-
-\i functions.sql

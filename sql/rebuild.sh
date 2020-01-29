@@ -1,13 +1,14 @@
 #!/bin/bash -e
 
-DB=nutra
-SCHEMA=nt
-
 cd "$(dirname "$0")"
+source .env
 
 
 # Create tables
-psql -c "\i tables.sql" postgresql://$LOGNAME@localhost:5432/$DB
+psql -c "\i tables.sql" postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:5432/$PSQL_DB_NAME
+
+# Stored Procedures
+psql -c "\i functions.sql" postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:5432/$PSQL_DB_NAME
 
 # Import data
 bash import.sh
