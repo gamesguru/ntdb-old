@@ -56,18 +56,18 @@ CREATE TABLE users(
 );
 --
 CREATE TABLE emails(
-  email VARCHAR(140) NOT NULL,
   user_id INT NOT NULL,
+  email VARCHAR(140) NOT NULL,
   activated BOOLEAN DEFAULT FALSE,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  UNIQUE(email),
   UNIQUE(user_id),
+  UNIQUE(email),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 --
 CREATE TABLE tokens(
-  token VARCHAR(200) NOT NULL,
   user_id INT NOT NULL,
+  token VARCHAR(200) NOT NULL,
   -- email_token_activate
   -- email_token_pw_reset
   type VARCHAR(30) NOT NULL,
