@@ -86,24 +86,32 @@ CREATE TABLE countries(
   "region-code" DECIMAL,
   "sub-region-code" DECIMAL,
   "intermediate-region-code" DECIMAL,
-  UNIQUE(name)
+  UNIQUE(name),
+  UNIQUE(alpha2),
+  UNIQUE("country-code")
 );
 CREATE TABLE states(
   abbrev VARCHAR(3) PRIMARY KEY,
   country_code VARCHAR(3) NOT NULL,
   name VARCHAR(255) NOT NULL,
   type VARCHAR(40),
+  UNIQUE(name),
   FOREIGN KEY (country_code) REFERENCES countries (alpha3)
 );
 CREATE TABLE addresses(
   id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  company_name VARCHAR(70),
+  street_address VARCHAR(90) NOT NULL,
+  apartment_unit VARCHAR(20),
+  country_code VARCHAR(3) NOT NULL,
+  state VARCHAR(30),
+  zip VARCHAR(20),
   name_first VARCHAR(90) NOT NULL,
   name_last VARCHAR(90) NOT NULL,
-  country_code VARCHAR(3) NOT NULL,
-  state VARCHAR(30) NOT NULL,
-  zip VARCHAR(20) NOT NULL,
   phone VARCHAR(20) NOT NULL,
-  email VARCHAR(20) NOT NULL,
+  email VARCHAR(80) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users (id),
   FOREIGN KEY (country_code) REFERENCES countries (alpha3)
 );
 --
