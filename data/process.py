@@ -236,6 +236,7 @@ def process_food_des():
 
                 # Don't add dupes
                 if not food_id in food_ids:
+                    print(f"new food: {food_id} {_row[2]}")
                     food_ids.add(food_id)
                     # Set new row
                     row = [None] * 9
