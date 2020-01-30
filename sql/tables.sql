@@ -410,6 +410,16 @@ CREATE TABLE reviews(
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
+-- Coupon codes
+CREATE TABLE coupons(
+  id SERIAL PRIMARY KEY,
+  code VARCHAR(200) NOT NULL,
+  user_id INT,
+  expires INT NOT NULL,
+  created_at INT NOT NULL,
+  UNIQUE(code, user_id),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+);
 -- Orders
 CREATE TABLE orders(
   id SERIAL PRIMARY KEY,
