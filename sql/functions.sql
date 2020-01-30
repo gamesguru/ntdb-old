@@ -78,9 +78,10 @@ SELECT
 FROM
   products prod
   LEFT JOIN skus AS sk ON sk.product_id = prod.id
+WHERE
+  shippable
 GROUP BY
   prod.id $$ LANGUAGE SQL;
-
 --
 --
 --
