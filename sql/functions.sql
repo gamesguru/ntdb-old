@@ -254,7 +254,7 @@ OR REPLACE FUNCTION get_user_rdas(user_id_in int) RETURNS TABLE(
 ) AS $$
 SELECT
   rda.id,
-  COALESCE(urda.rda, rda.rda) as rda,
+  COALESCE(urda.rda, rda.rda) AS rda,
   rda.units,
   rda.tagname,
   rda.nutr_desc
