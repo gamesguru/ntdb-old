@@ -55,8 +55,8 @@ WHERE
 CREATE
 OR REPLACE FUNCTION get_products_ratings() RETURNS TABLE(
   id VARCHAR, name VARCHAR, price_min INT,
-  price_max INT, shippable BOOLEAN, avg_rating REAL,
-  inventory_stocks JSONB
+  price_max INT, shippable BOOLEAN,
+  avg_rating REAL, inventory_stocks JSON
 ) AS $$
 SELECT
   prod.id,
@@ -72,7 +72,7 @@ SELECT
     WHERE
       rv.product_id = prod.id
   ):: REAL,
-  jsonb_agg(
+  json_agg(
     json_build_object(sk.id, sk.inventory_stock)
   )
 FROM
