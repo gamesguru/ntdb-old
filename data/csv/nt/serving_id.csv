@@ -544,8 +544,6 @@ id,msre_desc
 543,roast without refuse
 544,"piece, cooked, excluding refuse (yield from 1 lb raw meat with refuse)"
 545,"steak without refuse (Yield from 1 raw steak, with refuse, weighing 380g)"
-681,"cup (1"" slices)"
-682,strip
 546,"steak without refuse (Yield from 1 cooked steak, with refuse, weighing 249g)"
 547,"steak, excluding refuse (yield from 1 raw steak, with refuse, weighing 300 g)"
 548,"steak without refuse (Yield from 1 raw steak, with refuse, weighing 379g)"
@@ -681,6 +679,8 @@ id,msre_desc
 678,"cup slices (1"" dia)"
 679,"slices (1"" dia)"
 680,gourd
+681,"cup (1"" slices)"
+682,strip
 683,piece whole
 684,cup sliced
 685,leek

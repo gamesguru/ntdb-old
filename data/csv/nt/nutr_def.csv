@@ -148,3 +148,41 @@ id,rda,units,tagname,nutr_desc
 857,,g,F21D5,21:5
 858,,g,F22D4,22:4
 859,,g,F18D1TN7,18:1-11 t (18:1t n-7)
+710,30,mg,DAID,Daidzein
+711,15,mg,GENI,Genistein
+712,,mg,GLYC,Glycitein
+713,45,mg,TOTISO,Total isoflavones
+714,,mg,BIOC,Biochanin A
+715,,mg,FORM,Formononetin
+716,,mg,COUM,Coumestrol
+734,10,mg,PAdimer,Proanthocyanidin dimers
+735,5,mg,PAtrimer,Proanthocyanidin trimers
+736,5,mg,PA4-6mer,Proanthocyanidin 4-6mers
+737,2,mg,PA7-10mer,Proanthocyanidin 7-10mers
+738,1,mg,PApolymer,Proanthocyanidin polymers (>10mers)
+731,20,mg,CYAD,Cyanidin
+740,,mg,PETUNIDIN,Petunidin
+741,,mg,DELPH,Delphinidin 
+742,,mg,MALVIDIN,Malvidin
+743,,mg,PELA,Pelargonidin
+745,,mg,PEONIDIN,Peonidin
+749,40,mg,CATE,(+)-Catechin
+750,40,mg,EPICATEGC,(-)-Epigallocatechin
+751,40,mg,EPICATEC,(-)-Epicatechin
+752,40,mg,EPICATECG3,(-)-Epicatechin 3-gallate
+753,60,mg,EGCG,(-)-Epigallocatechin 3-gallate
+755,,mg,THEAF,Theaflavin
+756,,mg,THEAR,Thearubigins
+758,,mg,ERIOD,Eriodictyol
+759,80,mg,HESPT,Hesperetin
+762,60,mg,NARING,Naringenin
+770,30,mg,APIGEN,Apigenin
+773,20,mg,LUTEOL,Luteolin
+785,5,mg,ISORHAM,Isorhamnetin
+786,5,mg,KAEMF,Kaempferol
+788,2,mg,MYRIC,Myricetin
+789,20,mg,QUERCE,Quercetin
+791,,mg,THEA3DI,"Theaflavin-3,3'-digallate"
+792,,mg,THEA3GP,Theaflavin-3'-gallate
+793,,mg,THEA3G,Theaflavin-3-gallate
+794,,mg,GALCATEGC,(+)-Gallocatechin

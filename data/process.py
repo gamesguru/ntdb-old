@@ -28,10 +28,7 @@ os.makedirs("csv/nt", 0o755, True)
 # --------------------
 output_files = {
     "csv/usda/FD_GROUP.csv": "csv/nt/fdgrp.csv",
-    # "csv/usda/FOOD_DES.csv": "csv/nt/food_des.csv",
-    # "csv/usda/NUT_DATA.csv": "csv/nt/nut_data.csv",
-    "csv/usda/NUTR_DEF.csv": "csv/nt/nutr_def.csv",
-    # "csv/usda/WEIGHT.csv": None,
+    "csv/usda/WEIGHT.csv": None,
 }
 
 special_interests_dirs = [
@@ -43,11 +40,11 @@ special_interests_dirs = [
 # --------------------
 # RDAs
 # --------------------
-rdas = {"nutr_no": ("rda", "tagname")}
+rdas = {"NUTR_NO": ("rda", "tagname")}
 with open("csv/RDA.csv") as file:
     reader = csv.reader(file)
     for row in reader:
-        rdas[row[0].lower()] = row[1], row[3]
+        rdas[row[0].upper()] = row[1], row[3]
 
 
 """
@@ -64,70 +61,201 @@ def main(args):
     # Process USDA csv
     # -----------------
     print("==> Process CSV")
+    process_nutr_def()
+    process_nut_data()
+    process_food_des()
+
     for fname in output_files:
         print(fname)
-
         # Open the CSV file
-        rows = []
         with open(fname) as file:
-
-            # Read in
             reader = csv.reader(file)
-            for row in reader:
-                rows.append(row)
-
+            rows = list(reader)
+        #
         # Process and write out
         if fname == "csv/usda/WEIGHT.csv":
             process_weight(rows, fname)
         else:
             process(rows, fname)
 
-    # -----------------------------------------------------
-    # Special Interests DBs (flav, isoflav, proanth)
-    # -----------------------------------------------------
-    process_special_interests_dirs()
 
-
+# ----------------------
+# Handle general file
+# ----------------------
 def process(rows, fname):
-    """ Processes files on a case-by-base basis """
+    """ Processes FD_GRP only :O """
 
-    # Process the rows
-    rows = [process_row(r, fname) for r in rows]
-
-    # Write out new file
     with open(output_files[fname], "w+") as file:
-        writer = csv.writer(file, lineterminator='\n')
+        writer = csv.writer(file, lineterminator="\n")
         writer.writerows(rows)
 
 
-def process_row(row, fname):
-    """ Processes a single row """
+# -----------------
+# Nutrient defs
+# -----------------
+def process_nutr_def():
+    """ Process nutr_def """
 
-    # Get "base name" and handle each separately
-    bname = fname.split("/")[-1]
+    def process_main(rows):
+        result = []
+        for row in rows:
+            rda, tagname = rdas[row[0].upper()]
+            row = row[:4]
+            row[2] = tagname
+            row.insert(1, rda)
+            # Add to list
+            result.append(row.copy())
+        return result
 
-    # Process row based on FILE_TYPE
-    if bname == "NUTR_DEF.csv":
-        rda, tagname = rdas[row[0].lower()]
-        row = row[:4]
-        row[2] = tagname
-        row.insert(1, rda)
-    elif bname == "FOOD_DES.csv":
-        row = row[:10]
-        del row[6]
-    elif bname == "NUT_DATA.csv":
-        row = row[:3]
-    elif bname == "WEIGHT.csv":
-        pass
+    def process_si(rows):
+        result = []
+        # Header indexes
+        h = rows[0]
+        unit_d = ["UNITS", "UNIT"]
+        nutr_d = ["NUTRDESC", "NUTRIENT NAME"]
+        unit_i = h.index(next(x for x in h if x.upper() in unit_d))
+        desc_i = h.index(next(x for x in h if x.upper() in nutr_d))
 
-    return row
+        # Process rows
+        for _row in rows[1:]:
+            rda, tagname = rdas[_row[0].upper()]
+            nutr_id = _row[0]
+            # Set new row
+            row = [None] * 5
+            row[0] = nutr_id
+            row[1] = rda
+            row[2] = _row[unit_i]
+            row[3] = tagname
+            row[4] = _row[desc_i]
+            # Add to list
+            result.append(row)
+        return result
+
+    #
+    # Prepare the rows
+    result = []
+
+    # Main USDA files
+    main_nutr = "csv/usda/NUTR_DEF.csv"
+    print(main_nutr)
+    with open(main_nutr) as file:
+        reader = csv.reader(file)
+        rows = list(reader)
+        rows = process_main(rows)
+        # Add to final solution
+        result.extend(rows)
+
+    # Special interests DB
+    for dir in special_interests_dirs:
+        sub_nutr = f"{dir}/NUTR_DEF.csv"
+        print(sub_nutr)
+        with open(sub_nutr) as file:
+            reader = csv.reader(file)
+            rows = list(reader)
+            rows = process_si(rows)
+            # Add to final solution
+            result.extend(rows)
+
+    #
+    # Write out result
+    with open(f"csv/nt/nutr_def.csv", "w+") as file:
+        writer = csv.writer(file, lineterminator="\n")
+        writer.writerows(result)
+
+
+# -----------------
+# Nutrient data
+# -----------------
+def process_nut_data():
+    #
+    # Prepare the rows
+    result = []
+
+    # Main USDA files
+    main_nutr = "csv/usda/NUT_DATA.csv"
+    print(main_nutr)
+    with open(main_nutr) as file:
+        reader = csv.reader(file)
+        rows = list(reader)
+        # Add to final solution
+        for row in rows:
+            result.append(row[:3])
+
+    # Special interests DB
+    for dir in special_interests_dirs:
+        sub_nutr = f"{dir}/NUT_DATA.csv"
+        print(sub_nutr)
+        with open(sub_nutr) as file:
+            reader = csv.reader(file)
+            rows = list(reader)
+            # Add to final solution
+            for row in rows[1:]:
+                result.append(row[:3])
+
+    #
+    # Write out result
+    with open(f"csv/nt/nut_data.csv", "w+") as file:
+        writer = csv.writer(file, lineterminator="\n")
+        writer.writerows(result)
+
+
+# -----------------
+# Food description
+# -----------------
+def process_food_des():
+    #
+    # Prepare the rows
+    result = []
+    food_ids = set()
+
+    # Main USDA files
+    main_nutr = "csv/usda/FOOD_DES.csv"
+    print(main_nutr)
+    with open(main_nutr) as file:
+        reader = csv.reader(file)
+        rows = list(reader)
+        # Add to final solution
+        for i, _row in enumerate(rows):
+            if i > 0:
+                food_ids.add(int(_row[0]))
+            row = _row[:10]
+            del row[6]
+            result.append(row)
+            # result.append(row[:3])
+
+    # Special interests DB
+    for dir in special_interests_dirs:
+        sub_nutr = f"{dir}/FOOD_DES.csv"
+        print(sub_nutr)
+        with open(sub_nutr) as file:
+            reader = csv.reader(file)
+            rows = list(reader)
+            # Add to final solution
+            for _row in rows[1:]:
+                food_id = int(_row[0])
+
+                # Don't add dupes
+                if not food_id in food_ids:
+                    food_ids.add(food_id)
+                    # Set new row
+                    row = [None] * 9
+                    row[0] = food_id
+                    row[1] = _row[1]  # Food group
+                    row[2] = _row[2]  # Long Desc
+                    if len(_row) > 3:
+                        row[3] = _row[3]  # Sci name
+                    result.append(row)
+
+    #
+    # Write out result
+    with open(f"csv/nt/food_des.csv", "w+") as file:
+        writer = csv.writer(file, lineterminator="\n")
+        writer.writerows(result)
 
 
 # -----------------
 # Weight
 # -----------------
-
-
 def process_weight(rows, fname):
 
     # Unique qualifiers
@@ -138,11 +266,10 @@ def process_weight(rows, fname):
     serving_id = [["id", "msre_desc"]]
     servings = [["food_id", "msre_id", "grams"]]
 
+    #
+    # Main logic
     id = 1
-    for i, row in enumerate(rows):
-        if i == 0:
-            continue
-
+    for row in rows[1:]:
         # Process row
         food_id = int(row[0])
         amount = float(row[2])
@@ -162,69 +289,19 @@ def process_weight(rows, fname):
         # Handles some weird duplicates, e.g.
         # ERROR:  duplicate key value violates unique constraint "servings_pkey"
         # DETAIL:  Key (food_id, msre_id)=(1036, 3) already exists.
-        # CONTEXT:  COPY servings, line 128
         prim_key = (food_id, msre_id)
         if not prim_key in servings_set:
             servings.append([food_id, msre_id, grams])
             servings_set.add(prim_key)
 
+    #
     # Write serving_id and servings tables
     with open("csv/nt/serving_id.csv", "w+") as file:
-        writer = csv.writer(file, lineterminator='\n')
+        writer = csv.writer(file, lineterminator="\n")
         writer.writerows(serving_id)
     with open("csv/nt/servings.csv", "w+") as file:
-        writer = csv.writer(file, lineterminator='\n')
+        writer = csv.writer(file, lineterminator="\n")
         writer.writerows(servings)
-
-
-# -----------------
-# Special interests
-# -----------------
-
-
-def process_special_interests_dirs():
-    """ Processes flav, isoflav, and proanth "special interests" databases """
-
-    # --------------------
-    # Read existing data
-    # --------------------
-    nut_data_rows = []
-    nutr_def_rows = []
-    with open("csv/nt/nut_data.csv") as file:
-        reader = csv.reader(file)
-        for row in reader:
-            nut_data_rows.append(row)
-
-    with open("csv/nt/nutr_def.csv") as file:
-        reader = csv.reader(file)
-        for row in reader:
-            nutr_def_rows.append(row)
-
-    # --------------------
-    # Add to it
-    # --------------------
-    for dir in special_interests_dirs:
-
-        # nut_data_si_rows = []
-        # nutr_def_si_rows = []
-
-        with open(f"{dir}/NUTR_DEF.csv") as file:
-            reader = csv.reader(file)
-            for row in reader:
-                rda, tagname = rdas[row[0].lower()]
-                row = row[:4]
-                row[2] = tagname
-                row.insert(1, rda)
-
-        # with open(f"{dir}/NUT_DATA.csv") as file:
-        #     reader = csv.reader(file)
-        #     for row in reader:
-        #         nutr_def_si_rows.append(row)
-
-        # # Get "base name" and handle each separately
-        # bname = fname.split("/")[-1]
-        # print(bname)
-        print(dir)
 
 
 #

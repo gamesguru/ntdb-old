@@ -153,7 +153,7 @@ CREATE TABLE food_des(
   id SERIAL PRIMARY KEY,
   fdgrp_id INT NOT NULL,
   long_desc VARCHAR(400) NOT NULL,
-  shrt_desc VARCHAR(200) NOT NULL,
+  shrt_desc VARCHAR(200),
   comm_name VARCHAR(200),
   manufacturer VARCHAR(300),
   -- gtin_UPC DECIMAL,
