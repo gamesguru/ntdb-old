@@ -54,9 +54,9 @@ WHERE
 --
 CREATE
 OR REPLACE FUNCTION get_products_ratings() RETURNS TABLE(
-  id VARCHAR, name VARCHAR, price_min SMALLINT,
-  price_max SMALLINT, shippable BOOLEAN,
-  avg_rating REAL, inventory_stocks JSONB
+  id VARCHAR, name VARCHAR, price_min INT,
+  price_max INT, shippable BOOLEAN, avg_rating REAL,
+  inventory_stocks JSONB
 ) AS $$
 SELECT
   prod.id,

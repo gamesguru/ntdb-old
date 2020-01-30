@@ -372,8 +372,8 @@ CREATE TABLE reports(
 CREATE TABLE products(
   id VARCHAR(255) PRIMARY KEY,
   name VARCHAR(300) NOT NULL,
-  price_min SMALLINT NOT NULL,
-  price_max SMALLINT NOT NULL,
+  price_min INT NOT NULL,
+  price_max INT NOT NULL,
   shippable BOOLEAN NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW())
 );
@@ -384,6 +384,16 @@ CREATE TABLE skus(
   name VARCHAR(300) NOT NULL,
   price SMALLINT NOT NULL,
   inventory_stock SMALLINT NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
+);
+-- Plans
+CREATE TABLE plans(
+  id VARCHAR(255) PRIMARY KEY,
+  product_id VARCHAR(255) NOT NULL,
+  name VARCHAR(300) NOT NULL,
+  price INT NOT NULL,
+  interval VARCHAR(20) NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
 );
