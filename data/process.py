@@ -244,7 +244,7 @@ def process_food_des():
                     row[1] = _row[1]  # Food group
                     row[2] = _row[2]  # Long Desc
                     if len(_row) > 3:
-                        row[3] = _row[3]  # Sci name
+                        row[4] = _row[3]  # Sci name
                     result.append(row)
 
     #
