@@ -56,12 +56,11 @@ CREATE TABLE users(
 );
 --
 CREATE TABLE emails(
+  email VARCHAR(140) PRIMARY KEY,
   user_id INT NOT NULL,
-  email VARCHAR(140) NOT NULL,
   activated BOOLEAN DEFAULT FALSE,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  UNIQUE(user_id),
-  UNIQUE(email),
+  UNIQUE(user_id, activated),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 --
@@ -73,12 +72,13 @@ CREATE TABLE tokens(
   type VARCHAR(30) NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(token),
+  UNIQUE(user_id, type),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 CREATE TABLE countries(
   name VARCHAR NOT NULL,
   alpha2 VARCHAR,
-  alpha3 VARCHAR NOT NULL,
+  alpha3 VARCHAR PRIMARY KEY,
   "country-code" DECIMAL NOT NULL,
   "iso_3166-2" VARCHAR NOT NULL,
   region VARCHAR,
@@ -87,24 +87,32 @@ CREATE TABLE countries(
   "region-code" DECIMAL,
   "sub-region-code" DECIMAL,
   "intermediate-region-code" DECIMAL,
-  UNIQUE(alpha3)
+  UNIQUE(name),
+  UNIQUE(alpha2),
+  UNIQUE("country-code")
 );
 CREATE TABLE states(
   abbrev VARCHAR(3) PRIMARY KEY,
   country_code VARCHAR(3) NOT NULL,
   name VARCHAR(255) NOT NULL,
   type VARCHAR(40),
+  UNIQUE(name),
   FOREIGN KEY (country_code) REFERENCES countries (alpha3)
 );
 CREATE TABLE addresses(
   id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  company_name VARCHAR(70),
+  street_address VARCHAR(90) NOT NULL,
+  apartment_unit VARCHAR(20),
+  country_code VARCHAR(3) NOT NULL,
+  state VARCHAR(30),
+  zip VARCHAR(20),
   name_first VARCHAR(90) NOT NULL,
   name_last VARCHAR(90) NOT NULL,
-  country_code VARCHAR(3) NOT NULL,
-  state VARCHAR(30) NOT NULL,
-  zip VARCHAR(20) NOT NULL,
   phone VARCHAR(20) NOT NULL,
-  email VARCHAR(20) NOT NULL,
+  email VARCHAR(80) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users (id),
   FOREIGN KEY (country_code) REFERENCES countries (alpha3)
 );
 --
@@ -127,7 +135,6 @@ CREATE TABLE nutr_def(
   -- shared BOOLEAN NOT NULL,
   -- weighting?
   UNIQUE (tagname)
-  -- FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 --
 ---------------------------
@@ -309,14 +316,11 @@ CREATE TABLE food_logs(
 ------------------------------
 CREATE TABLE exercises(
   id SERIAL PRIMARY KEY,
-  exercise_name VARCHAR(300) NOT NULL,
-  user_id INT,
-  shared BOOLEAN NOT NULL DEFAULT TRUE,
+  name VARCHAR(300) NOT NULL,
   cals_per_rep REAL,
   cals_per_min REAL,
   -- TODO: data_src_id ?
-  created_at INT DEFAULT extract(epoch FROM NOW()),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+  created_at INT DEFAULT extract(epoch FROM NOW())
 );
 CREATE TABLE exercise_logs(
   id SERIAL PRIMARY KEY,
@@ -368,8 +372,8 @@ CREATE TABLE reports(
 CREATE TABLE products(
   id VARCHAR(255) PRIMARY KEY,
   name VARCHAR(300) NOT NULL,
-  price_min SMALLINT NOT NULL,
-  price_max SMALLINT NOT NULL,
+  price_min INT NOT NULL,
+  price_max INT NOT NULL,
   shippable BOOLEAN NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW())
 );
@@ -380,6 +384,16 @@ CREATE TABLE skus(
   name VARCHAR(300) NOT NULL,
   price SMALLINT NOT NULL,
   inventory_stock SMALLINT NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
+);
+-- Plans
+CREATE TABLE plans(
+  id VARCHAR(255) PRIMARY KEY,
+  product_id VARCHAR(255) NOT NULL,
+  name VARCHAR(300) NOT NULL,
+  price INT NOT NULL,
+  interval VARCHAR(20) NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
 );
@@ -394,6 +408,16 @@ CREATE TABLE reviews(
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(user_id, product_id),
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+);
+-- Coupon codes
+CREATE TABLE coupons(
+  id SERIAL PRIMARY KEY,
+  code VARCHAR(200) NOT NULL,
+  user_id INT,
+  expires INT NOT NULL,
+  created_at INT NOT NULL,
+  UNIQUE(code, user_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
 -- Orders
@@ -457,11 +481,9 @@ CREATE TABLE cart(
 ------------------------------
 CREATE TABLE biometrics(
   id SERIAL PRIMARY KEY,
-  user_id INT,
-  biometric_name VARCHAR(200) NOT NULL,
+  name VARCHAR(200) NOT NULL,
   units VARCHAR(400) NOT NULL,
-  created_at INT DEFAULT extract(epoch FROM NOW()),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+  created_at INT DEFAULT extract(epoch FROM NOW())
 );
 CREATE TABLE biometric_logs(
   id SERIAL PRIMARY KEY,

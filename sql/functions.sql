@@ -54,24 +54,32 @@ WHERE
 --
 CREATE
 OR REPLACE FUNCTION get_products_ratings() RETURNS TABLE(
-  id VARCHAR, name VARCHAR, price_min SMALLINT,
-  price_max SMALLINT, shippable BOOLEAN,
-  avg_rating REAL, inventory_stocks JSONB
+  id VARCHAR, name VARCHAR, price_min INT,
+  price_max INT, shippable BOOLEAN,
+  avg_rating REAL, inventory_stocks JSON
 ) AS $$
 SELECT
-  DISTINCT prod.id,
+  prod.id,
   prod.name,
   price_min,
   price_max,
   shippable,
-  avg(rv.rating):: REAL,
-  jsonb_agg(
+  (
+    SELECT
+      avg(rv.rating)
+    FROM
+      reviews AS rv
+    WHERE
+      rv.product_id = prod.id
+  ):: REAL,
+  json_agg(
     json_build_object(sk.id, sk.inventory_stock)
   )
 FROM
   products prod
-  INNER JOIN reviews AS rv ON rv.product_id = prod.id
-  INNER JOIN skus AS sk ON sk.product_id = prod.id
+  LEFT JOIN skus AS sk ON sk.product_id = prod.id
+WHERE
+  shippable
 GROUP BY
   prod.id $$ LANGUAGE SQL;
 --
@@ -180,8 +188,7 @@ GROUP BY
 --
 CREATE
 OR REPLACE FUNCTION get_food_servings(food_id_in INT) RETURNS TABLE(
-  msre_id INT, msre_desc VARCHAR,
-  grams REAL
+  msre_id INT, msre_desc VARCHAR, grams REAL
 ) AS $$
 SELECT
   serv.msre_id,
@@ -202,8 +209,8 @@ CREATE
 OR REPLACE FUNCTION get_foods_by_food_id(
   food_id_in INT[], fdgrp_id_in INT[]
 ) RETURNS TABLE(
-  food_id INT, fdgrp_desc VARCHAR,
-  long_desc VARCHAR, manufacturer VARCHAR
+  food_id INT, fdgrp_desc VARCHAR, long_desc VARCHAR,
+  manufacturer VARCHAR
 ) AS $$
 SELECT
   des.id,
@@ -227,74 +234,6 @@ WHERE
   )
 ORDER BY
   arr_data.ordering $$ LANGUAGE SQL;
---
---
---
--- 2.e
--- Search food names --> {food_id, long_desc}
---
--- CREATE
--- OR REPLACE FUNCTION search_foods_by_name(
---   ts_search_expression VARCHAR, like_search_expression VARCHAR
--- ) RETURNS TABLE(
---   food_id INT, fdgrp_desc VARCHAR,
---   long_desc VARCHAR, score REAL
--- ) AS $$
--- SELECT
---   fdes.id,
---   fgrp.fdgrp_desc AS fdgrp_desc,
---   long_desc,
---   ts_rank_cd(
---     textsearch_desc,
---     to_tsquery(ts_search_expression)
---   ) score
--- FROM
---   food_des AS fdes
---   INNER JOIN fdgrp AS fgrp ON fgrp.id = fdes.fdgrp_id
--- WHERE
---   textsearch_desc @@ to_tsquery(ts_search_expression)
--- ORDER BY
---   score DESC;
--- $$ LANGUAGE SQL;
---
---
---
--- 2.f
--- Search food names --> [ALL NUTRIENTS]
---
--- CREATE
--- OR REPLACE FUNCTION search_foods_by_name_with_nutrients(search_expression varchar) RETURNS TABLE(
---   food_id INT, fdgrp_id INT, long_desc VARCHAR,
---   nutrients JSON, score REAL
--- ) AS $$
--- SELECT
---   des.id,
---   fdgrp_id,
---   long_desc,
---   json_agg(
---     json_build_object(
---       'nutr_id', val.nutr_id, 'nutr_desc',
---       nutr_desc, 'tagname', tagname, 'nutr_val',
---       nutr_val, 'units', units
---     )
---   ) as nutrients,
---   ts_rank_cd(
---     textsearch_desc,
---     to_tsquery(search_expression)
---   ) score
--- FROM
---   food_des des
---   LEFT JOIN nut_data val ON val.food_id = des.id
---   LEFT JOIN nutr_def def ON def.id = val.nutr_id
--- WHERE
---   textsearch_desc @@ to_tsquery(search_expression)
--- GROUP BY
---   des.id,
---   long_desc,
---   score
--- ORDER BY
---   score DESC;
--- $$ LANGUAGE SQL;
 --
 --
 --++++++++++++++++++++++++++++
@@ -366,8 +305,9 @@ OR REPLACE FUNCTION get_trainer_users(trainer_id_in INT) RETURNS TABLE(user_id i
 SELECT
   usr.id,
   usr.username
-FROM users usr
-LEFT JOIN trainer_users tusr ON tusr.user_id = usr.id
+FROM
+  users usr
+  LEFT JOIN trainer_users tusr ON tusr.user_id = usr.id
 WHERE
   tusr.trainer_id = trainer_id_in $$ LANGUAGE SQL;
 --
@@ -402,12 +342,15 @@ WHERE
 --
 CREATE
 OR REPLACE FUNCTION get_user_tokens(user_id_in INT) RETURNS TABLE(
-  user_id INT, token VARCHAR, token_type VARCHAR
+  user_id INT, username VARCHAR, token VARCHAR,
+  token_type VARCHAR, created_at INT
 ) AS $$
 SELECT
   usr.id,
+  usr.username,
   tkn.token,
-  tkn.type
+  tkn.type,
+  tkn.created_at
 FROM
   users usr
   INNER JOIN tokens tkn ON tkn.user_id = usr.id
