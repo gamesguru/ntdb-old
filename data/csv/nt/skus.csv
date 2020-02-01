@@ -1,8 +1,8 @@
 id,product_id,name,price,inventory_stock,created_at
-sku_GdBVJFbeTVpebj,prod_GSjaZvuDArNUQ0,Nature-Fresh Mouth Rinse (6 oz),3600,,1580575805
-sku_GSjaLKuqEXiHpK,prod_GSjaZvuDArNUQ0,Nature-Fresh Mouth Rinse (1 oz),800,,1580575805
-sku_GdBXf4eJyZ9C3T,prod_GSjQHpuy4eUBgh,Skin Lotion Plus (3 oz),800,,1580575805
-sku_GSjQP3PKz4Urem,prod_GSjQHpuy4eUBgh,Skin Lotion Plus (15 oz),3800,,1580575805
+sku_GdBVJFbeTVpebj,prod_GSjaZvuDArNUQ0,Nature-Fresh Mouth Rinse (6 oz),3600,3,1580575805
+sku_GSjaLKuqEXiHpK,prod_GSjaZvuDArNUQ0,Nature-Fresh Mouth Rinse (1 oz),800,9,1580575805
+sku_GdBXf4eJyZ9C3T,prod_GSjQHpuy4eUBgh,Nature-Fresh Skin Lotion (3 oz),800,10,1580575805
+sku_GSjQP3PKz4Urem,prod_GSjQHpuy4eUBgh,Nature-Fresh Skin Lotion (15 oz),3800,6,1580575805
 sku_FMylWwUHRwDItd,prod_FMykocKGla0rEZ,Focus Formula (10 oz),4000,3,1580182757
 sku_FMykwJ0tYNSTqc,prod_FMykocKGla0rEZ,Focus Formula (2 oz),900,5,1580182757
 sku_F9tAlXLOaLPRoE,prod_F9tAjgt53kC2DO,T-Boost (2.5 oz),800,6,1580182757
