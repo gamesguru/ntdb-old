@@ -103,6 +103,9 @@ def process_nutr_def():
             row = row[:4]
             row[2] = tagname
             row.insert(1, rda)
+            row.append(False)  # is_anti
+            row.append(None)  # user_id
+            row.append(True)  # is_shared
             # Add to list
             result.append(row.copy())
         return result
@@ -121,12 +124,15 @@ def process_nutr_def():
             rda, tagname = rdas[_row[0].upper()]
             nutr_id = _row[0]
             # Set new row
-            row = [None] * 5
+            row = [None] * 8
             row[0] = nutr_id
             row[1] = rda
             row[2] = _row[unit_i]
             row[3] = tagname
             row[4] = _row[desc_i]
+            row[5] = False  # is_anti
+            row[6] = None  # user_id
+            row[7] = True  # is_shared
             # Add to list
             result.append(row)
         return result
@@ -220,6 +226,9 @@ def process_food_des():
                 food_ids.add(int(_row[0]))
             row = _row[:10]
             del row[6]
+            row.insert(2, 1)  # Data src
+            row.append(None)  # user_id
+            row.append(True)  # is_shared
             result.append(row)
             # result.append(row[:3])
 
@@ -239,12 +248,14 @@ def process_food_des():
                     print(f"new food: {food_id} {_row[2]}")
                     food_ids.add(food_id)
                     # Set new row
-                    row = [None] * 9
+                    row = [None] * 12
                     row[0] = food_id
                     row[1] = _row[1]  # Food group
-                    row[2] = _row[2]  # Long Desc
+                    row[2] = 2        # Data src
+                    row[3] = _row[2]  # Long Desc
                     if len(_row) > 3:
-                        row[4] = _row[3]  # Sci name
+                        row[5] = _row[3]  # Sci name
+                    row[11] = True  # is_shared
                     result.append(row)
 
     #

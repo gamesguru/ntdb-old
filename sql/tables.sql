@@ -131,12 +131,19 @@ CREATE TABLE nutr_def(
   units VARCHAR(10),
   tagname VARCHAR(10) NOT NULL,
   nutr_desc VARCHAR(80) NOT NULL,
-  -- user_id BIGINT,
-  -- shared BOOLEAN NOT NULL,
+  is_anti BOOLEAN NOT NULL,
+  user_id BIGINT,
+  is_shared BOOLEAN NOT NULL,
   -- weighting?
-  UNIQUE (tagname)
+  UNIQUE (tagname),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
---
+CREATE TABLE data_src(
+    id INT PRIMARY KEY NOT NULL,
+    name VARCHAR(16) NOT NULL,
+    searchable BOOLEAN NOT NULL,
+    UNIQUE(name)
+);
 ---------------------------
 -- Food groups
 ---------------------------
@@ -152,6 +159,7 @@ CREATE TABLE fdgrp(
 CREATE TABLE food_des(
   id SERIAL PRIMARY KEY,
   fdgrp_id INT NOT NULL,
+  data_src_id INT NOT NULL,
   long_desc VARCHAR(400) NOT NULL,
   shrt_desc VARCHAR(200),
   comm_name VARCHAR(200),
@@ -161,10 +169,12 @@ CREATE TABLE food_des(
   ref_desc VARCHAR(150),
   refuse INT,
   sci_name VARCHAR(200),
-  -- user_id INT,
-  -- shared BOOLEAN DEFAULT TRUE,
+  user_id INT,
+  is_shared BOOLEAN NOT NULL,
   -- UNIQUE(gtin_UPC),
-  FOREIGN KEY (fdgrp_id) REFERENCES fdgrp (id) ON UPDATE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
+  FOREIGN KEY (fdgrp_id) REFERENCES fdgrp (id) ON UPDATE CASCADE,
+  FOREIGN KEY (data_src_id) REFERENCES data_src(id)
 );
 --
 ---------------------------
@@ -317,10 +327,11 @@ CREATE TABLE food_logs(
 CREATE TABLE exercises(
   id SERIAL PRIMARY KEY,
   name VARCHAR(300) NOT NULL,
+  data_src_id INT NOT NULL,
   cals_per_rep REAL,
   cals_per_min REAL,
-  -- TODO: data_src_id ?
-  created_at INT DEFAULT extract(epoch FROM NOW())
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  FOREIGN KEY (data_src_id) REFERENCES data_src(id)
 );
 CREATE TABLE exercise_logs(
   id SERIAL PRIMARY KEY,

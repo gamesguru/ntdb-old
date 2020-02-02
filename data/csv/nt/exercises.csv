@@ -1,159 +1,159 @@
-id,name,cals_per_rep,cals_per_min,created_at
-1,Weight Lifting: general,,2.4086,1580336048
-2,Aerobics: water,,3.2043,1580336048
-3,"Stretching, Hatha Yoga",,3.2043,1580336048
-4,Calisthenics: moderate,,3.5914,1580336048
-5,Riders: general,,4,1580336048
-6,Aerobics: low impact,,4.4086,1580336048
-7,Stair Step Machine: general,,4.7957,1580336048
-8,Teaching aerobics,,4.7957,1580336048
-9,Weight Lifting: vigorous,,4.7957,1580336048
-10,"Aerobics, Step: low impact",,5.5914,1580336048
-11,Aerobics: high impact,,5.5914,1580336048
-12,"Bicycling, Stationary: moderate",,5.5914,1580336048
-13,"Rowing, Stationary: moderate",,5.5914,1580336048
-14,Calisthenics: vigorous,,6.4086,1580336048
-15,Circuit Training: general,,6.4086,1580336048
-16,"Rowing, Stationary: vigorous",,6.7957,1580336048
-17,Elliptical Trainer: general,,7.2043,1580336048
-18,Ski Machine: general,,7.5914,1580336048
-19,"Aerobics, Step: high impact",,8,1580336048
-20,"Bicycling, Stationary: vigorous",,8.4086,1580336048
-21,Billiards,,2,1580336048
-22,Bowling,,2.4086,1580336048
-23,"Dancing: slow, waltz, foxtrot",,2.4086,1580336048
-24,Frisbee,,2.4086,1580336048
-25,"Volleyball: non-competitive, general play",,2.4086,1580336048
-26,Water Volleyball,,2.4086,1580336048
-27,Archery: non-hunting,,2.7957,1580336048
-28,Golf: using cart,,2.7957,1580336048
-29,Hang Gliding,,2.7957,1580336048
-30,Curling,,3.2043,1580336048
-31,Gymnastics: general,,3.2043,1580336048
-32,Horseback Riding: general,,3.2043,1580336048
-33,Tai Chi,,3.2043,1580336048
-34,"Volleyball: competitive, gymnasium play",,3.2043,1580336048
-35,Walking: 3.5 mph (17 min/mi),,3.2043,1580336048
-36,Badminton: general,,3.5914,1580336048
-37,Walking: 4 mph (15 min/mi),,3.5914,1580336048
-38,Kayaking,,4,1580336048
-39,Skateboarding,,4,1580336048
-40,Snorkeling,,4,1580336048
-41,Softball: general play,,4,1580336048
-42,Walking: 4.5 mph (13 min/mi),,4,1580336048
-43,"Whitewater: rafting, kayaking",,4,1580336048
-44,"Dancing: disco, ballroom, square",,4.4086,1580336048
-45,Golf: carrying clubs,,4.4086,1580336048
-46,"Dancing: Fast, ballet, twist",,4.7957,1580336048
-47,Fencing,,4.7957,1580336048
-48,Hiking: cross-country,,4.7957,1580336048
-49,Skiing: downhill,,4.7957,1580336048
-50,Swimming: general,,4.7957,1580336048
-51,Walk/Jog: jog <10 min.,,4.7957,1580336048
-52,Water Skiing,,4.7957,1580336048
-53,Wrestling,,4.7957,1580336048
-54,Basketball: wheelchair,,5.2043,1580336048
-55,Race Walking,,5.2043,1580336048
-56,Ice Skating: general,,5.5914,1580336048
-57,"Racquetball: casual, general",,5.5914,1580336048
-58,Rollerblade Skating,,5.5914,1580336048
-59,Scuba or skin diving,,5.5914,1580336048
-60,"Sledding, luge, toboggan",,5.5914,1580336048
-61,Soccer: general,,5.5914,1580336048
-62,Tennis: general,,5.5914,1580336048
-63,Basketball: playing a game,,6.4086,1580336048
-64,Bicycling: 12-13.9 mph,,6.4086,1580336048
-65,"Football: touch, flag, general",,6.4086,1580336048
-66,Hockey: field & ice,,6.4086,1580336048
-67,Rock Climbing: rappelling,,6.4086,1580336048
-68,Running: 5 mph (12 min/mile),,6.4086,1580336048
-69,"Running: pushing wheelchair, marathon wheeling",,6.4086,1580336048
-70,Skiing: cross-country,,6.4086,1580336048
-71,Snow Shoeing,,6.4086,1580336048
-72,Swimming: backstroke,,6.4086,1580336048
-73,Volleyball: beach,,6.4086,1580336048
-74,Bicycling: BMX or mountain,,6.7957,1580336048
-75,Boxing: sparring,,7.2043,1580336048
-76,Football: competitive,,7.2043,1580336048
-77,Orienteering,,7.2043,1580336048
-78,Running: 5.2 mph (11.5 min/mile),,7.2043,1580336048
-79,Running: cross-country,,7.2043,1580336048
-80,Bicycling: 14-15.9 mph,,8,1580336048
-81,"Martial Arts: judo, karate, kickbox",,8,1580336048
-82,Racquetball: competitive,,8,1580336048
-83,Rope Jumping,,8,1580336048
-84,Running: 6 mph (10 min/mile),,8,1580336048
-85,Swimming: breaststroke,,8,1580336048
-86,"Swimming: laps, vigorous",,8,1580336048
-87,"Swimming: treading, vigorous",,8,1580336048
-88,Water Polo,,8,1580336048
-89,Rock Climbing: ascending,,8.7957,1580336048
-90,Running: 6.7 mph (9 min/mile),,8.7957,1580336048
-91,Swimming: butterfly,,8.7957,1580336048
-92,Swimming: crawl,,8.7957,1580336048
-93,Bicycling: 16-19 mph,,9.5914,1580336048
-94,Handball: general,,9.5914,1580336048
-95,Running: 7.5 mph (8 min/mile),,10,1580336048
-96,Running: 8.6 mph (7 min/mile),,11.5914,1580336048
-97,Bicycling: > 20 mph,,13.2043,1580336048
-98,Running: 10 mph (6 min/mile),,13.2043,1580336048
-99,"Planting seedlings, shrubs",,3.2043,1580336048
-100,Raking Lawn,,3.2043,1580336048
-101,Sacking grass or leaves,,3.2043,1580336048
-102,Gardening: general,,3.5914,1580336048
-103,"Mowing Lawn: push, power",,3.5914,1580336048
-104,Operate Snow Blower: walking,,3.5914,1580336048
-105,Plant trees,,3.5914,1580336048
-106,Gardening: weeding,,3.69892,1580336048
-107,Carrying & stacking wood,,4,1580336048
-108,"Digging, spading dirt",,4,1580336048
-109,Laying sod / crushed rock,,4,1580336048
-110,"Mowing Lawn: push, hand",,4.4086,1580336048
-111,Chopping & splitting wood,,4.7957,1580336048
-112,Shoveling Snow: by hand,,4.7957,1580336048
-113,Sleeping,,0.494624,1580336048
-114,Watching TV,,0.602151,1580336048
-115,Reading: sitting,,0.903226,1580336048
-116,Standing in line,,1.01075,1580336048
-117,Cooking,,2,1580336048
-118,"Child-care: bathing, feeding, etc.",,2.7957,1580336048
-119,Food Shopping: with cart,,2.7957,1580336048
-120,Moving: unpacking,,2.7957,1580336048
-121,Playing w/kids: moderate effort,,3.2043,1580336048
-122,"Heavy Cleaning: wash car, windows",,3.5914,1580336048
-123,"Child games: hop-scotch, jacks, etc.",,4,1580336048
-124,Playing w/kids: vigorous effort,,4,1580336048
-125,Moving: household furniture,,4.7957,1580336048
-126,Moving: carrying boxes,,5.5914,1580336048
-127,Auto Repair,,2.4086,1580336048
-128,Wiring and Plumbing,,2.4086,1580336048
-129,Carpentry: refinish furniture,,3.5914,1580336048
-130,Lay or remove carpet/tile,,3.5914,1580336048
-131,"Paint, paper, remodel: inside",,3.5914,1580336048
-132,Cleaning rain gutters,,4,1580336048
-133,Hanging storm windows,,4,1580336048
-134,Paint house: outside,,4,1580336048
-135,Carpentry: outside,,4.7957,1580336048
-136,Roofing,,4.7957,1580336048
-137,Computer Work,,1.09677,1580336048
-138,Light Office Work,,1.2043,1580336048
-139,Sitting in Meetings,,1.29032,1580336048
-140,Desk Work,,1.39785,1580336048
-141,Sitting in Class,,1.39785,1580336048
-142,Truck Driving: sitting,,1.5914,1580336048
-143,Bartending/Server,,2,1580336048
-144,Heavy Equip. Operator,,2,1580336048
-145,Police Officer,,2,1580336048
-146,Theater Work,,2.4086,1580336048
-147,Welding,,2.4086,1580336048
-148,Carpentry Work,,2.7957,1580336048
-149,Coaching Sports,,3.2043,1580336048
-150,"Masseur, standing",,3.2043,1580336048
-151,"Construction, general",,4.4086,1580336048
-152,Coal Mining,,4.7957,1580336048
-153,Horse Grooming,,4.7957,1580336048
-154,Masonry,,5.5914,1580336048
-155,"Forestry, general",,6.4086,1580336048
-156,"Heavy Tools, not power",,6.4086,1580336048
-157,Steel Mill: general,,6.4086,1580336048
-158,Firefighting,,9.5914,1580336048
+id,name,data_src_id,cals_per_rep,cals_per_min,created_at
+1,Weight Lifting: general,13,,2.4086,1580336048
+2,Aerobics: water,13,,3.2043,1580336048
+3,"Stretching, Hatha Yoga",13,,3.2043,1580336048
+4,Calisthenics: moderate,13,,3.5914,1580336048
+5,Riders: general,13,,4,1580336048
+6,Aerobics: low impact,13,,4.4086,1580336048
+7,Stair Step Machine: general,13,,4.7957,1580336048
+8,Teaching aerobics,13,,4.7957,1580336048
+9,Weight Lifting: vigorous,13,,4.7957,1580336048
+10,"Aerobics, Step: low impact",13,,5.5914,1580336048
+11,Aerobics: high impact,13,,5.5914,1580336048
+12,"Bicycling, Stationary: moderate",13,,5.5914,1580336048
+13,"Rowing, Stationary: moderate",13,,5.5914,1580336048
+14,Calisthenics: vigorous,13,,6.4086,1580336048
+15,Circuit Training: general,13,,6.4086,1580336048
+16,"Rowing, Stationary: vigorous",13,,6.7957,1580336048
+17,Elliptical Trainer: general,13,,7.2043,1580336048
+18,Ski Machine: general,13,,7.5914,1580336048
+19,"Aerobics, Step: high impact",13,,8,1580336048
+20,"Bicycling, Stationary: vigorous",13,,8.4086,1580336048
+21,Billiards,13,,2,1580336048
+22,Bowling,13,,2.4086,1580336048
+23,"Dancing: slow, waltz, foxtrot",13,,2.4086,1580336048
+24,Frisbee,13,,2.4086,1580336048
+25,"Volleyball: non-competitive, general play",13,,2.4086,1580336048
+26,Water Volleyball,13,,2.4086,1580336048
+27,Archery: non-hunting,13,,2.7957,1580336048
+28,Golf: using cart,13,,2.7957,1580336048
+29,Hang Gliding,13,,2.7957,1580336048
+30,Curling,13,,3.2043,1580336048
+31,Gymnastics: general,13,,3.2043,1580336048
+32,Horseback Riding: general,13,,3.2043,1580336048
+33,Tai Chi,13,,3.2043,1580336048
+34,"Volleyball: competitive, gymnasium play",13,,3.2043,1580336048
+35,Walking: 3.5 mph (17 min/mi),13,,3.2043,1580336048
+36,Badminton: general,13,,3.5914,1580336048
+37,Walking: 4 mph (15 min/mi),13,,3.5914,1580336048
+38,Kayaking,13,,4,1580336048
+39,Skateboarding,13,,4,1580336048
+40,Snorkeling,13,,4,1580336048
+41,Softball: general play,13,,4,1580336048
+42,Walking: 4.5 mph (13 min/mi),13,,4,1580336048
+43,"Whitewater: rafting, kayaking",13,,4,1580336048
+44,"Dancing: disco, ballroom, square",13,,4.4086,1580336048
+45,Golf: carrying clubs,13,,4.4086,1580336048
+46,"Dancing: Fast, ballet, twist",13,,4.7957,1580336048
+47,Fencing,13,,4.7957,1580336048
+48,Hiking: cross-country,13,,4.7957,1580336048
+49,Skiing: downhill,13,,4.7957,1580336048
+50,Swimming: general,13,,4.7957,1580336048
+51,Walk/Jog: jog <10 min.,13,,4.7957,1580336048
+52,Water Skiing,13,,4.7957,1580336048
+53,Wrestling,13,,4.7957,1580336048
+54,Basketball: wheelchair,13,,5.2043,1580336048
+55,Race Walking,13,,5.2043,1580336048
+56,Ice Skating: general,13,,5.5914,1580336048
+57,"Racquetball: casual, general",13,,5.5914,1580336048
+58,Rollerblade Skating,13,,5.5914,1580336048
+59,Scuba or skin diving,13,,5.5914,1580336048
+60,"Sledding, luge, toboggan",13,,5.5914,1580336048
+61,Soccer: general,13,,5.5914,1580336048
+62,Tennis: general,13,,5.5914,1580336048
+63,Basketball: playing a game,13,,6.4086,1580336048
+64,Bicycling: 12-13.9 mph,13,,6.4086,1580336048
+65,"Football: touch, flag, general",13,,6.4086,1580336048
+66,Hockey: field & ice,13,,6.4086,1580336048
+67,Rock Climbing: rappelling,13,,6.4086,1580336048
+68,Running: 5 mph (12 min/mile),13,,6.4086,1580336048
+69,"Running: pushing wheelchair, marathon wheeling",13,,6.4086,1580336048
+70,Skiing: cross-country,13,,6.4086,1580336048
+71,Snow Shoeing,13,,6.4086,1580336048
+72,Swimming: backstroke,13,,6.4086,1580336048
+73,Volleyball: beach,13,,6.4086,1580336048
+74,Bicycling: BMX or mountain,13,,6.7957,1580336048
+75,Boxing: sparring,13,,7.2043,1580336048
+76,Football: competitive,13,,7.2043,1580336048
+77,Orienteering,13,,7.2043,1580336048
+78,Running: 5.2 mph (11.5 min/mile),13,,7.2043,1580336048
+79,Running: cross-country,13,,7.2043,1580336048
+80,Bicycling: 14-15.9 mph,13,,8,1580336048
+81,"Martial Arts: judo, karate, kickbox",13,,8,1580336048
+82,Racquetball: competitive,13,,8,1580336048
+83,Rope Jumping,13,,8,1580336048
+84,Running: 6 mph (10 min/mile),13,,8,1580336048
+85,Swimming: breaststroke,13,,8,1580336048
+86,"Swimming: laps, vigorous",13,,8,1580336048
+87,"Swimming: treading, vigorous",13,,8,1580336048
+88,Water Polo,13,,8,1580336048
+89,Rock Climbing: ascending,13,,8.7957,1580336048
+90,Running: 6.7 mph (9 min/mile),13,,8.7957,1580336048
+91,Swimming: butterfly,13,,8.7957,1580336048
+92,Swimming: crawl,13,,8.7957,1580336048
+93,Bicycling: 16-19 mph,13,,9.5914,1580336048
+94,Handball: general,13,,9.5914,1580336048
+95,Running: 7.5 mph (8 min/mile),13,,10,1580336048
+96,Running: 8.6 mph (7 min/mile),13,,11.5914,1580336048
+97,Bicycling: > 20 mph,13,,13.2043,1580336048
+98,Running: 10 mph (6 min/mile),13,,13.2043,1580336048
+99,"Planting seedlings, shrubs",13,,3.2043,1580336048
+100,Raking Lawn,13,,3.2043,1580336048
+101,Sacking grass or leaves,13,,3.2043,1580336048
+102,Gardening: general,13,,3.5914,1580336048
+103,"Mowing Lawn: push, power",13,,3.5914,1580336048
+104,Operate Snow Blower: walking,13,,3.5914,1580336048
+105,Plant trees,13,,3.5914,1580336048
+106,Gardening: weeding,13,,3.69892,1580336048
+107,Carrying & stacking wood,13,,4,1580336048
+108,"Digging, spading dirt",13,,4,1580336048
+109,Laying sod / crushed rock,13,,4,1580336048
+110,"Mowing Lawn: push, hand",13,,4.4086,1580336048
+111,Chopping & splitting wood,13,,4.7957,1580336048
+112,Shoveling Snow: by hand,13,,4.7957,1580336048
+113,Sleeping,13,,0.494624,1580336048
+114,Watching TV,13,,0.602151,1580336048
+115,Reading: sitting,13,,0.903226,1580336048
+116,Standing in line,13,,1.01075,1580336048
+117,Cooking,13,,2,1580336048
+118,"Child-care: bathing, feeding, etc.",13,,2.7957,1580336048
+119,Food Shopping: with cart,13,,2.7957,1580336048
+120,Moving: unpacking,13,,2.7957,1580336048
+121,Playing w/kids: moderate effort,13,,3.2043,1580336048
+122,"Heavy Cleaning: wash car, windows",13,,3.5914,1580336048
+123,"Child games: hop-scotch, jacks, etc.",13,,4,1580336048
+124,Playing w/kids: vigorous effort,13,,4,1580336048
+125,Moving: household furniture,13,,4.7957,1580336048
+126,Moving: carrying boxes,13,,5.5914,1580336048
+127,Auto Repair,13,,2.4086,1580336048
+128,Wiring and Plumbing,13,,2.4086,1580336048
+129,Carpentry: refinish furniture,13,,3.5914,1580336048
+130,Lay or remove carpet/tile,13,,3.5914,1580336048
+131,"Paint, paper, remodel: inside",13,,3.5914,1580336048
+132,Cleaning rain gutters,13,,4,1580336048
+133,Hanging storm windows,13,,4,1580336048
+134,Paint house: outside,13,,4,1580336048
+135,Carpentry: outside,13,,4.7957,1580336048
+136,Roofing,13,,4.7957,1580336048
+137,Computer Work,13,,1.09677,1580336048
+138,Light Office Work,13,,1.2043,1580336048
+139,Sitting in Meetings,13,,1.29032,1580336048
+140,Desk Work,13,,1.39785,1580336048
+141,Sitting in Class,13,,1.39785,1580336048
+142,Truck Driving: sitting,13,,1.5914,1580336048
+143,Bartending/Server,13,,2,1580336048
+144,Heavy Equip. Operator,13,,2,1580336048
+145,Police Officer,13,,2,1580336048
+146,Theater Work,13,,2.4086,1580336048
+147,Welding,13,,2.4086,1580336048
+148,Carpentry Work,13,,2.7957,1580336048
+149,Coaching Sports,13,,3.2043,1580336048
+150,"Masseur, standing",13,,3.2043,1580336048
+151,"Construction, general",13,,4.4086,1580336048
+152,Coal Mining,13,,4.7957,1580336048
+153,Horse Grooming,13,,4.7957,1580336048
+154,Masonry,13,,5.5914,1580336048
+155,"Forestry, general",13,,6.4086,1580336048
+156,"Heavy Tools, not power",13,,6.4086,1580336048
+157,Steel Mill: general,13,,6.4086,1580336048
+158,Firefighting,13,,9.5914,1580336048
