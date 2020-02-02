@@ -141,7 +141,7 @@ CREATE TABLE nutr_def(
 CREATE TABLE data_src(
     id INT PRIMARY KEY NOT NULL,
     name VARCHAR(16) NOT NULL,
-    searchable BOOLEAN NOT NULL,
+    is_searchable BOOLEAN NOT NULL,
     UNIQUE(name)
 );
 ---------------------------

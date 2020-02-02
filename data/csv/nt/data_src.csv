@@ -1,4 +1,4 @@
-id,name,searchable
+id,name,is_searchable
 1,USDA,t
 2,USDA (Flavs),t
 3,BFDB,t

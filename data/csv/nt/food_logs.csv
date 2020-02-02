@@ -1,1 +1,3 @@
 id,user_id,eat_on_date,meal_name,amount,msre_id,recipe_id,food_id,created_at
+1,1,2020-02-11,Breakfast,1,5,,13047,1580682961
+2,2,2020-02-11,Breakfast,1,5,,13047,1580682961
