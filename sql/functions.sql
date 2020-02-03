@@ -55,17 +55,22 @@ WHERE
 CREATE
 OR REPLACE FUNCTION get_products_ratings() RETURNS TABLE(
   id INT, name VARCHAR, stripe_id VARCHAR,
-  shippable BOOLEAN, avg_rating REAL
+  shippable BOOLEAN, avg_rating REAL,
+  created_at INT
 ) AS $$
 SELECT
   prod.id,
   prod.name,
   prod.stripe_id,
   shippable,
-  avg(rv.rating):: REAL
+  avg(rv.rating):: REAL,
+  prod.created_at
 FROM
   products prod
+  LEFT JOIN reviews rv on rv.product_id = prod.id
 GROUP BY
+  prod.id
+ORDER BY
   prod.id $$ LANGUAGE SQL;
 --
 --
@@ -232,41 +237,6 @@ FROM
   LEFT JOIN serving_id serv_id ON serv.msre_id = serv_id.id
 WHERE
   serv.food_id = food_id_in $$ LANGUAGE SQL;
---
---
---
--- 2.d
--- Get food[] analysis
---
-CREATE
-OR REPLACE FUNCTION get_foods_by_food_id(
-  food_id_in INT[], fdgrp_id_in INT[]
-) RETURNS TABLE(
-  food_id INT, fdgrp_desc VARCHAR, long_desc VARCHAR,
-  manufacturer VARCHAR
-) AS $$
-SELECT
-  des.id,
-  grp.fdgrp_desc,
-  long_desc,
-  manufacturer
-FROM
-  food_des des
-  LEFT JOIN fdgrp grp ON grp.id = des.fdgrp_id
-  LEFT JOIN (
-    SELECT
-      *
-    FROM
-      unnest(food_id_in) WITH ORDINALITY
-  ) arr_data (id, ordering) ON arr_data.id = des.id
-WHERE
-  des.id = any(food_id_in)
-  AND (
-    fdgrp_id_in IS NULL
-    OR des.fdgrp_id = any(fdgrp_id_in)
-  )
-ORDER BY
-  arr_data.ordering $$ LANGUAGE SQL;
 --
 --
 --++++++++++++++++++++++++++++
