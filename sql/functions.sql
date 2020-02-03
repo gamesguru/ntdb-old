@@ -62,14 +62,7 @@ SELECT
   prod.name,
   prod.stripe_id,
   shippable,
-  (
-    SELECT
-      avg(rv.rating)
-    FROM
-      reviews AS rv
-    WHERE
-      rv.product_id = prod.id
-  ):: REAL
+  avg(rv.rating):: REAL
 FROM
   products prod
 GROUP BY
