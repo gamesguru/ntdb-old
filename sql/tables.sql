@@ -261,30 +261,6 @@ CREATE TABLE portions(
 );
 --
 ------------------------------
---  Custom Food Tags
-------------------------------
--- TODO: Tag pairing data
-CREATE TABLE tag_id(
-  id SERIAL PRIMARY KEY,
-  tag_desc VARCHAR(200) NOT NULL,
-  shared BOOLEAN DEFAULT TRUE NOT NULL,
-  approved BOOLEAN DEFAULT FALSE NOT NULL,
-  created_at INT DEFAULT extract(epoch FROM NOW()),
-  UNIQUE(tag_desc)
-);
-CREATE TABLE tags(
-  food_id INT NOT NULL,
-  tag_id INT NOT NULL,
-  user_id INT NOT NULL,
-  -- votes, approved?
-  created_at INT DEFAULT extract(epoch FROM NOW()),
-  PRIMARY KEY (food_id, tag_id),
-  FOREIGN KEY (food_id) REFERENCES food_des (id) ON UPDATE CASCADE,
-  FOREIGN KEY (tag_id) REFERENCES tag_id (id) ON UPDATE CASCADE,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
-);
---
-------------------------------
 -- Favorite foods
 ------------------------------
 CREATE TABLE favorite_foods(
@@ -314,7 +290,6 @@ CREATE TABLE food_logs(
   FOREIGN KEY (recipe_id) REFERENCES recipe_des(id) ON UPDATE CASCADE,
   FOREIGN KEY (food_id) REFERENCES food_des(id) ON UPDATE CASCADE
 );
---
 ------------------------------
 -- Exercises
 ------------------------------
@@ -339,6 +314,26 @@ CREATE TABLE exercise_logs(
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON UPDATE CASCADE
 );
+------------------------------
+-- Biometrics
+------------------------------
+CREATE TABLE biometrics(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(200) NOT NULL,
+  units VARCHAR(400) NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW())
+);
+CREATE TABLE biometric_logs(
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  biometric_id INT NOT NULL,
+  timestamp TIMESTAMP NOT NULL,
+  bio_val REAL NOT NULL,
+  unit VARCHAR(40) NOT NULL,
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  FOREIGN KEY (biometric_id) REFERENCES biometrics(id) ON UPDATE CASCADE
+);
 --
 ------------------------------
 -- Trainer Roles
@@ -357,7 +352,6 @@ CREATE TABLE trainer_users(
 ------------------------------
 CREATE TABLE reports(
   user_id INT NOT NULL,
-  -- timestamp TIMESTAMP DEFAULT NOW() NOT NULL,
   report_type varchar(255) NOT NULL,
   report_message varchar(1024) NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
@@ -400,7 +394,6 @@ CREATE TABLE reviews(
   product_id INT NOT NULL,
   rating SMALLINT NOT NULL,
   review_text VARCHAR(2000) NOT NULL,
-  -- timestamp TIMESTAMP DEFAULT NOW() NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(user_id, product_id),
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
@@ -416,15 +409,24 @@ CREATE TABLE coupons(
   UNIQUE(code, user_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
 );
+-- Shipping methods
+CREATE TABLE shipping_methods(
+  id INT PRIMARY KEY,
+  -- TODO: only use VARCHAR(n) where abosolutely needed
+  shipping_type TEXT NOT NULL,
+  provider TEXT NOT NULL,
+  name TEXT NOT NULL,
+
+);
 -- Orders
 CREATE TABLE orders(
   id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   -- TODO: FKs?
-  shipping VARCHAR(100) NOT NULL,
+  shipping_method VARCHAR(100) NOT NULL,
   shipping_price REAL NOT NULL,
   payment_method VARCHAR(50) NOT NULL,
-  -- TODO: don't require inputting to DB
+  -- TODO: don't require inputting to DB ?
   address_bill INT NOT NULL,
   address_ship INT NOT NULL,
   status VARCHAR(20) NOT NULL,
@@ -447,7 +449,6 @@ CREATE TABLE order_items(
 CREATE TABLE views(
   user_id INT NOT NULL,
   product_id INT NOT NULL,
-  -- date DATE DEFAULT NOW() NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (user_id, product_id),
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
@@ -473,24 +474,26 @@ CREATE TABLE cart(
 --++++++++++++++++++++++++++++
 --
 ------------------------------
--- Biometrics
+--  Custom Food Tags
 ------------------------------
-CREATE TABLE biometrics(
+CREATE TABLE tag_id(
   id SERIAL PRIMARY KEY,
-  name VARCHAR(200) NOT NULL,
-  units VARCHAR(400) NOT NULL,
-  created_at INT DEFAULT extract(epoch FROM NOW())
-);
-CREATE TABLE biometric_logs(
-  id SERIAL PRIMARY KEY,
-  user_id INT NOT NULL,
-  biometric_id INT NOT NULL,
-  timestamp TIMESTAMP NOT NULL,
-  bio_val REAL NOT NULL,
-  unit VARCHAR(40) NOT NULL,
+  tag_desc VARCHAR(200) NOT NULL,
+  shared BOOLEAN DEFAULT TRUE NOT NULL,
+  approved BOOLEAN DEFAULT FALSE NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
-  FOREIGN KEY (biometric_id) REFERENCES biometrics(id) ON UPDATE CASCADE
+  UNIQUE(tag_desc)
+);
+CREATE TABLE tags(
+  food_id INT NOT NULL,
+  tag_id INT NOT NULL,
+  user_id INT NOT NULL,
+  -- votes, approved?
+  created_at INT DEFAULT extract(epoch FROM NOW()),
+  PRIMARY KEY (food_id, tag_id),
+  FOREIGN KEY (food_id) REFERENCES food_des (id) ON UPDATE CASCADE,
+  FOREIGN KEY (tag_id) REFERENCES tag_id (id) ON UPDATE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 --
 ------------------------------
