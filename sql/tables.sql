@@ -32,7 +32,7 @@ CREATE TABLE users(
   id SERIAL PRIMARY KEY,
   username VARCHAR(18),
   passwd VARCHAR(300),
-  stripe_id VARCHAR(200) NOT NULL,
+  stripe_id VARCHAR(200),
   certified_beta_tester BOOLEAN DEFAULT FALSE,
   certified_beta_trainer_tester BOOLEAN DEFAULT FALSE,
   accept_eula BOOLEAN NOT NULL DEFAULT FALSE,
@@ -51,7 +51,6 @@ CREATE TABLE users(
   bodyfat_method SMALLINT,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(username),
-  UNIQUE(passwd),
   UNIQUE(stripe_id)
 );
 --
