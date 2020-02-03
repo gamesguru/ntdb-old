@@ -91,10 +91,15 @@ SELECT
   cn.name,
   cn.has_zip,
   cn.requires_state,
-  json_agg(
-    json_build_object(
-      'id', st.id, 'code', st.code, 'name',
-      st.name
+  COALESCE(
+    json_agg(
+      json_build_object(
+        'id', st.id, 'code', st.code, 'name',
+        st.name
+      )
+    ) FILTER (
+      WHERE
+        st.id IS NOT NULL
     )
   )
 FROM
