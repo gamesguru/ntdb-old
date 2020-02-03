@@ -77,6 +77,34 @@ GROUP BY
 --
 --
 --
+-- 1.c
+-- Get countries with states
+--
+CREATE
+OR REPLACE FUNCTION get_countries_states() RETURNS TABLE(
+  id INT, code VARCHAR, name VARCHAR, has_zip BOOLEAN,
+  requires_state BOOLEAN, states JSON
+) AS $$
+SELECT
+  cn.id,
+  cn.code,
+  cn.name,
+  cn.has_zip,
+  cn.requires_state,
+  json_agg(
+    json_build_object(
+      'id', st.id, 'code', st.code, 'name',
+      st.name
+    )
+  )
+FROM
+  countries cn
+  LEFT JOIN states st on cn.id = st.country_id
+GROUP BY
+  cn.id $$ LANGUAGE SQL;
+--
+--
+--
 -- 1.e
 -- Place order
 --
