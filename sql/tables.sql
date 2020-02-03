@@ -416,14 +416,13 @@ CREATE TABLE shipping_methods(
   shipping_type TEXT NOT NULL,
   provider TEXT NOT NULL,
   name TEXT NOT NULL,
-
+  transit_time TEXT NOT NULL
 );
 -- Orders
 CREATE TABLE orders(
   id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  -- TODO: FKs?
-  shipping_method VARCHAR(100) NOT NULL,
+  shipping_method_id INT NOT NULL,
   shipping_price REAL NOT NULL,
   payment_method VARCHAR(50) NOT NULL,
   -- TODO: don't require inputting to DB ?
@@ -433,6 +432,7 @@ CREATE TABLE orders(
   tracking_num VARCHAR(200),
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  FOREIGN KEY (shipping_method_id) REFERENCES shipping_methods(id) ON UPDATE CASCADE,
   FOREIGN KEY (address_bill) REFERENCES addresses(id) ON UPDATE CASCADE,
   FOREIGN KEY (address_ship) REFERENCES addresses(id) ON UPDATE CASCADE
 );
