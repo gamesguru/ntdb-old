@@ -155,7 +155,8 @@ SELECT
   json_agg(
     json_build_object(
       'food_id', des.id, 'long_desc', des.long_desc,
-      'nutr_val', val.nutr_val
+      'nutr_val', val.nutr_val, 'data_src',
+      src.name, 'fdgrp_desc', grp.fdgrp_desc
     )
     ORDER BY
       val.nutr_val DESC
@@ -175,6 +176,8 @@ FROM
   ) val
   LEFT JOIN nutr_def def ON def.id = val.nutr_id
   LEFT JOIN food_des des ON val.food_id = des.id
+  LEFT JOIN data_src src ON src.id = des.data_src_id
+  LEFT JOIN fdgrp grp ON grp.id = des.fdgrp_id
 GROUP BY
   def.id,
   def.units,
