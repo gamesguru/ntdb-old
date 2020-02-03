@@ -31,15 +31,15 @@ SET search_path TO nt;
 CREATE TABLE users(
   id SERIAL PRIMARY KEY,
   username VARCHAR(18),
-  passwd VARCHAR(300),
-  stripe_id VARCHAR(200),
+  passwd TEXT,
+  stripe_id TEXT,
   certified_beta_tester BOOLEAN DEFAULT FALSE,
   certified_beta_trainer_tester BOOLEAN DEFAULT FALSE,
   accept_eula BOOLEAN NOT NULL DEFAULT FALSE,
   passed_onboarding_tutorial BOOLEAN DEFAULT FALSE,
-  gender VARCHAR(20),
-  name_first VARCHAR(90),
-  name_last VARCHAR(90),
+  gender TEXT,
+  name_first VARCHAR(20),
+  name_last VARCHAR(30),
   dob DATE,
   height SMALLINT,
   height_units VARCHAR(2),
@@ -65,10 +65,10 @@ CREATE TABLE emails(
 --
 CREATE TABLE tokens(
   user_id INT NOT NULL,
-  token VARCHAR(200) NOT NULL,
+  token TEXT NOT NULL,
   -- email_token_activate
   -- email_token_pw_reset
-  type VARCHAR(30) NOT NULL,
+  type TEXT NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(token),
   UNIQUE(user_id, type),
@@ -76,8 +76,8 @@ CREATE TABLE tokens(
 );
 CREATE TABLE countries(
   id INT NOT NULL PRIMARY KEY,
-  code VARCHAR(3) NOT NULL,
-  name VARCHAR(60) NOT NULL,
+  code TEXT NOT NULL,
+  name TEXT NOT NULL,
   has_zip BOOLEAN NOT NULL,
   requires_state BOOLEAN NOT NULL,
   UNIQUE(code),
@@ -86,8 +86,8 @@ CREATE TABLE countries(
 CREATE TABLE states(
   id INT PRIMARY KEY,
   country_id INT NOT NULL,
-  code VARCHAR(4) NOT NULL,
-  name VARCHAR(60) NOT NULL,
+  code TEXT NOT NULL,
+  name TEXT NOT NULL,
   UNIQUE(country_id, name),
   -- UNIQUE(country_id, code),
   FOREIGN KEY (country_id) REFERENCES countries (id)
@@ -124,7 +124,7 @@ CREATE TABLE nutr_def(
   rda REAL,
   units VARCHAR(10),
   tagname VARCHAR(10) NOT NULL,
-  nutr_desc VARCHAR(80) NOT NULL,
+  nutr_desc TEXT NOT NULL,
   is_anti BOOLEAN NOT NULL,
   user_id BIGINT,
   is_shared BOOLEAN NOT NULL,
@@ -134,7 +134,7 @@ CREATE TABLE nutr_def(
 );
 CREATE TABLE data_src(
     id INT PRIMARY KEY NOT NULL,
-    name VARCHAR(16) NOT NULL,
+    name TEXT NOT NULL,
     is_searchable BOOLEAN NOT NULL,
     UNIQUE(name)
 );
@@ -143,7 +143,7 @@ CREATE TABLE data_src(
 ---------------------------
 CREATE TABLE fdgrp(
   id INT PRIMARY KEY,
-  fdgrp_desc VARCHAR(200),
+  fdgrp_desc TEXT,
   UNIQUE(fdgrp_desc)
 );
 --
@@ -154,15 +154,16 @@ CREATE TABLE food_des(
   id SERIAL PRIMARY KEY,
   fdgrp_id INT NOT NULL,
   data_src_id INT NOT NULL,
-  long_desc VARCHAR(400) NOT NULL,
+  long_desc TEXT NOT NULL,
   shrt_desc VARCHAR(200),
-  comm_name VARCHAR(200),
-  manufacturer VARCHAR(300),
+  -- TODO: same as sci_name.
+  comm_name TEXT,
+  manufacturer TEXT,
   -- gtin_UPC DECIMAL,
   -- ingredients TEXT,
-  ref_desc VARCHAR(150),
+  ref_desc TEXT,
   refuse INT,
-  sci_name VARCHAR(200),
+  sci_name TEXT,
   user_id INT,
   is_shared BOOLEAN NOT NULL,
   -- UNIQUE(gtin_UPC),
@@ -189,7 +190,7 @@ CREATE TABLE nut_data(
 ------------------------------
 CREATE TABLE serving_id(
   id SERIAL PRIMARY KEY,
-  msre_desc VARCHAR(200) NOT NULL,
+  msre_desc TEXT NOT NULL,
   UNIQUE(msre_desc)
 );
 CREATE TABLE servings(
@@ -225,7 +226,7 @@ CREATE TABLE rda(
 ------------------------------
 CREATE TABLE recipe_des(
   id SERIAL PRIMARY KEY,
-  recipe_name VARCHAR(300) NOT NULL,
+  recipe_name VARCHAR(255) NOT NULL,
   user_id INT NOT NULL,
   -- publicly shared ?
   shared BOOLEAN NOT NULL,
@@ -246,7 +247,7 @@ CREATE TABLE recipe_dat(
 -- Recipe Portions
 CREATE TABLE portion_id (
   id SERIAL PRIMARY KEY,
-  portion_desc VARCHAR(200) NOT NULL,
+  portion_desc VARCHAR(255) NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(portion_desc)
 );
@@ -279,7 +280,8 @@ CREATE TABLE food_logs(
   id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
   eat_on_date DATE NOT NULL,
-  meal_name VARCHAR(20) NOT NULL,
+  -- TODO: FK and meal TABLE ?
+  meal_name TEXT NOT NULL,
   amount REAL NOT NULL,
   msre_id INT,
   recipe_id INT,
@@ -295,7 +297,7 @@ CREATE TABLE food_logs(
 ------------------------------
 CREATE TABLE exercises(
   id SERIAL PRIMARY KEY,
-  name VARCHAR(300) NOT NULL,
+  name TEXT NOT NULL,
   data_src_id INT NOT NULL,
   cals_per_rep REAL,
   cals_per_min REAL,
@@ -319,8 +321,8 @@ CREATE TABLE exercise_logs(
 ------------------------------
 CREATE TABLE biometrics(
   id SERIAL PRIMARY KEY,
-  name VARCHAR(200) NOT NULL,
-  units VARCHAR(400) NOT NULL,
+  name TEXT NOT NULL,
+  units TEXT NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW())
 );
 CREATE TABLE biometric_logs(
@@ -329,7 +331,7 @@ CREATE TABLE biometric_logs(
   biometric_id INT NOT NULL,
   timestamp TIMESTAMP NOT NULL,
   bio_val REAL NOT NULL,
-  unit VARCHAR(40) NOT NULL,
+  unit TEXT NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (biometric_id) REFERENCES biometrics(id) ON UPDATE CASCADE
@@ -352,8 +354,9 @@ CREATE TABLE trainer_users(
 ------------------------------
 CREATE TABLE reports(
   user_id INT NOT NULL,
-  report_type varchar(255) NOT NULL,
-  report_message varchar(1024) NOT NULL,
+  -- TODO: FK with report_type TABLE ?
+  report_type TEXT NOT NULL,
+  report_message TEXT NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY(user_id, created_at),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
@@ -370,18 +373,18 @@ CREATE TABLE reports(
 ------------------------------
 CREATE TABLE products(
   id SERIAL PRIMARY KEY,
-  stripe_id VARCHAR(100) NOT NULL,
-  name VARCHAR(300) NOT NULL,
+  stripe_id TEXT NOT NULL,
+  name TEXT NOT NULL,
   shippable BOOLEAN NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW())
 );
 CREATE TABLE variants(
   id SERIAL PRIMARY KEY,
   product_id INT NOT NULL,
-  stripe_id VARCHAR(100) NOT NULL,
-  name VARCHAR(60) NOT NULL,
+  stripe_id TEXT NOT NULL,
+  name TEXT NOT NULL,
   price INT NOT NULL,
-  size VARCHAR(20),
+  size TEXT,
   stock INT,
   interval INT,
   created_at INT DEFAULT extract(epoch FROM NOW()),
@@ -393,7 +396,7 @@ CREATE TABLE reviews(
   user_id INT NOT NULL,
   product_id INT NOT NULL,
   rating SMALLINT NOT NULL,
-  review_text VARCHAR(2000) NOT NULL,
+  review_text TEXT NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(user_id, product_id),
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE,
@@ -402,7 +405,7 @@ CREATE TABLE reviews(
 -- Coupon codes
 CREATE TABLE coupons(
   id SERIAL PRIMARY KEY,
-  code VARCHAR(200) NOT NULL,
+  code TEXT NOT NULL,
   user_id INT,
   expires INT NOT NULL,
   created_at INT NOT NULL,
@@ -424,11 +427,12 @@ CREATE TABLE orders(
   user_id INT NOT NULL,
   shipping_method_id INT NOT NULL,
   shipping_price REAL NOT NULL,
-  payment_method VARCHAR(50) NOT NULL,
-  -- TODO: don't require inputting to DB ?
+  -- TODO: FKs with payment_method TABLE ?
+  payment_method TEXT NOT NULL,
+  -- TODO: don't require inputting to DB ?  Guests.
   address_bill INT NOT NULL,
   address_ship INT NOT NULL,
-  status VARCHAR(20) NOT NULL,
+  status TEXT NOT NULL,
   tracking_num VARCHAR(200),
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
@@ -478,7 +482,7 @@ CREATE TABLE cart(
 ------------------------------
 CREATE TABLE tag_id(
   id SERIAL PRIMARY KEY,
-  tag_desc VARCHAR(200) NOT NULL,
+  tag_desc VARCHAR(255) NOT NULL,
   shared BOOLEAN DEFAULT TRUE NOT NULL,
   approved BOOLEAN DEFAULT FALSE NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
