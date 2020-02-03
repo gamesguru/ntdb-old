@@ -75,28 +75,22 @@ CREATE TABLE tokens(
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 CREATE TABLE countries(
-  name VARCHAR NOT NULL,
-  alpha2 VARCHAR,
-  alpha3 VARCHAR PRIMARY KEY,
-  "country-code" DECIMAL NOT NULL,
-  "iso_3166-2" VARCHAR NOT NULL,
-  region VARCHAR,
-  "sub-region" VARCHAR,
-  "intermediate-region" VARCHAR,
-  "region-code" DECIMAL,
-  "sub-region-code" DECIMAL,
-  "intermediate-region-code" DECIMAL,
-  UNIQUE(name),
-  UNIQUE(alpha2),
-  UNIQUE("country-code")
+  id INT NOT NULL PRIMARY KEY,
+  code VARCHAR(3) NOT NULL,
+  name VARCHAR(60) NOT NULL,
+  has_zip BOOLEAN NOT NULL,
+  requires_state BOOLEAN NOT NULL,
+  UNIQUE(code),
+  UNIQUE(name)
 );
 CREATE TABLE states(
-  abbrev VARCHAR(3) PRIMARY KEY,
-  country_code VARCHAR(3) NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  type VARCHAR(40),
-  UNIQUE(name),
-  FOREIGN KEY (country_code) REFERENCES countries (alpha3)
+  id INT PRIMARY KEY,
+  country_id INT NOT NULL,
+  code VARCHAR(4) NOT NULL,
+  name VARCHAR(60) NOT NULL,
+  UNIQUE(country_id, name),
+  -- UNIQUE(country_id, code),
+  FOREIGN KEY (country_id) REFERENCES countries (id)
 );
 CREATE TABLE addresses(
   id SERIAL PRIMARY KEY,
@@ -104,15 +98,16 @@ CREATE TABLE addresses(
   company_name VARCHAR(70),
   street_address VARCHAR(90) NOT NULL,
   apartment_unit VARCHAR(20),
-  country_code VARCHAR(3) NOT NULL,
-  state VARCHAR(30),
+  country_id INT NOT NULL,
+  state_id INT,
   zip VARCHAR(20),
   name_first VARCHAR(90) NOT NULL,
   name_last VARCHAR(90) NOT NULL,
   phone VARCHAR(20) NOT NULL,
   email VARCHAR(80) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id),
-  FOREIGN KEY (country_code) REFERENCES countries (alpha3)
+  FOREIGN KEY (country_id) REFERENCES countries (id),
+  FOREIGN KEY (state_id) REFERENCES states (id)
 );
 --
 --
