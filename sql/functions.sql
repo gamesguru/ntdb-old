@@ -90,14 +90,7 @@ SELECT
   prod.name,
   prod.stripe_id,
   shippable,
-  json_agg(
-    json_build_object(
-      'id', vars.id, 'stripe_id', vars.stripe_id,
-      'name', vars.name, 'price', vars.price,
-      'size', vars.size, 'stock', vars.stock,
-      'interval', vars.interval
-    )
-  )
+  json_agg(vars)
 FROM
   products prod
   INNER JOIN variants vars on vars.product_id = prod.id
@@ -120,17 +113,7 @@ SELECT
   cn.name,
   cn.has_zip,
   cn.requires_state,
-  COALESCE(
-    json_agg(
-      json_build_object(
-        'id', st.id, 'code', st.code, 'name',
-        st.name
-      )
-    ) FILTER (
-      WHERE
-        st.id IS NOT NULL
-    )
-  )
+  json_agg(st)
 FROM
   countries cn
   LEFT JOIN states st on cn.id = st.country_id

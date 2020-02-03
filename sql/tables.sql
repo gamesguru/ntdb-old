@@ -373,8 +373,8 @@ CREATE TABLE reports(
 ------------------------------
 CREATE TABLE products(
   id SERIAL PRIMARY KEY,
-  stripe_id TEXT NOT NULL,
   name TEXT NOT NULL,
+  stripe_id TEXT NOT NULL,
   shippable BOOLEAN NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW())
 );

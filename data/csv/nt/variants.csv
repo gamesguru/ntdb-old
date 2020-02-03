@@ -1,14 +1,14 @@
 id,product_id,stripe_id,denomination,price,weight,dimensions,stock,interval,created_at
-1,1,sku_GSjaLKuqEXiHpK,50g [powder],8,50,,9,,1580575805
-2,1,sku_GdBVJFbeTVpebj,250g [powder],36,250,"{1,2,1}",3,,1580575805
-3,2,sku_GdBXf4eJyZ9C3T,125g [lotion],8,125,,10,,1580575805
-4,2,sku_GSjQP3PKz4Urem,500g [lotion],38,500,,6,,1580575805
-5,3,sku_FMykwJ0tYNSTqc,50g [powder],9,50,,5,,1580182757
-6,3,sku_FMylWwUHRwDItd,250g [powder],40,250,,3,,1580182757
-7,4,sku_F9tAlXLOaLPRoE,50g [powder],8,50,,6,,1580182757
-8,4,sku_F9tAHkEnZM8J6f,250g [powder],25,250,,3,,1580182757
-9,5,sku_F9tA9Ez2UgIyRj,50g [powder],8,50,,9,,1580182757
-10,5,sku_F9t9xdkFMxINat,250g [powder],25,250,,10,,1580182757
+1,1,sku_GSjaLKuqEXiHpK,50g [powder],8,50,"{10,5,5}",9,,1580575805
+2,1,sku_GdBVJFbeTVpebj,250g [powder],36,250,"{20,10,5}",3,,1580575805
+3,2,sku_GdBXf4eJyZ9C3T,125g [lotion],8,125,"{10,5,5}",10,,1580575805
+4,2,sku_GSjQP3PKz4Urem,500g [lotion],38,500,"{20,10,5}",6,,1580575805
+5,3,sku_FMykwJ0tYNSTqc,50g [powder],9,50,"{10,5,5}",5,,1580182757
+6,3,sku_FMylWwUHRwDItd,250g [powder],40,250,"{20,10,5}",3,,1580182757
+7,4,sku_F9tAlXLOaLPRoE,50g [powder],8,50,"{10,5,5}",6,,1580182757
+8,4,sku_F9tAHkEnZM8J6f,250g [powder],25,250,"{20,10,5}",3,,1580182757
+9,5,sku_F9tA9Ez2UgIyRj,50g [powder],8,50,"{10,5,5}",9,,1580182757
+10,5,sku_F9t9xdkFMxINat,250g [powder],25,250,"{20,10,5}",10,,1580182757
 11,6,plan_F9tDh9Br159z2n,Monthly,10,,,,30,1580348940
 12,6,plan_F9tD9aotkZoIke,Annual,96,,,,365,1580348940
 13,7,plan_F9tC4Ea38v9KjN,Monthly,50,,,,30,1580348940

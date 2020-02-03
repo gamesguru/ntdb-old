@@ -1,8 +1,8 @@
-id,stripe_id,name,shippable,created_at
-1,prod_GSjaZvuDArNUQ0,Nature-Fresh Mouth Rinse,t,1580226693
-2,prod_GSjQHpuy4eUBgh,Nature-Fresh Skin Lotion,t,1580226693
-3,prod_FMykocKGla0rEZ,Focus Formula,t,1580226693
-4,prod_F9tAjgt53kC2DO,T-Boost,t,1580226693
-5,prod_F9t9QWJWt8Abz0,Relaxation Formula,t,1580226693
-6,prod_F9tCwUHfrq528I,Premium Membership,f,1580349351
-7,prod_F9tBkzhe8GDsyN,Trainer (Commercial),f,1580349351
+id,name,stripe_id,shippable,created_at
+1,Nature-Fresh Mouth Rinse,prod_GSjaZvuDArNUQ0,t,1580226693
+2,Nature-Fresh Skin Lotion,prod_GSjQHpuy4eUBgh,t,1580226693
+3,Focus Formula,prod_FMykocKGla0rEZ,t,1580226693
+4,T-Boost,prod_F9tAjgt53kC2DO,t,1580226693
+5,Relaxation Formula,prod_F9t9QWJWt8Abz0,t,1580226693
+6,Premium Membership,prod_F9tCwUHfrq528I,f,1580349351
+7,Trainer (Commercial),prod_F9tBkzhe8GDsyN,f,1580349351
