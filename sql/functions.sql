@@ -78,6 +78,35 @@ GROUP BY
 --
 --
 -- 1.c
+-- Get products with variants
+--
+CREATE
+OR REPLACE FUNCTION get_products_variants() RETURNS TABLE(
+  id INT, name VARCHAR, stripe_id VARCHAR,
+  shippable BOOLEAN, variants JSON
+) AS $$
+SELECT
+  prod.id,
+  prod.name,
+  prod.stripe_id,
+  shippable,
+  json_agg(
+    json_build_object(
+      'id', vars.id, 'stripe_id', vars.stripe_id,
+      'name', vars.name, 'price', vars.price,
+      'size', vars.size, 'stock', vars.stock,
+      'interval', vars.interval
+    )
+  )
+FROM
+  products prod
+  INNER JOIN variants vars on vars.product_id = prod.id
+GROUP BY
+  prod.id $$ LANGUAGE SQL;
+--
+--
+--
+-- 1.d
 -- Get countries with states
 --
 CREATE
