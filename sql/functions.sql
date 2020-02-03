@@ -32,7 +32,7 @@ SET
 -- Get product reviews (with username)
 --
 CREATE
-OR REPLACE FUNCTION get_product_reviews(product_id_in VARCHAR) RETURNS TABLE(
+OR REPLACE FUNCTION get_product_reviews(product_id_in INT) RETURNS TABLE(
   username VARCHAR, rating SMALLINT,
   review_text VARCHAR, created_at INT
 ) AS $$
@@ -54,15 +54,13 @@ WHERE
 --
 CREATE
 OR REPLACE FUNCTION get_products_ratings() RETURNS TABLE(
-  id VARCHAR, name VARCHAR, price_min INT,
-  price_max INT, shippable BOOLEAN,
-  avg_rating REAL, inventory_stocks JSON
+  id INT, name VARCHAR, stripe_id VARCHAR,
+  shippable BOOLEAN, avg_rating REAL
 ) AS $$
 SELECT
   prod.id,
   prod.name,
-  price_min,
-  price_max,
+  prod.stripe_id,
   shippable,
   (
     SELECT
@@ -71,15 +69,9 @@ SELECT
       reviews AS rv
     WHERE
       rv.product_id = prod.id
-  ):: REAL,
-  json_agg(
-    json_build_object(sk.id, sk.inventory_stock)
-  )
+  ):: REAL
 FROM
   products prod
-  LEFT JOIN skus AS sk ON sk.product_id = prod.id
-WHERE
-  shippable
 GROUP BY
   prod.id $$ LANGUAGE SQL;
 --

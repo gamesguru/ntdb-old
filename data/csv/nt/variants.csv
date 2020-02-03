@@ -1,0 +1,15 @@
+id,product_id,stripe_id,name,price,size,stock,interval,created_at
+1,1,sku_GdBVJFbeTVpebj,Nature-Fresh Mouth Rinse (6 oz),3600,6 oz.,3,,1580575805
+2,1,sku_GSjaLKuqEXiHpK,Nature-Fresh Mouth Rinse (1 oz),800,1 oz.,9,,1580575805
+3,2,sku_GdBXf4eJyZ9C3T,Nature-Fresh Skin Lotion (3 oz),800,3 oz.,10,,1580575805
+4,2,sku_GSjQP3PKz4Urem,Nature-Fresh Skin Lotion (15 oz),3800,15 oz.,6,,1580575805
+5,3,sku_FMylWwUHRwDItd,Focus Formula (10 oz),4000,10 oz.,3,,1580182757
+6,3,sku_FMykwJ0tYNSTqc,Focus Formula (2 oz),900,2 oz.,5,,1580182757
+7,4,sku_F9tAlXLOaLPRoE,T-Boost (2.5 oz),800,2.5 oz.,6,,1580182757
+8,4,sku_F9tAHkEnZM8J6f,T-Boost (10 oz),2500,10 oz.,3,,1580182757
+9,5,sku_F9tA9Ez2UgIyRj,Relaxation Formula (2.5 oz),800,2.5 oz.,9,,1580182757
+10,5,sku_F9t9xdkFMxINat,Relaxation Formula (10 oz),2500,10 oz.,10,,1580182757
+11,6,plan_F9tDh9Br159z2n,Premium Membership (Monthly),1000,,,30,1580348940
+12,6,plan_F9tD9aotkZoIke,Premium Membership (Annual),9600,,,365,1580348940
+13,7,plan_F9tC4Ea38v9KjN,Trainer (Commercial) (Monthly),5000,,,30,1580348940
+14,7,plan_F9tB9VnbHqvFRk,Trainer (Commercial) (Annual),54000,,,365,1580348940

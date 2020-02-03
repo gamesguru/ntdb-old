@@ -1,8 +1,8 @@
-id,name,price_min,price_max,shippable,created_at
-prod_GSjaZvuDArNUQ0,Nature-Fresh Mouth Rinse,800,3600,t,1580226693
-prod_GSjQHpuy4eUBgh,Nature-Fresh Skin Lotion,800,3800,t,1580226693
-prod_FMykocKGla0rEZ,Focus Formula,900,4000,t,1580226693
-prod_F9tAjgt53kC2DO,T-Boost,800,2500,t,1580226693
-prod_F9t9QWJWt8Abz0,Relaxation Formula,800,2500,t,1580226693
-prod_F9tCwUHfrq528I,Premium Membership,1000,9600,f,1580349351
-prod_F9tBkzhe8GDsyN,Trainer (Commercial),5000,54000,f,1580349351
+id,stripe_id,name,shippable,created_at
+1,prod_GSjaZvuDArNUQ0,Nature-Fresh Mouth Rinse,t,1580226693
+2,prod_GSjQHpuy4eUBgh,Nature-Fresh Skin Lotion,t,1580226693
+3,prod_FMykocKGla0rEZ,Focus Formula,t,1580226693
+4,prod_F9tAjgt53kC2DO,T-Boost,t,1580226693
+5,prod_F9t9QWJWt8Abz0,Relaxation Formula,t,1580226693
+6,prod_F9tCwUHfrq528I,Premium Membership,f,1580349351
+7,prod_F9tBkzhe8GDsyN,Trainer (Commercial),f,1580349351

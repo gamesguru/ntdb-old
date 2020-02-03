@@ -381,30 +381,21 @@ CREATE TABLE reports(
 -- Products
 ------------------------------
 CREATE TABLE products(
-  id VARCHAR(255) PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
+  stripe_id VARCHAR(100) NOT NULL,
   name VARCHAR(300) NOT NULL,
-  price_min INT NOT NULL,
-  price_max INT NOT NULL,
   shippable BOOLEAN NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW())
 );
--- SKUs
-CREATE TABLE skus(
-  id VARCHAR(255) PRIMARY KEY,
-  product_id VARCHAR(255) NOT NULL,
-  name VARCHAR(300) NOT NULL,
-  price SMALLINT NOT NULL,
-  inventory_stock SMALLINT NOT NULL,
-  created_at INT DEFAULT extract(epoch FROM NOW()),
-  FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
-);
--- Plans
-CREATE TABLE plans(
-  id VARCHAR(255) PRIMARY KEY,
-  product_id VARCHAR(255) NOT NULL,
-  name VARCHAR(300) NOT NULL,
+CREATE TABLE variants(
+  id SERIAL PRIMARY KEY,
+  product_id INT NOT NULL,
+  stripe_id VARCHAR(100) NOT NULL,
+  name VARCHAR(60) NOT NULL,
   price INT NOT NULL,
-  interval VARCHAR(20) NOT NULL,
+  size VARCHAR(20),
+  stock INT,
+  interval INT,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE
 );
@@ -412,7 +403,7 @@ CREATE TABLE plans(
 CREATE TABLE reviews(
   id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  product_id VARCHAR(255) NOT NULL,
+  product_id INT NOT NULL,
   rating SMALLINT NOT NULL,
   review_text VARCHAR(2000) NOT NULL,
   -- timestamp TIMESTAMP DEFAULT NOW() NOT NULL,
@@ -451,7 +442,7 @@ CREATE TABLE orders(
 );
 CREATE TABLE order_items(
   order_id INT NOT NULL,
-  product_id VARCHAR(255) NOT NULL,
+  product_id INT NOT NULL,
   quanity SMALLINT NOT NULL,
   price REAL NOT NULL,
   UNIQUE(order_id, product_id),
@@ -461,7 +452,7 @@ CREATE TABLE order_items(
 -- Views (products)
 CREATE TABLE views(
   user_id INT NOT NULL,
-  product_id VARCHAR(255) NOT NULL,
+  product_id INT NOT NULL,
   -- date DATE DEFAULT NOW() NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (user_id, product_id),
@@ -474,7 +465,7 @@ CREATE TABLE views(
 CREATE TABLE cart(
   id SERIAL PRIMARY KEY,
   user_id INT NOT NULL,
-  product_id VARCHAR(255) NOT NULL,
+  product_id INT NOT NULL,
   quanity SMALLINT NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW()),
   UNIQUE(user_id, product_id),

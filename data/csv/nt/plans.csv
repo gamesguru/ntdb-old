@@ -1,5 +1,0 @@
-id,product_id,name,price,interval,created_at
-plan_F9tDh9Br159z2n,prod_F9tCwUHfrq528I,Premium Membership (Monthly),1000,month,1580348940
-plan_F9tD9aotkZoIke,prod_F9tCwUHfrq528I,Premium Membership (Annual),9600,year,1580348940
-plan_F9tC4Ea38v9KjN,prod_F9tBkzhe8GDsyN,Trainer (Commercial) (Monthly),5000,month,1580348940
-plan_F9tB9VnbHqvFRk,prod_F9tBkzhe8GDsyN,Trainer (Commercial) (Annual),54000,year,1580348940
