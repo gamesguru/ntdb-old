@@ -68,6 +68,8 @@ SELECT
 FROM
   products prod
   LEFT JOIN reviews rv on rv.product_id = prod.id
+WHERE
+  released
 GROUP BY
   prod.id
 ORDER BY
@@ -92,6 +94,8 @@ SELECT
 FROM
   products prod
   INNER JOIN variants vars on vars.product_id = prod.id
+WHERE
+  released
 GROUP BY
   prod.id $$ LANGUAGE SQL;
 --

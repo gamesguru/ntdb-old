@@ -376,6 +376,7 @@ CREATE TABLE products(
   name TEXT NOT NULL,
   stripe_id TEXT NOT NULL,
   shippable BOOLEAN NOT NULL,
+  released BOOLEAN NOT NULL,
   created_at INT DEFAULT extract(epoch FROM NOW())
 );
 CREATE TABLE variants(
