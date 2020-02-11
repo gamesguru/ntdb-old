@@ -13,11 +13,6 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
---
---
-------------------------
--- init schemas
-------------------------
 
 DROP SCHEMA nt CASCADE;
 
@@ -25,13 +20,10 @@ CREATE SCHEMA nt;
 
 SET search_path TO nt;
 
---
---
 --++++++++++++++++++++++++++++
 --++++++++++++++++++++++++++++
--- Main users table
+-- Main users tables
 --++++++++++++++++++++++++++++
---
 
 CREATE TABLE users (
   id serial PRIMARY KEY,
@@ -54,34 +46,42 @@ CREATE TABLE users (
   weight_goal smallint,
   bmr_equation smallint,
   bodyfat_method smallint,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   UNIQUE (username),
   UNIQUE (stripe_id)
 );
 
---
 CREATE TABLE emails (
   email varchar(140) PRIMARY KEY,
   user_id int NOT NULL,
   activated boolean DEFAULT FALSE,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   UNIQUE (user_id, activated),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
---
+-- CREATE TABLE token_types (
+--   id serial PRIMARY KEY,
+--   family text NOT NULL,
+--   -- email_token_activate
+--   -- email_token_pw_reset
+--   name text NOT NULL
+-- );
+
 CREATE TABLE tokens (
   user_id int NOT NULL,
   token text NOT NULL,
-  -- email_token_activate
-  -- email_token_pw_reset
-
   type TEXT NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
+  expires int,
   UNIQUE (token),
   UNIQUE (user_id, TYPE),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
+
+---------------------------
+-- Ship/bill addresses
+---------------------------
 
 CREATE TABLE countries (
   id int NOT NULL PRIMARY KEY,
@@ -127,10 +127,6 @@ CREATE TABLE addresses (
 --++++++++++++++++++++++++++++
 -- USDA SR Database
 --++++++++++++++++++++++++++++
---
----------------------------
--- Nutrient definitions
----------------------------
 
 CREATE TABLE nutr_def (
   id int PRIMARY KEY,
@@ -163,7 +159,6 @@ CREATE TABLE fdgrp (
   UNIQUE (fdgrp_desc)
 );
 
---
 ---------------------------
 -- Food names
 ---------------------------
@@ -191,7 +186,6 @@ CREATE TABLE food_des (
   FOREIGN KEY (data_src_id) REFERENCES data_src (id)
 );
 
---
 ---------------------------
 -- Food-Nutrient data
 ---------------------------
@@ -206,7 +200,6 @@ CREATE TABLE nut_data (
   FOREIGN KEY (nutr_id) REFERENCES nutr_def (id) ON UPDATE CASCADE
 );
 
---
 ------------------------------
 -- Servings
 ------------------------------
@@ -232,15 +225,12 @@ CREATE TABLE servings (
 --++++++++++++++++++++++++++++
 -- Users Database
 --++++++++++++++++++++++++++++
-------------------------------
--- Custom RDAs
-------------------------------
 
 CREATE TABLE rda (
   nutr_id int NOT NULL,
   user_id int NOT NULL,
   rda real NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (user_id, nutr_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (nutr_id) REFERENCES nutr_def (id) ON UPDATE CASCADE
@@ -256,7 +246,7 @@ CREATE TABLE recipe_des (
   user_id int NOT NULL,
   -- publicly shared ?
   shared boolean NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
@@ -266,7 +256,7 @@ CREATE TABLE recipe_dat (
   -- msre_id == (NULL || 0) ==> grams
   msre_id int,
   amount real NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (recipe_id, food_id),
   FOREIGN KEY (recipe_id) REFERENCES recipe_des (id) ON UPDATE CASCADE,
   FOREIGN KEY (food_id) REFERENCES food_des (id) ON UPDATE CASCADE
@@ -276,7 +266,7 @@ CREATE TABLE recipe_dat (
 CREATE TABLE portion_id (
   id serial PRIMARY KEY,
   portion_desc varchar(255) NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   UNIQUE (portion_desc)
 );
 
@@ -284,7 +274,7 @@ CREATE TABLE portions (
   recipe_id int NOT NULL,
   portion_id int NOT NULL,
   percentage real NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (recipe_id, portion_id),
   FOREIGN KEY (recipe_id) REFERENCES recipe_des (id) ON UPDATE CASCADE,
   FOREIGN KEY (portion_id) REFERENCES portion_id (id) ON UPDATE CASCADE
@@ -297,7 +287,7 @@ CREATE TABLE portions (
 CREATE TABLE favorite_foods (
   user_id int NOT NULL,
   food_id int NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (user_id, food_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (food_id) REFERENCES food_des (id) ON UPDATE CASCADE
@@ -317,7 +307,7 @@ CREATE TABLE food_logs (
   msre_id int,
   recipe_id int,
   food_id int,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (msre_id) REFERENCES serving_id (id) ON UPDATE CASCADE,
   FOREIGN KEY (recipe_id) REFERENCES recipe_des (id) ON UPDATE CASCADE,
@@ -334,7 +324,7 @@ CREATE TABLE exercises (
   data_src_id int NOT NULL,
   cals_per_rep real,
   cals_per_min real,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (data_src_id) REFERENCES data_src (id)
 );
 
@@ -346,7 +336,7 @@ CREATE TABLE exercise_logs (
   reps int,
   weight int,
   duration_min int,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (exercise_id) REFERENCES exercises (id) ON UPDATE CASCADE
 );
@@ -359,7 +349,7 @@ CREATE TABLE biometrics (
   id serial PRIMARY KEY,
   name text NOT NULL,
   units text NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW())
+  created int DEFAULT extract(epoch FROM NOW())
 );
 
 CREATE TABLE biometric_logs (
@@ -369,7 +359,7 @@ CREATE TABLE biometric_logs (
   timestamp timestamp NOT NULL,
   bio_val real NOT NULL,
   unit text NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (biometric_id) REFERENCES biometrics (id) ON UPDATE CASCADE
 );
@@ -382,7 +372,7 @@ CREATE TABLE trainer_users (
   trainer_id int NOT NULL,
   user_id int NOT NULL,
   approved boolean NOT NULL DEFAULT FALSE,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   UNIQUE (trainer_id, user_id),
   FOREIGN KEY (trainer_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
@@ -397,8 +387,8 @@ CREATE TABLE reports (
   -- TODO: FK with report_type TABLE ?
   report_type text NOT NULL,
   report_message text NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
-  PRIMARY KEY (user_id, created_at),
+  created int DEFAULT extract(epoch FROM NOW()),
+  PRIMARY KEY (user_id, created),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
@@ -408,9 +398,6 @@ CREATE TABLE reports (
 --++++++++++++++++++++++++++++
 -- SHOP
 --++++++++++++++++++++++++++++
-------------------------------
--- Products
-------------------------------
 
 CREATE TABLE products (
   id serial PRIMARY KEY,
@@ -418,7 +405,7 @@ CREATE TABLE products (
   stripe_id text NOT NULL,
   shippable boolean NOT NULL,
   released boolean NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW())
+  created int DEFAULT extract(epoch FROM NOW())
 );
 
 CREATE TABLE variants (
@@ -431,8 +418,18 @@ CREATE TABLE variants (
   dimensions int[],
   stock int,
   interval int,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (product_id) REFERENCES products (id) ON UPDATE CASCADE
+);
+
+-- Views (products)
+CREATE TABLE views (
+  user_id int NOT NULL,
+  product_id int NOT NULL,
+  created int DEFAULT extract(epoch FROM NOW()),
+  PRIMARY KEY (user_id, product_id),
+  FOREIGN KEY (product_id) REFERENCES products (id) ON UPDATE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
 -- Reviews
@@ -442,19 +439,22 @@ CREATE TABLE reviews (
   product_id int NOT NULL,
   rating smallint NOT NULL,
   review_text text NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   UNIQUE (user_id, product_id),
   FOREIGN KEY (product_id) REFERENCES products (id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
--- Coupon codes
+------------------------------
+-- Cart & Shop
+------------------------------
+
 CREATE TABLE coupons (
   id serial PRIMARY KEY,
   code text NOT NULL,
   user_id int,
   expires int NOT NULL,
-  created_at int NOT NULL,
+  created int NOT NULL,
   UNIQUE (code, user_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
@@ -462,7 +462,7 @@ CREATE TABLE coupons (
 -- Shipping methods
 CREATE TABLE shipping_methods (
   id int PRIMARY KEY,
-  -- TODO: only use VARCHAR(n) where abosolutely needed
+  -- TODO: FK and sep table ?
   shipping_type text NOT NULL,
   provider text NOT NULL,
   name text NOT NULL,
@@ -482,7 +482,7 @@ CREATE TABLE orders (
   address_ship int NOT NULL,
   status text NOT NULL,
   tracking_num varchar(200),
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (shipping_method_id) REFERENCES shipping_methods (id) ON UPDATE CASCADE,
   FOREIGN KEY (address_bill) REFERENCES addresses (id) ON UPDATE CASCADE,
@@ -499,20 +499,25 @@ CREATE TABLE order_items (
   FOREIGN KEY (product_id) REFERENCES products (id) ON UPDATE CASCADE
 );
 
--- Messages (mostly order related)
-CREATE TABLE messages (
-  id serial NOT NULL,
-  is_read boolean DEFAULT FALSE
+------------------------------------------
+-- Threads & Messages (order related)
+------------------------------------------
+
+CREATE TABLE threads (
+  id serial PRIMARY KEY,
+  user_id NOT NULL,
+  subject text NOT NULL,
+  created int DEFAULT extract(epoch FROM NOW()),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
--- Views (products)
-CREATE TABLE views (
-  user_id int NOT NULL,
-  product_id int NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
-  PRIMARY KEY (user_id, product_id),
-  FOREIGN KEY (product_id) REFERENCES products (id) ON UPDATE CASCADE,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+CREATE TABLE messages (
+  id serial PRIMARY KEY,
+  thread_id int NOT NULL,
+  body text NOT NULL,
+  created int DEFAULT extract(epoch FROM NOW()),
+  is_read boolean DEFAULT FALSE,
+  FOREIGN KEY (thread_id) REFERENCES threads (id) ON UPDATE CASCADE
 );
 
 ------------------------------
@@ -524,28 +529,25 @@ CREATE TABLE cart (
   user_id int NOT NULL,
   product_id int NOT NULL,
   quanity smallint NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   UNIQUE (user_id, product_id),
   FOREIGN KEY (product_id) REFERENCES products (id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
 --
+--
 ------------------------------
 --++++++++++++++++++++++++++++
 -- IN PROGRESS
 --++++++++++++++++++++++++++++
---
-------------------------------
---  Custom Food Tags
-------------------------------
 
 CREATE TABLE tag_id (
   id serial PRIMARY KEY,
   tag_desc varchar(255) NOT NULL,
   shared boolean DEFAULT TRUE NOT NULL,
   approved boolean DEFAULT FALSE NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   UNIQUE (tag_desc)
 );
 
@@ -554,21 +556,20 @@ CREATE TABLE tags (
   tag_id int NOT NULL,
   user_id int NOT NULL,
   -- votes, approved?
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   PRIMARY KEY (food_id, tag_id),
   FOREIGN KEY (food_id) REFERENCES food_des (id) ON UPDATE CASCADE,
   FOREIGN KEY (tag_id) REFERENCES tag_id (id) ON UPDATE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
---
 ------------------------------
 -- Scratchpad
 ------------------------------
 
 CREATE TABLE scratchpad (
   user_id int NOT NULL,
-  created_at int DEFAULT extract(epoch FROM NOW()),
+  created int DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
