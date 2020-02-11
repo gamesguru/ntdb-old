@@ -505,7 +505,7 @@ CREATE TABLE order_items (
 
 CREATE TABLE threads (
   id serial PRIMARY KEY,
-  user_id NOT NULL,
+  user_id int NOT NULL,
   subject text NOT NULL,
   created int DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
