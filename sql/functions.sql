@@ -408,3 +408,27 @@ CREATE OR REPLACE FUNCTION get_user_tokens (user_id_in int)
 $$
 LANGUAGE SQL;
 
+--
+--
+-- 3.f
+-- Get user by email OR username
+
+CREATE OR REPLACE FUNCTION get_user_id_from_username_or_email (identifier varchar)
+  RETURNS TABLE (
+    id int,
+    username varchar
+  )
+  AS $$
+  SELECT DISTINCT
+    id,
+    username
+  FROM
+    users,
+    emails
+  WHERE
+    username = identifier
+    OR emails.user_id = id
+    AND emails.email = identifier
+$$
+LANGUAGE SQL;
+
