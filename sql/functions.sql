@@ -85,9 +85,9 @@ LANGUAGE SQL;
 --
 --
 -- 1.c
--- Get products with variants
+-- Get products (with variants)
 
-CREATE OR REPLACE FUNCTION get_products_variants ()
+CREATE OR REPLACE FUNCTION get_products ()
   RETURNS TABLE (
     id int,
     name varchar,
