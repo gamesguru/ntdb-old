@@ -1,1 +1,1 @@
-id,user_id,shipping_method_id,shipping_price,payment_method,address_bill,address_ship,status,tracking_num,created_at
+id,user_id,shipping_method_id,shipping_price,payment_method,address_bill,address_ship,status,tracking_num,created

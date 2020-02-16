@@ -1,4 +1,4 @@
-id,name,data_src_id,cals_per_rep,cals_per_min,created_at
+id,name,data_src_id,cals_per_rep,cals_per_min,created
 1,Weight Lifting: general,13,,2.4086,1580336048
 2,Aerobics: water,13,,3.2043,1580336048
 3,"Stretching, Hatha Yoga",13,,3.2043,1580336048

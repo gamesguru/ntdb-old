@@ -1,4 +1,4 @@
-id,user_id,eat_on_date,meal_name,amount,msre_id,recipe_id,food_id,created_at
+id,user_id,eat_on_date,meal_name,amount,msre_id,recipe_id,food_id,created
 1,1,2020-02-11,Breakfast,100,,,13047,1580682961
 2,1,2020-02-11,Breakfast,28,,,1270,1580682961
 3,1,2020-02-11,Breakfast,55,,,9038,1580682961

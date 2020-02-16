@@ -1,4 +1,4 @@
-id,product_id,stripe_id,denomination,price,weight,dimensions,stock,interval,created_at
+id,product_id,stripe_id,denomination,price,weight,dimensions,stock,interval,created
 1,1,sku_GSjaLKuqEXiHpK,50g [powder],8,50,"{10,5,5}",9,,1580575805
 2,1,sku_GdBVJFbeTVpebj,250g [powder],36,250,"{20,10,5}",3,,1580575805
 3,2,sku_GdBXf4eJyZ9C3T,125g [lotion],8,125,"{10,5,5}",10,,1580575805

@@ -1,4 +1,4 @@
-id,name,units,created_at
+id,name,units,created
 1,Weight,"kg,lbs",1580336088
 2,Height,"cm,in",1580336088
 3,Pulse,bpm,1580336088
