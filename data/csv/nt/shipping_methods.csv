@@ -1,5 +1,5 @@
-id,shipping_type,provider,name,transit_time
-0,ebill,Nutra,E-bill,immediate
-1,freeshipping,USPS,Free Shipping,7-9 business days
-2,firstclass,USPS,USPS (First-Class Mail),5-7 business days
-4,prioritymail,USPS,USPS (Priority Mail),2 business days
+id,shipping_type,provider,is_physical,name,transit_time
+0,ebill,Nutra,FALSE,E-bill,immediate
+1,freeshipping,USPS,TRUE,Free Shipping,7-9 business days
+2,firstclass,USPS,TRUE,USPS (First-Class Mail),5-7 business days
+4,prioritymail,USPS,TRUE,USPS (Priority Mail),2 business days

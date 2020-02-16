@@ -465,6 +465,7 @@ CREATE TABLE shipping_methods (
   -- TODO: FK and sep table ?
   shipping_type text NOT NULL,
   provider text NOT NULL,
+  is_physical boolean NOT NULL,
   name text NOT NULL,
   transit_time text NOT NULL
 );
