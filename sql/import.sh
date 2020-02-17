@@ -7,7 +7,7 @@ cd ../data/csv/nt
 # ------------------------------
 # Import primary tables
 # ------------------------------
-declare -a ptables=("users" "nutr_def" "fdgrp" "data_src" "food_des" "serving_id" "products")
+declare -a ptables=("users" "nutr_def" "fdgrp" "data_src" "food_des" "serving_id" "products" "shipping_methods" "threads")
 for table in "${ptables[@]}"
 do
   echo $table

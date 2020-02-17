@@ -470,6 +470,18 @@ CREATE TABLE shipping_methods (
   transit_time text NOT NULL
 );
 
+-- Common box and envelope (sizes and weights)
+CREATE TABLE shipping_containers (
+  id int PRIMARY KEY,
+  method_id int NOT NULL,
+  -- for readability
+  shipping_type text NOT NULL,
+  tag text NOT NULL,
+  dimensions real[] NOT NULL,
+  weight_max real,
+  FOREIGN KEY (method_id) REFERENCES shipping_methods (id) ON UPDATE CASCADE
+);
+
 -- Orders
 CREATE TABLE orders (
   id serial PRIMARY KEY,
