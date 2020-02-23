@@ -491,25 +491,23 @@ CREATE TABLE orders (
   -- TODO: FKs with payment_method TABLE ?
   payment_method text NOT NULL,
   -- TODO: don't require inputting to DB ?  Guests.
-  address_bill int NOT NULL,
-  address_ship int NOT NULL,
+  address_bill JSONB NOT NULL,
+  address_ship JSONB NOT NULL,
   status text DEFAULT 'INITIALIZED',
   tracking_num varchar(200),
   created int DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
-  FOREIGN KEY (shipping_method_id) REFERENCES shipping_methods (id) ON UPDATE CASCADE,
-  FOREIGN KEY (address_bill) REFERENCES addresses (id) ON UPDATE CASCADE,
-  FOREIGN KEY (address_ship) REFERENCES addresses (id) ON UPDATE CASCADE
+  FOREIGN KEY (shipping_method_id) REFERENCES shipping_methods (id) ON UPDATE CASCADE
 );
 
 CREATE TABLE order_items (
   order_id int NOT NULL,
-  product_id int NOT NULL,
-  quanity smallint NOT NULL,
+  variant_id int NOT NULL,
+  quantity smallint NOT NULL,
   price real NOT NULL,
-  UNIQUE (order_id, product_id),
+  UNIQUE (order_id, variant_id),
   FOREIGN KEY (order_id) REFERENCES orders (id) ON UPDATE CASCADE,
-  FOREIGN KEY (product_id) REFERENCES products (id) ON UPDATE CASCADE
+  FOREIGN KEY (variant_id) REFERENCES variants (id) ON UPDATE CASCADE
 );
 
 ------------------------------------------
