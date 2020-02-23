@@ -493,7 +493,7 @@ CREATE TABLE orders (
   -- TODO: don't require inputting to DB ?  Guests.
   address_bill int NOT NULL,
   address_ship int NOT NULL,
-  status text NOT NULL,
+  status text DEFAULT 'INITIALIZED',
   tracking_num varchar(200),
   created int DEFAULT extract(epoch FROM NOW()),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
