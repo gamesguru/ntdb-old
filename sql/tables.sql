@@ -486,6 +486,7 @@ CREATE TABLE shipping_containers (
 CREATE TABLE orders (
   id serial PRIMARY KEY,
   user_id int NOT NULL,
+  paypal_id text NOT NULL,
   shipping_method_id int NOT NULL,
   shipping_price real NOT NULL,
   -- TODO: FKs with payment_method TABLE ?
@@ -496,6 +497,7 @@ CREATE TABLE orders (
   status text DEFAULT 'INITIALIZED',
   tracking_num varchar(200),
   created int DEFAULT extract(epoch FROM NOW()),
+  UNIQUE(paypal_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (shipping_method_id) REFERENCES shipping_methods (id) ON UPDATE CASCADE
 );

@@ -7,7 +7,7 @@ cd ../data/csv/nt
 # ------------------------------
 # Import primary tables
 # ------------------------------
-declare -a ptables=("users" "nutr_def" "fdgrp" "data_src" "food_des" "serving_id" "products" "shipping_methods" "threads")
+declare -a ptables=("users" "nutr_def" "fdgrp" "data_src" "food_des" "serving_id" "products" "variants" "shipping_methods" "orders" "threads")
 for table in "${ptables[@]}"
 do
   echo $table
@@ -34,7 +34,7 @@ done
 # ------------------------------
 # Set serial maxes
 # ------------------------------
-declare -a itables=("users" "food_des" "serving_id" "recipe_des" "portion_id" "tag_id" "food_logs" "exercises" "exercise_logs" "reviews" "cart" "biometrics" "biometric_logs")
+declare -a itables=("users" "food_des" "serving_id" "recipe_des" "portion_id" "tag_id" "food_logs" "exercises" "exercise_logs" "orders" "reviews" "cart" "biometrics" "biometric_logs")
 for table in "${itables[@]}"
 do
   echo $table
