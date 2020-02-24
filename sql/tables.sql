@@ -29,7 +29,6 @@ CREATE TABLE users (
   id serial PRIMARY KEY,
   username varchar(18),
   passwd text,
-  stripe_id text,
   certified_beta_tester boolean DEFAULT FALSE,
   certified_beta_trainer_tester boolean DEFAULT FALSE,
   accept_eula boolean NOT NULL DEFAULT FALSE,
@@ -47,8 +46,7 @@ CREATE TABLE users (
   bmr_equation smallint,
   bodyfat_method smallint,
   created int DEFAULT extract(epoch FROM NOW()),
-  UNIQUE (username),
-  UNIQUE (stripe_id)
+  UNIQUE (username)
 );
 
 CREATE TABLE emails (
@@ -402,7 +400,6 @@ CREATE TABLE reports (
 CREATE TABLE products (
   id serial PRIMARY KEY,
   name text NOT NULL,
-  stripe_id text NOT NULL,
   shippable boolean NOT NULL,
   released boolean NOT NULL,
   created int DEFAULT extract(epoch FROM NOW())
@@ -411,7 +408,6 @@ CREATE TABLE products (
 CREATE TABLE variants (
   id serial PRIMARY KEY,
   product_id int NOT NULL,
-  stripe_id text NOT NULL,
   denomination text NOT NULL,
   price int NOT NULL,
   weight int,
@@ -491,13 +487,13 @@ CREATE TABLE orders (
   -- TODO: FKs with payment_method TABLE ?
   payment_method text NOT NULL,
   -- TODO: don't require inputting to DB ?  Guests.
-  address_bill JSONB NOT NULL,
-  address_ship JSONB NOT NULL,
+  address_bill jsonb NOT NULL,
+  address_ship jsonb NOT NULL,
   status text DEFAULT 'INITIALIZED',
   paypal_id text,
   tracking_num varchar(200),
   created int DEFAULT extract(epoch FROM NOW()),
-  UNIQUE(paypal_id),
+  UNIQUE (paypal_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (shipping_method_id) REFERENCES shipping_methods (id) ON UPDATE CASCADE
 );

@@ -57,7 +57,6 @@ CREATE OR REPLACE FUNCTION get_products_ratings ()
   RETURNS TABLE (
     id int,
     name varchar,
-    stripe_id varchar,
     shippable boolean,
     avg_rating real,
     created int
@@ -66,7 +65,6 @@ CREATE OR REPLACE FUNCTION get_products_ratings ()
   SELECT
     prod.id,
     prod.name,
-    prod.stripe_id,
     shippable,
     avg(rv.rating)::real,
     prod.created
@@ -91,7 +89,6 @@ CREATE OR REPLACE FUNCTION get_products ()
   RETURNS TABLE (
     id int,
     name varchar,
-    stripe_id varchar,
     shippable boolean,
     variants json
   )
@@ -99,7 +96,6 @@ CREATE OR REPLACE FUNCTION get_products ()
   SELECT
     prod.id,
     prod.name,
-    prod.stripe_id,
     shippable,
     json_agg(vars)
   FROM
@@ -361,8 +357,7 @@ CREATE OR REPLACE FUNCTION get_user_details (user_id_in int)
     username varchar,
     email varchar,
     email_activated boolean,
-    accept_eula boolean,
-    stripe_id varchar
+    accept_eula boolean
   )
   AS $$
   SELECT
@@ -370,8 +365,7 @@ CREATE OR REPLACE FUNCTION get_user_details (user_id_in int)
     usr.username,
     eml.email,
     eml.activated,
-    usr.accept_eula,
-    usr.stripe_id
+    usr.accept_eula
   FROM
     users usr
     INNER JOIN emails eml ON eml.user_id = usr.id
