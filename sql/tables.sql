@@ -486,7 +486,6 @@ CREATE TABLE shipping_containers (
 CREATE TABLE orders (
   id serial PRIMARY KEY,
   user_id int NOT NULL,
-  paypal_id text NOT NULL,
   shipping_method_id int NOT NULL,
   shipping_price real NOT NULL,
   -- TODO: FKs with payment_method TABLE ?
@@ -495,6 +494,7 @@ CREATE TABLE orders (
   address_bill JSONB NOT NULL,
   address_ship JSONB NOT NULL,
   status text DEFAULT 'INITIALIZED',
+  paypal_id text,
   tracking_num varchar(200),
   created int DEFAULT extract(epoch FROM NOW()),
   UNIQUE(paypal_id),
