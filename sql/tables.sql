@@ -411,7 +411,7 @@ CREATE TABLE variants (
   denomination text NOT NULL,
   price int NOT NULL,
   weight int,
-  dimensions int[],
+  dimensions real[],
   stock int,
   interval int,
   created int DEFAULT extract(epoch FROM NOW()),
