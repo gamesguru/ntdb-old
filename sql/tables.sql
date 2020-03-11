@@ -45,6 +45,7 @@ CREATE TABLE users (
   weight_goal smallint,
   bmr_equation smallint,
   bodyfat_method smallint,
+  ship_bill_same_address boolean DEFAULT TRUE,
   created int DEFAULT extract(epoch FROM NOW()),
   UNIQUE (username)
 );
