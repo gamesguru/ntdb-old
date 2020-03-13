@@ -5,8 +5,7 @@
         "**/__init__.py": true,
         "**/.vscode/**": true,
         "runtime.txt": true,
-        "Procfile": true,
-        "**/data/csv/**": true
+        "Procfile": true
     },
     "search.exclude": {
         "**/__pycache__/**": true,

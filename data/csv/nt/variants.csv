@@ -13,3 +13,5 @@ id,product_id,denomination,price,weight,dimensions,stock,interval,created
 12,6,Annual,96,,,,365,1580348940
 13,7,Monthly,50,,,,30,1580348940
 14,7,Annual,540,,,,365,1580348940
+15,10,50g [powder],8,50,"{10,8,1.5}",9,,1584137304
+16,10,250g [powder],36,250,"{15,10,2.5}",3,,1584137304
