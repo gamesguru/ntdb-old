@@ -90,14 +90,14 @@ CREATE OR REPLACE FUNCTION get_products ()
     id int,
     name varchar,
     shippable boolean,
-    variants json
+    variants jsonb
   )
   AS $$
   SELECT
     prod.id,
     prod.name,
     shippable,
-    json_agg(vars)
+    jsonb_agg(vars)
   FROM
     products prod
     INNER JOIN variants vars ON vars.product_id = prod.id
