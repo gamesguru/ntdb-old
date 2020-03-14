@@ -1,2 +1,1 @@
 id,user_id,shipping_method_id,shipping_price,payment_method,address_bill,address_ship,status,paypal_id,tracking_num,created
-1,1,4,7.34,paypal_one,"{""zip"": 92260, ""city"": ""Palm Desert"", ""state"": ""CA"", ""country"": ""US"", ""street1"": ""44250 Town Center Way""}","{""zip"": 92260, ""city"": ""Palm Desert"", ""state"": ""CA"", ""country"": ""US"", ""street1"": ""44250 Town Center Way""}",INITIALIZED,UNKNOWN,,1582502155

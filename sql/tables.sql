@@ -457,6 +457,7 @@ CREATE TABLE coupons (
 );
 
 -- Shipping methods
+-- TODO: remove, this is unused
 CREATE TABLE shipping_methods (
   id int PRIMARY KEY,
   -- TODO: FK and sep table ?
@@ -483,20 +484,22 @@ CREATE TABLE shipping_containers (
 CREATE TABLE orders (
   id serial PRIMARY KEY,
   user_id int NOT NULL,
-  shipping_method_id int NOT NULL,
-  shipping_price real NOT NULL,
-  -- TODO: FKs with payment_method TABLE ?
-  payment_method text NOT NULL,
-  -- TODO: don't require inputting to DB ?  Guests.
-  address_bill jsonb NOT NULL,
-  address_ship jsonb NOT NULL,
+  -- Step 2
+  address_bill jsonb,
+  address_ship jsonb,
+  shippo_json jsonb,
+  -- Step 3
+  -- shipping_price real,
+  -- shipping_method_id int,
+  shipping_method text,
+  -- payment_method text NOT NULL,
   status text DEFAULT 'INITIALIZED',
   paypal_id text,
-  tracking_num varchar(200),
+  tracking_num text,
   created int DEFAULT extract(epoch FROM NOW()),
+  updated int DEFAULT extract(epoch FROM NOW()),
   UNIQUE (paypal_id),
-  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
-  FOREIGN KEY (shipping_method_id) REFERENCES shipping_methods (id) ON UPDATE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
 CREATE TABLE order_items (
