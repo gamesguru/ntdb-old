@@ -456,18 +456,6 @@ CREATE TABLE coupons (
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
 
--- Shipping methods
--- TODO: remove, this is unused
-CREATE TABLE shipping_methods (
-  id int PRIMARY KEY,
-  -- TODO: FK and sep table ?
-  shipping_type text NOT NULL,
-  provider text NOT NULL,
-  is_physical boolean NOT NULL,
-  name text NOT NULL,
-  transit_time text NOT NULL
-);
-
 -- Common box and envelope (sizes and weights)
 CREATE TABLE shipping_containers (
   id int PRIMARY KEY,
@@ -476,8 +464,7 @@ CREATE TABLE shipping_containers (
   shipping_type text NOT NULL,
   tag text NOT NULL,
   dimensions real[] NOT NULL,
-  weight_max real,
-  FOREIGN KEY (method_id) REFERENCES shipping_methods (id) ON UPDATE CASCADE
+  weight_max real
 );
 
 -- Orders
@@ -489,8 +476,6 @@ CREATE TABLE orders (
   address_ship jsonb,
   shippo_json jsonb,
   -- Step 3
-  -- shipping_price real,
-  -- shipping_method_id int,
   shipping_method text,
   -- payment_method text NOT NULL,
   status text DEFAULT 'INITIALIZED',
