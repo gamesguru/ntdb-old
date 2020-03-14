@@ -475,14 +475,15 @@ CREATE TABLE orders (
   address_bill jsonb,
   address_ship jsonb,
   shippo_json jsonb,
+  status text DEFAULT 'INITIALIZED',
   -- Step 3
   shipping_method text,
   -- payment_method text NOT NULL,
-  status text DEFAULT 'INITIALIZED',
+  -- Step 4 (and finalize)
   paypal_id text,
   tracking_num text,
   created int DEFAULT extract(epoch FROM NOW()),
-  updated int DEFAULT extract(epoch FROM NOW()),
+  updated int,
   UNIQUE (paypal_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
 );
