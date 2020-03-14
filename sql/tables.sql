@@ -307,6 +307,7 @@ CREATE TABLE food_logs (
   recipe_id int,
   food_id int,
   created int DEFAULT extract(epoch FROM NOW()),
+  updated int,
   FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE,
   FOREIGN KEY (msre_id) REFERENCES serving_id (id) ON UPDATE CASCADE,
   FOREIGN KEY (recipe_id) REFERENCES recipe_des (id) ON UPDATE CASCADE,
