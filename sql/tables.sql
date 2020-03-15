@@ -472,15 +472,11 @@ CREATE TABLE shipping_containers (
 CREATE TABLE orders (
   id serial PRIMARY KEY,
   user_id int NOT NULL,
-  -- Step 2
   address_bill jsonb,
   address_ship jsonb,
-  shippo_json jsonb,
-  status text DEFAULT 'INITIALIZED',
-  -- Step 3
   shipping_method text,
-  -- payment_method text NOT NULL,
-  -- Step 4 (and finalize)
+  shipping_price real,
+  status text DEFAULT 'INITIALIZED',
   paypal_id text,
   tracking_num text,
   created int DEFAULT extract(epoch FROM NOW()),
