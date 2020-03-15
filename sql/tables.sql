@@ -471,7 +471,8 @@ CREATE TABLE shipping_containers (
 -- Orders
 CREATE TABLE orders (
   id serial PRIMARY KEY,
-  user_id int NOT NULL,
+  user_id int,
+  email text,
   address_bill jsonb,
   address_ship jsonb,
   shipping_method text,
