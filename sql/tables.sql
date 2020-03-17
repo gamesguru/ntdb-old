@@ -420,7 +420,22 @@ CREATE TABLE variants (
   FOREIGN KEY (product_id) REFERENCES products (id) ON UPDATE CASCADE
 );
 
--- Views (products)
+-- Customer activity
+CREATE TABLE customer_activity (
+  -- Identifiers
+  user_id int,
+  email text,
+  ip_address text NOT NULL,
+  -- payload
+  url_current text NOT NULL,
+  url_target text,
+  action text DEFAULT 'VIEW',
+  product_id int,
+  variant_id int,
+  payload JSONB,
+  created int DEFAULT extract(epoch FROM NOW()),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE
+);
 CREATE TABLE views (
   user_id int NOT NULL,
   product_id int NOT NULL,
