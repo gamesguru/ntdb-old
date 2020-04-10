@@ -402,6 +402,7 @@ CREATE TABLE reports (
 CREATE TABLE products (
   id serial PRIMARY KEY,
   name text NOT NULL,
+  tag text NOT NULL,
   shippable boolean NOT NULL,
   released boolean NOT NULL,
   created int DEFAULT extract(epoch FROM NOW())
